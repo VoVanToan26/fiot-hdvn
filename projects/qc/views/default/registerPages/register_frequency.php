@@ -1,36 +1,35 @@
 <?php
-    // check role
+// check role
 
-    //set public connect
-    $connect = $GLOBALS['connect'];
+//set public connect
+$connect = $GLOBALS['connect'];
 
-    //select qc_tb_frequency
-    $sqlcheck_frequency = "SELECT * FROM `qc_tb_frequency` ORDER BY `id` ASC";
-    $resultcheck_frequency = mysqli_query( $connect, $sqlcheck_frequency );
-    // $check_frequency = mysqli_fetch_assoc( $resultcheck_frequency );
-    if ($resultcheck_frequency && $resultcheck_frequency->num_rows > 0) {
-        // tiến hành lặp dữ liệu
-        $i = 0;
-        while ($row = $resultcheck_frequency->fetch_assoc()) {
-            //thêm kết quả vào mảng
-            $data_frequency[$i][0]=$row['id'];
-            $data_frequency[$i][1]=$row['frequency_name'];
-            $data_frequency[$i][2]=$row['quantity'];
-            $data_frequency[$i][3]=$row['unit_time'];
-            $i++;
-        }
+//select qc_tb_frequency
+$sqlcheck_frequency = "SELECT * FROM `qc_tb_frequency` ORDER BY `id` ASC";
+$resultcheck_frequency = mysqli_query($connect, $sqlcheck_frequency);
+// $check_frequency = mysqli_fetch_assoc( $resultcheck_frequency );
+if ($resultcheck_frequency && $resultcheck_frequency->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_frequency->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_frequency[$i][0] = $row['id'];
+        $data_frequency[$i][1] = $row['frequency_name'];
+        $data_frequency[$i][2] = $row['quantity'];
+        $data_frequency[$i][3] = $row['unit_time'];
+        $i++;
     }
-    else{
-        $data_frequency[0][0]='';
-        $data_frequency[0][1]='';
-        $data_frequency[0][2]='';
-        $data_frequency[0][3]='';
-    }
+} else {
+    $data_frequency[0][0] = '';
+    $data_frequency[0][1] = '';
+    $data_frequency[0][2] = '';
+    $data_frequency[0][3] = '';
+}
 
 ?>
 <div class="content-header">
     <!-- content header -->
-<!--     <div class="container-fluid">
+    <!--     <div class="container-fluid">
         <h4>Đăng ký mã sản phẩm</h4>
     </div> -->
     <!-- main content -->
@@ -67,21 +66,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $stt_frequency = 0;
-                                        for($i = 0; $i< count($data_frequency); $i++){
-                                            $stt_frequency++;
-                                            echo '<tr>';
-                                            echo '<td>' . $stt_frequency . '</td>
+                                    <?php
+                                    $stt_frequency = 0;
+                                    for ($i = 0; $i < count($data_frequency); $i++) {
+                                        $stt_frequency++;
+                                        echo '<tr>';
+                                        echo '<td>' . $stt_frequency . '</td>
                                             <td>' . $data_frequency[$i][1] . '</td>
                                             <td>' . $data_frequency[$i][2] . '</td>
                                             <td>' . $data_frequency[$i][3] . '</td>';
-                                            echo'<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
-                                            onclick ="editFrequency('. $data_frequency[$i][0] . ',' .'\'' .$data_frequency[$i][1].'\'' . ',' .'\'' .$data_frequency[$i][2].'\'' . ',' .'\'' .$data_frequency[$i][3].'\'' .')">Sửa</button></td>
+                                        echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
+                                            onclick ="editFrequency(' . $data_frequency[$i][0] . ',' . '\'' . $data_frequency[$i][1] . '\'' . ',' . '\'' . $data_frequency[$i][2] . '\'' . ',' . '\'' . $data_frequency[$i][3] . '\'' . ')">Sửa</button></td>
                                             <td><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
-                                            onclick ="deleteFrequency('. $data_frequency[$i][0] . ',' .'\'' .$data_frequency[$i][1].'\'' .')">Xóa</button></td>';
-                                            echo '</tr>';
-                                        }
+                                            onclick ="deleteFrequency(' . $data_frequency[$i][0] . ',' . '\'' . $data_frequency[$i][1] . '\'' . ')">Xóa</button></td>';
+                                        echo '</tr>';
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -92,7 +91,8 @@
             </div>
         </div>
     </section>
-    <form action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_frequency"; ?>" method="post">
+    <form action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_frequency"; ?>"
+        method="post">
         <!-- Modal thêm sản phẩm -->
         <div class="modal fade" id="add_frequency" tabindex="-1" role="dialog" aria-labelledby="exadd_frequency"
             aria-hidden="true">
@@ -107,11 +107,13 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="frequency_input" class="col-form-label">Tên Tần Suất.</label>
-                            <input type="text" maxlength="20" class="form-control" id="frequency_input" name="frequency_input" placeholder="Nhập tần suất">
+                            <input type="text" maxlength="20" class="form-control" id="frequency_input"
+                                name="frequency_input" placeholder="Nhập tần suất">
                         </div>
                         <div class="form-group">
                             <label for="quantity_input" class="col-form-label">Số Lượng Đo.</label>
-                            <input type="text" maxlength="10" class="form-control" id="quantity_input" name="quantity_input" placeholder="Nhập số lượng đo">
+                            <input type="text" maxlength="10" class="form-control" id="quantity_input"
+                                name="quantity_input" placeholder="Nhập số lượng đo">
                         </div>
                         <div class="form-group">
                             <label for="unit_time_input" class="col-form-label">Đơn Vị Thời Gian.</label>
@@ -126,15 +128,16 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" id="register_frequency_function" name="register_frequency_function">Đăng ký</button>
+                        <button type="submit" class="btn btn-primary" id="register_frequency_function"
+                            name="register_frequency_function">Đăng ký</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Modal edit sản phẩm -->
-        <div class="modal fade" id="edit_product_frequency" tabindex="-1" role="dialog" aria-labelledby="exedit_product_frequency"
-            aria-hidden="true">
+        <div class="modal fade" id="edit_product_frequency" tabindex="-1" role="dialog"
+            aria-labelledby="exedit_product_frequency" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <input type="hidden" id="edit_id" name="edit_id">
@@ -147,11 +150,13 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="frequency_edit" class="col-form-label">Tên Tần Suất.</label>
-                            <input type="text" maxlength="20" class="form-control" id="frequency_edit" name="frequency_edit" placeholder="Nhập tần suất">
+                            <input type="text" maxlength="20" class="form-control" id="frequency_edit"
+                                name="frequency_edit" placeholder="Nhập tần suất">
                         </div>
                         <div class="form-group">
                             <label for="quantity_edit" class="col-form-label">Số Lượng Đo.</label>
-                            <input type="text" maxlength="10" class="form-control" id="quantity_edit" name="quantity_edit" placeholder="Nhập số lượng đo">
+                            <input type="text" maxlength="10" class="form-control" id="quantity_edit"
+                                name="quantity_edit" placeholder="Nhập số lượng đo">
                         </div>
                         <div class="form-group">
                             <label for="unit_time_edit" class="col-form-label">Đơn Vị Thời Gian.</label>
@@ -166,7 +171,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" id="edit_frequency_function" name="edit_frequency_function">Sửa</button>
+                        <button type="submit" class="btn btn-primary" id="edit_frequency_function"
+                            name="edit_frequency_function">Sửa</button>
                     </div>
                 </div>
             </div>
@@ -188,7 +194,8 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-outline-light" name="delete_frequency_function" id="delete_frequency_function">Xóa</button>
+                        <button type="submit" class="btn btn-outline-light" name="delete_frequency_function"
+                            id="delete_frequency_function">Xóa</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -222,24 +229,23 @@
 </div>
 
 <script type="text/javascript">
-    function editFrequency(id_edit, frequency_edit, quantity_edit, unit_time_edit) {
+function editFrequency(id_edit, frequency_edit, quantity_edit, unit_time_edit) {
 
-        document.getElementById('edit_id').value = id_edit;
-        document.getElementById('frequency_edit').value = frequency_edit;
-        document.getElementById('quantity_edit').value = quantity_edit;
-        document.getElementById('unit_time_edit').value = unit_time_edit;
-        $("#edit_product_frequency").modal('toggle');
-    }
+    document.getElementById('edit_id').value = id_edit;
+    document.getElementById('frequency_edit').value = frequency_edit;
+    document.getElementById('quantity_edit').value = quantity_edit;
+    document.getElementById('unit_time_edit').value = unit_time_edit;
+    $("#edit_product_frequency").modal('toggle');
+}
 
-    function deleteFrequency(id_del, line_del, ) {
-        document.getElementById('del_id').value = id_del;
-        document.getElementById('delete_frequency_input').innerHTML = line_del;
-        $("#myDelete").modal('toggle');
-    }
+function deleteFrequency(id_del, line_del, ) {
+    document.getElementById('del_id').value = id_del;
+    document.getElementById('delete_frequency_input').innerHTML = line_del;
+    $("#myDelete").modal('toggle');
+}
 
-    function warning() {
-        // console.log("start");
-        $("#myWarning").modal('toggle');
-    }
-
+function warning() {
+    // console.log("start");
+    $("#myWarning").modal('toggle');
+}
 </script>

@@ -87,10 +87,3 @@
 	else{
 		echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/'</script>"; 
 	}
-	
-
-
-
-
-
-?>

@@ -1,65 +1,62 @@
-<?php 
-    
-    // check role
-    if($_COOKIE['role'] == 0) {
-    }
-    else {
-         // header('Location: /kpimanagement/login.php');
-        echo "<script>document.location = '/fiot-hdvn-a/login.php'</script>";
-    }
-    //set public connect
-    $connect = $GLOBALS['connect'];
+<?php
 
-    $sqlcheck_account = "SELECT * FROM `tb_account` ORDER BY `username` ASC";
-    $resultcheck_account = mysqli_query( $connect, $sqlcheck_account );
-    // $check_account = mysqli_fetch_assoc( $resultcheck_account );
-    if ($resultcheck_account && $resultcheck_account->num_rows > 0) {
-        // tiến hành lặp dữ liệu
-        $i = 0;
-        while ($row = $resultcheck_account->fetch_assoc()) {
-            //thêm kết quả vào mảng
-            $data_account[$i][0]=$row['id'];
-            $data_account[$i][1]=$row['username'];
-            $data_account[$i][2]=$row['full_name'];
-            $data_account[$i][3]=$row['position'];
-            $data_account[$i][4]=$row['department'];
-            $data_account[$i][5]=$row['email'];
-            $data_account[$i][6]=$row['role'];
-            $data_account[$i][7]=$row['role_name'];
-            $i++;
-        }
-    }
-    else{
-        $data_account[0][0]='';
-        $data_account[0][1]='';
-        $data_account[0][2]='';
-        $data_account[0][3]='';
-        $data_account[0][4]='';
-        $data_account[0][5]='';
-        $data_account[0][6]='';
-        $data_account[0][7]='';
-    }
+// check role
+if ($_COOKIE['role'] == 0) {
+} else {
+    // header('Location: /kpimanagement/login.php');
+    echo "<script>document.location = '/fiot-hdvn-a/login.php'</script>";
+}
+//set public connect
+$connect = $GLOBALS['connect'];
 
-    // select  ROLE
-    $sqlcheck_role = "SELECT * FROM `tb_role` ORDER BY `id` ASC";
-    $resultcheck_role = mysqli_query( $connect, $sqlcheck_role );
-    // $check_role = mysqli_fetch_assoc( $resultcheck_role );
-    if ($resultcheck_role && $resultcheck_role->num_rows > 0) {
-        // tiến hành lặp dữ liệu
-        $i = 0;
-        while ($row = $resultcheck_role->fetch_assoc()) {
-            //thêm kết quả vào mảng
-            $data_role[$i][0]=$row['id'];
-            $data_role[$i][1]=$row['role'];
-            $data_role[$i][2]=$row['role_name'];
-            $i++;
-        }
+$sqlcheck_account = "SELECT * FROM `tb_account` ORDER BY `username` ASC";
+$resultcheck_account = mysqli_query($connect, $sqlcheck_account);
+// $check_account = mysqli_fetch_assoc( $resultcheck_account );
+if ($resultcheck_account && $resultcheck_account->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_account->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_account[$i][0] = $row['id'];
+        $data_account[$i][1] = $row['username'];
+        $data_account[$i][2] = $row['full_name'];
+        $data_account[$i][3] = $row['position'];
+        $data_account[$i][4] = $row['department'];
+        $data_account[$i][5] = $row['email'];
+        $data_account[$i][6] = $row['role'];
+        $data_account[$i][7] = $row['role_name'];
+        $i++;
     }
-    else{
-        $data_role[0][0]='';
-        $data_role[0][1]='';
-        $data_role[0][2]='';
+} else {
+    $data_account[0][0] = '';
+    $data_account[0][1] = '';
+    $data_account[0][2] = '';
+    $data_account[0][3] = '';
+    $data_account[0][4] = '';
+    $data_account[0][5] = '';
+    $data_account[0][6] = '';
+    $data_account[0][7] = '';
+}
+
+// select  ROLE
+$sqlcheck_role = "SELECT * FROM `tb_role` ORDER BY `id` ASC";
+$resultcheck_role = mysqli_query($connect, $sqlcheck_role);
+// $check_role = mysqli_fetch_assoc( $resultcheck_role );
+if ($resultcheck_role && $resultcheck_role->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_role->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_role[$i][0] = $row['id'];
+        $data_role[$i][1] = $row['role'];
+        $data_role[$i][2] = $row['role_name'];
+        $i++;
     }
+} else {
+    $data_role[0][0] = '';
+    $data_role[0][1] = '';
+    $data_role[0][2] = '';
+}
 
 ?>
 
@@ -86,45 +83,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
-                            $stt_account = 0;
-                            for($i = 0; $i < count($data_account); $i++){
-                                if($data_account[$i][7] == ''){ 
-                                    $stt_account++;
-                                    echo '<tr>';
-                                    echo '<td style="border: 2px solid #a6ffff;">' . $stt_account . '</td>
-                                    <td style="border: 2px solid #a6ffff;">'. $data_account[$i][1] . '</td>
-                                    <td style="border: 2px solid #a6ffff;">'. $data_account[$i][2] . '</td>
-                                    <td style="border: 2px solid #a6ffff;">'. $data_account[$i][5] . '</td>
-                                    <td style="border: 2px solid #a6ffff;">'. $data_account[$i][3] . '</td>
-                                    <td style="border: 2px solid #a6ffff;">'. $data_account[$i][4] . '</td>
+                        <?php
+                        $stt_account = 0;
+                        for ($i = 0; $i < count($data_account); $i++) {
+                            if ($data_account[$i][7] == '') {
+                                $stt_account++;
+                                echo '<tr>';
+                                echo '<td style="border: 2px solid #a6ffff;">' . $stt_account . '</td>
+                                    <td style="border: 2px solid #a6ffff;">' . $data_account[$i][1] . '</td>
+                                    <td style="border: 2px solid #a6ffff;">' . $data_account[$i][2] . '</td>
+                                    <td style="border: 2px solid #a6ffff;">' . $data_account[$i][5] . '</td>
+                                    <td style="border: 2px solid #a6ffff;">' . $data_account[$i][3] . '</td>
+                                    <td style="border: 2px solid #a6ffff;">' . $data_account[$i][4] . '</td>
                                     <td style="border: 2px solid #a6ffff;"><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
-                                    onclick ="editAccount('. $data_account[$i][0] . ',' .'\'' .$data_account[$i][1].'\'' .')">Set Role</button></td>';
-                                    echo '<td style="border: 2px solid #a6ffff;"><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
-                                    onclick ="deleteAccount('. $data_account[$i][0] . ',' .'\'' .$data_account[$i][1].'\'' .')">Delete</button></td>';
-                                    echo '</tr>';
-                                }
-                                
+                                    onclick ="editAccount(' . $data_account[$i][0] . ',' . '\'' . $data_account[$i][1] . '\'' . ')">Set Role</button></td>';
+                                echo '<td style="border: 2px solid #a6ffff;"><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
+                                    onclick ="deleteAccount(' . $data_account[$i][0] . ',' . '\'' . $data_account[$i][1] . '\'' . ')">Delete</button></td>';
+                                echo '</tr>';
                             }
-                            for($i = 0; $i < count($data_account); $i++){
-                                if($data_account[$i][7] != 'MASTER' && $data_account[$i][7] != ''){ 
-                                    $stt_account++;
-                                    echo '<tr>';
-                                    echo '<td>' . $stt_account . '</td>
-                                    <td>'. $data_account[$i][1] . '</td>
-                                    <td>'. $data_account[$i][2] . '</td>
-                                    <td>'. $data_account[$i][5] . '</td>
-                                    <td>'. $data_account[$i][3] . '</td>
-                                    <td>'. $data_account[$i][4] . '</td>
-                                    <td>'. $data_account[$i][7] . '</td>';
-                                    echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
-                                    onclick ="editAccount('. $data_account[$i][0] . ',' .'\'' .$data_account[$i][1].'\'' .')">Change Role</button></td>';
-                                    echo '<td><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
-                                    onclick ="deleteAccount('. $data_account[$i][0] . ',' .'\'' .$data_account[$i][1].'\'' .')">Delete</button></td>';
-                                    echo '</tr>';
-                                }
-                                
+                        }
+                        for ($i = 0; $i < count($data_account); $i++) {
+                            if ($data_account[$i][7] != 'MASTER' && $data_account[$i][7] != '') {
+                                $stt_account++;
+                                echo '<tr>';
+                                echo '<td>' . $stt_account . '</td>
+                                    <td>' . $data_account[$i][1] . '</td>
+                                    <td>' . $data_account[$i][2] . '</td>
+                                    <td>' . $data_account[$i][5] . '</td>
+                                    <td>' . $data_account[$i][3] . '</td>
+                                    <td>' . $data_account[$i][4] . '</td>
+                                    <td>' . $data_account[$i][7] . '</td>';
+                                echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
+                                    onclick ="editAccount(' . $data_account[$i][0] . ',' . '\'' . $data_account[$i][1] . '\'' . ')">Change Role</button></td>';
+                                echo '<td><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
+                                    onclick ="deleteAccount(' . $data_account[$i][0] . ',' . '\'' . $data_account[$i][1] . '\'' . ')">Delete</button></td>';
+                                echo '</tr>';
                             }
+                        }
 
                         ?>
                     </tbody>
@@ -238,12 +233,12 @@
                         <!-- <option value="ADMIN">ADMIN</option>
                         <option value="USER">USER</option>
                         <option value="GUEST">GUEST</option> -->
-                        <?php 
-                            for($i =0; $i <count($data_role); $i++){
-                                if($data_role[$i][2] != 'MASTER'){
-                                    echo '<option value="' . $data_role[$i][2] . '">' . $data_role[$i][2] . '</option>';
-                                }
+                        <?php
+                        for ($i = 0; $i < count($data_role); $i++) {
+                            if ($data_role[$i][2] != 'MASTER') {
+                                echo '<option value="' . $data_role[$i][2] . '">' . $data_role[$i][2] . '</option>';
                             }
+                        }
                         ?>
                     </select>
                 </div>
@@ -263,122 +258,121 @@
 </form>
 
 <script type="text/javascript">
-    function warning() {
-        // console.log("start");
-        $("#myWarning").modal('toggle');
-    }
+function warning() {
+    // console.log("start");
+    $("#myWarning").modal('toggle');
+}
 
-    function deleteAccount(id_del, user_del) {
-        // console.log(id_stt);
-        document.getElementById('delete_stt').value = id_del;
-        document.getElementById('user_delete').innerHTML = user_del;
-        $("#myDelete").modal('toggle');
-    }
+function deleteAccount(id_del, user_del) {
+    // console.log(id_stt);
+    document.getElementById('delete_stt').value = id_del;
+    document.getElementById('user_delete').innerHTML = user_del;
+    $("#myDelete").modal('toggle');
+}
 
-    function editAccount(id_edit, user_edit) {
-        // console.log(id_stt);
-        document.getElementById('edit_stt').value = id_edit;
-        document.getElementById('user_edit').innerHTML = user_edit;
-        $("#myEdit").modal('toggle');
-    }
-    // function changeRole(id_change, user_change) {
-    //     // console.log(id_stt);
-    //     document.getElementById('change_stt').value = id_change;
-    //     document.getElementById('user_change').innerHTML = user_change;
-    //     $("#myChange").modal('toggle');
-    // }
+function editAccount(id_edit, user_edit) {
+    // console.log(id_stt);
+    document.getElementById('edit_stt').value = id_edit;
+    document.getElementById('user_edit').innerHTML = user_edit;
+    $("#myEdit").modal('toggle');
+}
+// function changeRole(id_change, user_change) {
+//     // console.log(id_stt);
+//     document.getElementById('change_stt').value = id_change;
+//     document.getElementById('user_change').innerHTML = user_change;
+//     $("#myChange").modal('toggle');
+// }
 
-    function success() {
-        // console.log("start");
-        $("#mySuccess").modal('toggle');
-        setTimeout(function () {
-            document.location = 'register.php';
-        }, 2000);
-    }
-    // $(document).ready(function () {
-    // });
+function success() {
+    // console.log("start");
+    $("#mySuccess").modal('toggle');
+    setTimeout(function() {
+        document.location = 'register.php';
+    }, 2000);
+}
+// $(document).ready(function () {
+// });
 </script>
 <script>
-    $(function () {
-        $("#example1").DataTable({
-          "responsive": false, "lengthChange": false, "autoWidth": false,
-          "buttons": ["excel", "pdf", "print"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
+$(function() {
+    $("#example1").DataTable({
+        "responsive": false,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["excel", "pdf", "print"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
 </script>
 
-<?php 
+<?php
 
-    //submit register
-    if(isset($_POST["register"])){
+//submit register
+if (isset($_POST["register"])) {
 
-        for($i = 0; $i < count($data_account); $i++){
-            if($username == $data_account[$i][1]){
-                echo "<script>warning()</script>";
-                die();
-            }
+    for ($i = 0; $i < count($data_account); $i++) {
+        if ($username == $data_account[$i][1]) {
+            echo "<script>warning()</script>";
+            die();
         }
-        $sqlregister = "INSERT INTO `users_jtekt`(`username`, `password`, `role`) VALUES ('$username', '$password', '$role')";
-        if ( mysqli_query( $connect, $sqlregister ) ) {
-            mysqli_close( $connect );
-        }
-        echo "<script>success()</script>";
     }
-    else if(isset($_POST["post_delete_account"])){
-        $deletestt = $_POST['delete_stt'];
-        $sqldelete = "DELETE FROM `tb_account` WHERE `id` = '$deletestt'";
-        if ( mysqli_query( $connect, $sqldelete ) ) {
-            // echo 'File uploaded successfully'
-            // myAlert1( 'Start loss cause success', 'machinerecord.php?');
-            
-            mysqli_close( $connect );
-            // die();
-            
+    $sqlregister = "INSERT INTO `users_jtekt`(`username`, `password`, `role`) VALUES ('$username', '$password', '$role')";
+    if (mysqli_query($connect, $sqlregister)) {
+        mysqli_close($connect);
+    }
+    echo "<script>success()</script>";
+} else if (isset($_POST["post_delete_account"])) {
+    $deletestt = $_POST['delete_stt'];
+    $sqldelete = "DELETE FROM `tb_account` WHERE `id` = '$deletestt'";
+    if (mysqli_query($connect, $sqldelete)) {
+        // echo 'File uploaded successfully'
+        // myAlert1( 'Start loss cause success', 'machinerecord.php?');
+
+        mysqli_close($connect);
+        // die();
+
+    }
+    echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/master'</script>";
+} else if (isset($_POST["post_edit_account"])) {
+
+    $edittstt = $_POST['edit_stt'];
+    $edit_role = $_POST['edit_role'];
+
+    for ($i = 0; $i < count($data_role); $i++) {
+        if ($data_role[$i][2] == $edit_role) {
+            $role = $data_role[$i][1];
+            break;
         }
+    }
+    $sqledit = "UPDATE `tb_account` SET `role`='$role',`role_name`='$edit_role' WHERE `id` = '$edittstt'";
+    if (mysqli_query($connect, $sqledit)) {
+        // echo 'File uploaded successfully'
+        // myAlert1( 'Start loss cause success', 'machinerecord.php?');
+        mysqli_close($connect);
+        // die();
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/master'</script>";
     }
-    else if(isset($_POST["post_edit_account"])){
+}
+// else if(isset($_POST["post_change_account"])){
 
-        $edittstt = $_POST['edit_stt'];
-        $edit_role = $_POST['edit_role'];
+//     $changetstt = $_POST['change_stt'];
+//     $change_role = $_POST['change_set_role'];
 
-        for($i =0; $i <count($data_role); $i++){
-            if($data_role[$i][2] == $edit_role){
-                $role = $data_role[$i][1];
-                break;
-            }
-        }
-        $sqledit = "UPDATE `tb_account` SET `role`='$role',`role_name`='$edit_role' WHERE `id` = '$edittstt'";
-        if ( mysqli_query( $connect, $sqledit ) ) {
-            // echo 'File uploaded successfully'
-            // myAlert1( 'Start loss cause success', 'machinerecord.php?');
-            mysqli_close( $connect );
-            // die();
-            echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/master'</script>"; 
-        }
+//     for($i =0; $i <count($data_role); $i++){
+//         if($data_role[$i][2] == $edit_role){
+//             $role = $data_role[$i][1];
+//             break;
+//         }
+//     }
+//     $sqledit = "UPDATE `tb_account` SET `role`='$role',`role_name`='$edit_role' WHERE `id` = '$edittstt'";
+//     if ( mysqli_query( $connect, $sqledit ) ) {
+//         // echo 'File uploaded successfully'
+//         // myAlert1( 'Start loss cause success', 'machinerecord.php?');
+//         mysqli_close( $connect );
+//         // die();
+//         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/master'</script>"; 
+//     }
 
-    }
-    // else if(isset($_POST["post_change_account"])){
-
-    //     $changetstt = $_POST['change_stt'];
-    //     $change_role = $_POST['change_set_role'];
-
-    //     for($i =0; $i <count($data_role); $i++){
-    //         if($data_role[$i][2] == $edit_role){
-    //             $role = $data_role[$i][1];
-    //             break;
-    //         }
-    //     }
-    //     $sqledit = "UPDATE `tb_account` SET `role`='$role',`role_name`='$edit_role' WHERE `id` = '$edittstt'";
-    //     if ( mysqli_query( $connect, $sqledit ) ) {
-    //         // echo 'File uploaded successfully'
-    //         // myAlert1( 'Start loss cause success', 'machinerecord.php?');
-    //         mysqli_close( $connect );
-    //         // die();
-    //         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/master'</script>"; 
-    //     }
-
-    // }
+// }
 
 
 ?>

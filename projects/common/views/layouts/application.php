@@ -62,98 +62,121 @@
     </script>
 
     <!-- DataTables  & Plugins -->
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables/jquery.dataTables.min.js"?> "></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-responsive/js/dataTables.responsive.min.js" ?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/dataTables.buttons.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/jszip/jszip.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/pdfmake/pdfmake.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/pdfmake/vfs_fonts.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.html5.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.print.min.js"?>"></script>
-    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.colVis.min.js"?>"></script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables/jquery.dataTables.min.js" ?> ">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-responsive/js/dataTables.responsive.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/dataTables.buttons.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.bootstrap4.min.js" ?>">
+    </script>
+    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/jszip/jszip.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/pdfmake/pdfmake.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/pdfmake/vfs_fonts.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.html5.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.print.min.js" ?>">
+    </script>
+    <script
+        src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/datatables-buttons/js/buttons.colVis.min.js" ?>">
+    </script>
 
     <!-- Time -->
     <script type="text/javascript">
-        function startTime() {
-            // Lấy Object ngày hiện tại
-            var today = new Date();
+    function startTime() {
+        // Lấy Object ngày hiện tại
+        var today = new Date();
 
-            // Giờ, phút, giây hiện tại
-            // var datetime = today.getDate()+ '/' + (today.getMonth()+1)+ '/' +today.getFullYear();
-            // datetime = checkTime(today.getDate())+ ' ' + checkTime(today.getMonth()+1)+ ' ' +today.getFullYear();
+        // Giờ, phút, giây hiện tại
+        // var datetime = today.getDate()+ '/' + (today.getMonth()+1)+ '/' +today.getFullYear();
+        // datetime = checkTime(today.getDate())+ ' ' + checkTime(today.getMonth()+1)+ ' ' +today.getFullYear();
 
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
 
-            var current_month = (today.getMonth() + 1);
-            var month_name = '';
-            switch (current_month) {
-                case 1:
-                    month_name = "JAN";
-                    break;
-                case 2:
-                    month_name = "FEB";
-                    break;
-                case 3:
-                    month_name = "MAR";
-                    break;
-                case 4:
-                    month_name = "APR";
-                    break;
-                case 5:
-                    month_name = "MAY";
-                    break;
-                case 6:
-                    month_name = "JUN";
-                    break;
-                case 7:
-                    month_name = "JUL";
-                    break;
-                case 8:
-                    month_name = "AUG";
-                    break;
-                case 9:
-                    month_name = "SEP";
-                    break;
-                case 10:
-                    month_name = "OCT";
-                    break;
-                case 11:
-                    month_name = "NOV";
-                    break;
-                case 12:
-                    month_name = "DEC";
-                    break;
-            }
-
-            // Chuyển đổi sang dạng 01, 02, 03
-            h = checkTime(h);
-            m = checkTime(m);
-            s = checkTime(s);
-            datetime = checkTime(today.getDate()) + ' ' + month_name + ' ' + today.getFullYear();
-            // datetime_show = checkTime(today.getDate()) + ' ' + checkTime(current_month) + ' ' + today.getFullYear();
-            // Ghi ra trình duyệt
-
-            document.getElementById('timer').innerHTML = datetime + " " + h + ":" + m + ":" + s;
-            // document.getElementById('timer_show').innerHTML = datetime_show + ", " + h + ":" + m;
-
-            // Dùng hàm setTimeout để thiết lập gọi lại 0.5 giây / lần
-            var t = setTimeout(function () {
-                startTime();
-            }, 500);
+        var current_month = (today.getMonth() + 1);
+        var month_name = '';
+        switch (current_month) {
+            case 1:
+                month_name = "JAN";
+                break;
+            case 2:
+                month_name = "FEB";
+                break;
+            case 3:
+                month_name = "MAR";
+                break;
+            case 4:
+                month_name = "APR";
+                break;
+            case 5:
+                month_name = "MAY";
+                break;
+            case 6:
+                month_name = "JUN";
+                break;
+            case 7:
+                month_name = "JUL";
+                break;
+            case 8:
+                month_name = "AUG";
+                break;
+            case 9:
+                month_name = "SEP";
+                break;
+            case 10:
+                month_name = "OCT";
+                break;
+            case 11:
+                month_name = "NOV";
+                break;
+            case 12:
+                month_name = "DEC";
+                break;
         }
 
-        // Hàm này có tác dụng chuyển những số bé hơn 10 thành dạng 01, 02, 03, ...
-        function checkTime(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
+        // Chuyển đổi sang dạng 01, 02, 03
+        h = checkTime(h);
+        m = checkTime(m);
+        s = checkTime(s);
+        datetime = checkTime(today.getDate()) + ' ' + month_name + ' ' + today.getFullYear();
+        // datetime_show = checkTime(today.getDate()) + ' ' + checkTime(current_month) + ' ' + today.getFullYear();
+        // Ghi ra trình duyệt
+
+        document.getElementById('timer').innerHTML = datetime + " " + h + ":" + m + ":" + s;
+        // document.getElementById('timer_show').innerHTML = datetime_show + ", " + h + ":" + m;
+
+        // Dùng hàm setTimeout để thiết lập gọi lại 0.5 giây / lần
+        var t = setTimeout(function() {
+            startTime();
+        }, 500);
+    }
+
+    // Hàm này có tác dụng chuyển những số bé hơn 10 thành dạng 01, 02, 03, ...
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
         }
+        return i;
+    }
     </script>
 
 </head>
@@ -177,7 +200,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="<?php echo dirname($_SERVER['SCRIPT_NAME'])?>" class="nav-link">Trang Chủ</a>
+                    <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>" class="nav-link">Trang Chủ</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Liên Hệ</a>
@@ -212,7 +235,7 @@
                 <!-- Navbar Clock -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="navbar-clock" href="#" role="button">
-                        <span id = "timer"></span>
+                        <span id="timer"></span>
                     </a>
                 </li>
                 <!-- Notifications Dropdown Menu -->
@@ -251,8 +274,11 @@
                         <span class="dropdown-item dropdown-header">Setting</span>
                         <!-- manager account -->
                         <div class="dropdown-divider"></div>
-                        <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/master" ?>" class="dropdown-item <?php if($_COOKIE['role'] != 0){echo'd-none';} ?>">
-                            <i class="fas fa-users-cog "></i>  Account Management
+                        <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/master" ?>"
+                            class="dropdown-item <?php if ($_COOKIE['role'] != 0) {
+                                                                                                                        echo 'd-none';
+                                                                                                                    } ?>">
+                            <i class="fas fa-users-cog "></i> Account Management
                             <span class="float-right text-muted text-sm"></span>
                         </a>
                         <!-- change password -->
@@ -264,14 +290,15 @@
                         <!-- logout -->
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item logouthere">
-                            <form id="logout" method="post" action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/logout.php" ?>" name="logout">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> 
-                                    <span class="float-right text-muted text-sm"></span>
-                                    <input id="logoutHDVN1" name="logoutHDVN1" value="logoutHDVN1" hidden>
-                                    <span onclick="logout.submit()" name="logoutHDVN" id="logoutHDVN">Logout</span>
+                            <form id="logout" method="post"
+                                action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/logout.php" ?>" name="logout">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                <span class="float-right text-muted text-sm"></span>
+                                <input id="logoutHDVN1" name="logoutHDVN1" value="logoutHDVN1" hidden>
+                                <span onclick="logout.submit()" name="logoutHDVN" id="logoutHDVN">Logout</span>
                             </form>
                         </a>
-                        
+
                     </div>
                 </li>
                 <li class="nav-item">
@@ -291,7 +318,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME'])?>" class="brand-link">
+            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>" class="brand-link">
                 <img src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/dist/img/logo.png" ?>"
                     alt="AdminLTE Logo" class="brand-image elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">FIoT-HDVN</span>
@@ -335,7 +362,9 @@
                with font-awesome or any other icon font library -->
                         <!-- AW3 -->
                         <li class="nav-item">
-                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME'])?>" class="nav-link <?php if($active_page_main == "common"){echo"active";} ?>">
+                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>" class="nav-link <?php if ($active_page_main == "common") {
+                                                                                                        echo "active";
+                                                                                                    } ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     HOME PAGE
@@ -355,8 +384,12 @@
 
                         </li>
                         <!-- QC -->
-                        <li class="nav-item <?php if($active_page_main == "qc"){echo"menu-open";} ?>">
-                            <a href="#" class="nav-link <?php if($active_page_main == "qc"){echo"active";} ?>">
+                        <li class="nav-item <?php if ($active_page_main == "qc") {
+                                                echo "menu-open";
+                                            } ?>">
+                            <a href="#" class="nav-link <?php if ($active_page_main == "qc") {
+                                                            echo "active";
+                                                        } ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     QC
@@ -365,53 +398,78 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/" ?>" class="nav-link <?php if($active_page_sub == "indexqc"){echo"active";} ?>">
+                                    <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/" ?>"
+                                        class="nav-link <?php if ($active_page_sub == "indexqc") {
+                                                                                                                            echo "active";
+                                                                                                                        } ?>">
                                         <i class="fas fa-circle nav-icon"></i>
                                         <p>Trang Chủ</p>
                                     </a>
 
                                 </li>
-                                <li class="nav-item <?php if($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurment_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurment_itemsqc"){echo"menu-open";} ?>">
-                                    <a href="QC" class="nav-link <?php if($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurment_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurment_itemsqc"){echo"active";} ?>">
+                                <li class="nav-item <?php if ($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurment_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurment_itemsqc") {
+                                                        echo "menu-open";
+                                                    } ?>">
+                                    <a href="QC" class="nav-link <?php if ($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurment_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurment_itemsqc") {
+                                                                        echo "active";
+                                                                    } ?>">
                                         <i class="nav-icon fas fa-circle"></i>
                                         <p>Hạng Mục Đăng Ký</p>
                                         <i class="right fas fa-angle-left"></i>
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_line/" ?>" class="nav-link <?php if($active_page_sub == "register_lineqc"){echo"active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_line/" ?>"
+                                                class="nav-link <?php if ($active_page_sub == "register_lineqc") {
+                                                                                                                                                                echo "active";
+                                                                                                                                                            } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Line</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code/" ?>" class="nav-link <?php if($active_page_sub == "register_product_codeqc"){echo"active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code/" ?>"
+                                                class="nav-link <?php if ($active_page_sub == "register_product_codeqc") {
+                                                                                                                                                                        echo "active";
+                                                                                                                                                                    } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Mã Sản Phẩm</p>
                                             </a>
 
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_number_machine/" ?>" class="nav-link <?php if($active_page_sub == "register_number_machineqc"){echo"active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_number_machine/" ?>"
+                                                class="nav-link <?php if ($active_page_sub == "register_number_machineqc") {
+                                                                                                                                                                        echo "active";
+                                                                                                                                                                    } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Mã Máy</p>
                                             </a>
 
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items_name/" ?>" class="nav-link <?php if($active_page_sub == "register_measurment_items_nameqc"){echo"active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items_name/" ?>"
+                                                class="nav-link <?php if ($active_page_sub == "register_measurment_items_nameqc") {
+                                                                                                                                                                                echo "active";
+                                                                                                                                                                            } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Tên Hạng Mục</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_frequency/" ?>" class="nav-link <?php if($active_page_sub == "register_frequencyqc"){echo"active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_frequency/" ?>"
+                                                class="nav-link <?php if ($active_page_sub == "register_frequencyqc") {
+                                                                                                                                                                    echo "active";
+                                                                                                                                                                } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Tần Suất</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items/" ?>" class="nav-link <?php if($active_page_sub == "register_measurment_itemsqc"){echo"active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items/" ?>"
+                                                class="nav-link <?php if ($active_page_sub == "register_measurment_itemsqc") {
+                                                                                                                                                                            echo "active";
+                                                                                                                                                                        } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Hạng Mục Đo</p>
                                             </a>
@@ -514,7 +572,7 @@
 
                         </li>
 
-                        
+
 
                     </ul>
                 </nav>
@@ -559,4 +617,3 @@
 </body>
 
 </html>
-
