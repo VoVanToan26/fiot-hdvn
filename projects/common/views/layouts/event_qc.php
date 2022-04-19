@@ -1,4 +1,3 @@
-
 <?php
 // <!-- Register product code -->
 if (isset($_POST["register_product"])) {
@@ -460,10 +459,10 @@ else if (isset($_POST["register_measurement_items_function"])) {
     print("31 draw: " . $file_name_draw . "<br>");
     print("32 sig: " . $sig . "<br>");
 
-    if ($product_family_input == '' || $part_no_input == '' || $part_no_input == 'Không có mã sản phẩm nào theo dòng sản phẩm' || $line_input == '' || $process_input == '' || $process_input == 'Không có công đoạn nào theo line' || $measurment_items_name_input == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
+    // if ($product_family_input == '' || $part_no_input == '' || $part_no_input == 'Không có mã sản phẩm nào theo dòng sản phẩm' || $line_input == '' || $process_input == '' || $process_input == 'Không có công đoạn nào theo line' || $measurment_items_name_input == '') {
+    //     echo "<script>warning();</script>";
+    //     die();
+    // }
 
     $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
          `measuring_tools`, `standard_dimension`, `upper`, `lower`, `unit`, `type_allowance`, `form`, `x_ucl`, `x_cl`, `x_lcl`, `r_ucl`, `r_cl`, `use_formula`, 
@@ -475,4 +474,3 @@ else if (isset($_POST["register_measurement_items_function"])) {
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items_name'</script>";
     }
 }
-?>
