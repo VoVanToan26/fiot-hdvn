@@ -1,34 +1,35 @@
 <?php
-    // check role
+// check role
 
-    //set public connect
-    $connect = $GLOBALS['connect'];
+//set public connect
+$connect = $GLOBALS['connect'];
 
-    //select qc_tb_line
-    $sqlcheck_line = "SELECT * FROM `qc_tb_line` ORDER BY `id` ASC";
-    $resultcheck_line = mysqli_query( $connect, $sqlcheck_line );
-    // $check_line = mysqli_fetch_assoc( $resultcheck_line );
-    if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
-        // tiến hành lặp dữ liệu
-        $i = 0;
-        while ($row = $resultcheck_line->fetch_assoc()) {
-            //thêm kết quả vào mảng
-            $data_line[$i][0]=$row['id'];
-            $data_line[$i][1]=$row['line'];
-            $data_line[$i][2]=$row['product_family'];
-            $i++;
-        }
+//select qc_tb_line
+$sqlcheck_line = "SELECT * FROM `qc_tb_line` ORDER BY `id` ASC";
+$resultcheck_line = mysqli_query($connect, $sqlcheck_line);
+// $check_line = mysqli_fetch_assoc( $resultcheck_line );
+if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_line->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_line[$i][0] = $row['id'];
+        $data_line[$i][1] = $row['line'];
+        $data_line[$i][2] = $row['product_family'];
+        $i++;
     }
-    else{
-        $data_line[0][0]='';
-        $data_line[0][1]='';
-        $data_line[0][2]='';
-    }
+} else {
+    $data_line[0][0] = '';
+    $data_line[0][1] = '';
+    $data_line[0][2] = '';
+}
+
+
 
 ?>
 <div class="content-header">
     <!-- content header -->
-<!--     <div class="container-fluid">
+    <!--     <div class="container-fluid">
         <h4>Đăng ký mã sản phẩm</h4>
     </div> -->
     <!-- main content -->
@@ -64,20 +65,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $stt_line = 0;
-                                        for($i = 0; $i< count($data_line); $i++){
-                                            $stt_line++;
-                                            echo '<tr>';
-                                            echo '<td>' . $stt_line . '</td>
+                                    <?php
+                                    $stt_line = 0;
+                                    for ($i = 0; $i < count($data_line); $i++) {
+                                        $stt_line++;
+                                        echo '<tr>';
+                                        echo '<td>' . $stt_line . '</td>
                                             <td>' . $data_line[$i][2] . '</td>
                                             <td>' . $data_line[$i][1] . '</td>';
-                                            echo'<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
-                                            onclick ="editLine('. $data_line[$i][0] . ',' .'\'' .$data_line[$i][1].'\'' . ',' .'\'' .$data_line[$i][2].'\'' .')">Sửa</button></td>
+                                        echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
+                                            onclick ="editLine(' . $data_line[$i][0] . ',' . '\'' . $data_line[$i][1] . '\'' . ',' . '\'' . $data_line[$i][2] . '\'' . ')">Sửa</button></td>
                                             <td><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
-                                            onclick ="deleteLine('. $data_line[$i][0] . ',' .'\'' .$data_line[$i][1].'\'' .')">Xóa</button></td>';
-                                            echo '</tr>';
-                                        }
+                                            onclick ="deleteLine(' . $data_line[$i][0] . ',' . '\'' . $data_line[$i][1] . '\'' . ')">Xóa</button></td>';
+                                        echo '</tr>';
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -112,12 +113,14 @@
                         </div>
                         <div class="form-group">
                             <label for="line" class="col-form-label">Line</label>
-                            <input type="text" maxlength="20" class="form-control" id="line" name="line" placeholder="Nhập line">
+                            <input type="text" maxlength="20" class="form-control" id="line" name="line"
+                                placeholder="Nhập line">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" id="register_line_function" name="register_line_function">Đăng ký</button>
+                        <button type="submit" class="btn btn-primary" id="register_line_function"
+                            name="register_line_function">Đăng ký</button>
                     </div>
                 </div>
             </div>
@@ -138,7 +141,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="edit_product_family_input" class="col-form-label">Dòng Sản Phẩm.</label>
-                            <select class="form-control" id="edit_product_family_input" name="edit_product_family_input">
+                            <select class="form-control" id="edit_product_family_input"
+                                name="edit_product_family_input">
                                 <option value="">Chọn dòng sản phẩm</option>
                                 <option value="Coil">Coil</option>
                                 <option value="Valve">Valve</option>
@@ -147,12 +151,14 @@
                         </div>
                         <div class="form-group">
                             <label for="edit_line_input" class="col-form-label">Line.</label>
-                            <input type="text" maxlength="20" class="form-control" id="edit_line_input" name="edit_line_input" placeholder="Nhập line">
+                            <input type="text" maxlength="20" class="form-control" id="edit_line_input"
+                                name="edit_line_input" placeholder="Nhập line">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" id="edit_line_function" name="edit_line_function">Sửa</button>
+                        <button type="submit" class="btn btn-primary" id="edit_line_function"
+                            name="edit_line_function">Sửa</button>
                     </div>
                 </div>
             </div>
@@ -174,7 +180,8 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-outline-light" name="delete_line_function" id="delete_line_function">Xóa</button>
+                        <button type="submit" class="btn btn-outline-light" name="delete_line_function"
+                            id="delete_line_function">Xóa</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -208,23 +215,22 @@
 </div>
 
 <script type="text/javascript">
-    function editLine(id_edit, line_edit, product_family_edit) {
+function editLine(id_edit, line_edit, product_family_edit) {
 
-        document.getElementById('edit_id').value = id_edit;
-        document.getElementById('edit_product_family_input').value = product_family_edit;
-        document.getElementById('edit_line_input').value = line_edit;
-        $("#edit_product_line").modal('toggle');
-    }
+    document.getElementById('edit_id').value = id_edit;
+    document.getElementById('edit_product_family_input').value = product_family_edit;
+    document.getElementById('edit_line_input').value = line_edit;
+    $("#edit_product_line").modal('toggle');
+}
 
-    function deleteLine(id_del, line_del) {
-        document.getElementById('del_id').value = id_del;
-        document.getElementById('delete_line_input').innerHTML = line_del;
-        $("#myDelete").modal('toggle');
-    }
+function deleteLine(id_del, line_del) {
+    document.getElementById('del_id').value = id_del;
+    document.getElementById('delete_line_input').innerHTML = line_del;
+    $("#myDelete").modal('toggle');
+}
 
-    function warning() {
-        // console.log("start");
-        $("#myWarning").modal('toggle');
-    }
-
+function warning() {
+    // console.log("start");
+    $("#myWarning").modal('toggle');
+}
 </script>

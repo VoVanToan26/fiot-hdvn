@@ -1202,7 +1202,6 @@ function editMeasurmentItemsName(id_edit, product_family_edit, part_no_edit, lin
     document.getElementById('process_edit').value = process_edit;
     document.getElementById('measurment_items_name_edit').value = measurement_items_edit;
 
-
     // get part_no
     if (product_family_edit == "") {
         while (selectProductFamily.firstChild) {
