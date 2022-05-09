@@ -4,7 +4,7 @@
 if ($_COOKIE['role'] == 0) {
 } else {
     // header('Location: /kpimanagement/login.php');
-    echo "<script>document.location = '/fiot-hdvn-a/login.php'</script>";
+    echo "<script>document.location = '/fiot-hdvn/login.php'</script>";
 }
 //set public connect
 $connect = $GLOBALS['connect'];

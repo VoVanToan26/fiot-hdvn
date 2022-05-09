@@ -9,10 +9,10 @@ if(isset($_POST['logoutHDVN1'])) {
     setcookie('role', '', time() -3600, "/");
     setcookie('role_name', '', time() -3600, "/");
     setcookie('loggedinHDVN', '', time() -3600, "/");
-	header('Location: /fiot-hdvn-a/login.php');
+	header('Location: /fiot-hdvn/login.php');
 }
 else{
-	header("location: /fiot-hdvn-a/");
+	header("location: /fiot-hdvn/");
 }
 ?>
 

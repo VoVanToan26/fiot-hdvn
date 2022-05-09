@@ -1,28 +1,30 @@
 <?php
+
 // <!-- Register product code -->
 if (isset($_POST["register_product"])) {
-    $line = $_POST['line'];
-    $product_family = $_POST['product_family'];
-    $part_no = $_POST['part_no'];
-    $part_name = $_POST['part_name'];
 
-    if (isset($_POST['user_mail_approval'])) {
+    $line = trim($_POST['line_input']);
+    $product_family = trim($_POST['product_family_input']);
+    $part_no = trim($_POST['part_no_input']);
+    $part_name = trim($_POST['part_name_input']);
+
+    if (isset($_POST['user_mail_approval_input'])) {
         // code...
-        $user_mail_approval = $_POST['user_mail_approval'];
+
+        $user_mail_approval = $_POST['user_mail_approval_input'];
     } else {
         $user_mail_approval = [];
     }
-
-    if (isset($_POST['user_mail_unusual_category'])) {
+    if (isset($_POST['user_mail_approval_input'])) {
         // code...
-        $user_mail_unusual_category = $_POST['user_mail_unusual_category'];
+        $user_mail_unusual_category = $_POST['user_mail_unusual_category_input'];
     } else {
         $user_mail_unusual_category = [];
     }
 
-    if (isset($_POST['user_mail_unusual_trend'])) {
+    if (isset($_POST['user_mail_approval_input'])) {
         // code...
-        $user_mail_unusual_trend = $_POST['user_mail_unusual_trend'];
+        $user_mail_unusual_trend = $_POST['user_mail_unusual_trend_input'];
     } else {
         $user_mail_unusual_trend = [];
     }
@@ -60,45 +62,42 @@ if (isset($_POST["register_product"])) {
         }
     }
 
-    if ($line == '' || $product_family == '' || $part_no == '' || $part_name == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
-
     $sqlregister = "INSERT INTO `qc_tb_part_no`(`line`, `product_family`, `part_no`, `part_name`, `user_mail_approval`, `user_mail_unusual_category`, `user_mail_unusual_trend`, `sig`) VALUES ('$line', '$product_family', '$part_no', '$part_name', '$user_mail_approval_send', '$user_mail_unusual_category_send', '$user_mail_unusual_trend_send', '$sig')";
     if (mysqli_query($connect, $sqlregister)) {
         mysqli_close($connect);
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code'</script>";
     }
 } else if (isset($_POST["edit_product"])) {
-    $edit_id = $_POST['edit_id'];
-    $edit_line = $_POST['edit_line'];
-    $edit_product_family = $_POST['edit_product_family'];
-    $edit_part_no = $_POST['edit_part_no'];
-    $edit_part_name = $_POST['edit_part_name'];
-    // $edit_user_mail_approval = $_POST['edit_user_mail_approval'];
-    // $edit_user_mail_unusual_category = $_POST['edit_user_mail_unusual_category'];
-    // $edit_user_mail_unusual_trend = $_POST['edit_user_mail_unusual_trend'];
+    $edit_id = trim($_POST['edit_id']);
+    // Edit edit_line--> line_edit
+    $edit_line = trim($_POST['line_edit']);
+
+    $edit_product_family = trim($_POST['product_family_edit']);
+    $edit_part_no = trim($_POST['part_no_edit']);
+    $edit_part_name = trim($_POST['part_name_edit']);
+    // $edit_user_mail_approval = trim($_POST['edit_user_mail_approval']);
+    // $edit_user_mail_unusual_category = trim($_POST['edit_user_mail_unusual_category']);
+    // $edit_user_mail_unusual_trend = trim($_POST['edit_user_mail_unusual_trend']);
     $sig = $_COOKIE['username'];
 
 
-    if (isset($_POST['edit_user_mail_approval'])) {
+    if (isset($_POST['user_mail_approval_edit'])) {
         // code...
-        $edit_user_mail_approval = $_POST['edit_user_mail_approval'];
+        $edit_user_mail_approval = $_POST['user_mail_approval_edit'];
     } else {
         $edit_user_mail_approval = [];
     }
 
-    if (isset($_POST['edit_user_mail_unusual_category'])) {
+    if (isset($_POST['user_mail_unusual_category_edit'])) {
         // code...
-        $edit_user_mail_unusual_category = $_POST['edit_user_mail_unusual_category'];
+        $edit_user_mail_unusual_category = $_POST['user_mail_unusual_category_edit'];
     } else {
         $edit_user_mail_unusual_category = [];
     }
 
-    if (isset($_POST['edit_user_mail_unusual_trend'])) {
+    if (isset($_POST['user_mail_unusual_trend_edit'])) {
         // code...
-        $edit_user_mail_unusual_trend = $_POST['edit_user_mail_unusual_trend'];
+        $edit_user_mail_unusual_trend = $_POST['user_mail_unusual_trend_edit'];
     } else {
         $edit_user_mail_unusual_trend = [];
     }
@@ -133,17 +132,18 @@ if (isset($_POST["register_product"])) {
         }
     }
 
-    if ($edit_id == '' || $edit_line == '' || $edit_product_family == '' || $edit_part_no == '' || $edit_part_name == '' || $edit_user_mail_approval_send == '') {
+    if ($edit_id == '' || $edit_line == '' || $edit_product_family == '' || $edit_part_no == '' || $edit_part_name == '') {
         echo "<script>warning();</script>";
         die();
     }
+
     $sqledit = "UPDATE `qc_tb_part_no` SET `line`= '$edit_line',`product_family`= '$edit_product_family',`part_no`= '$edit_part_no',`part_name`= '$edit_part_name',`user_mail_approval`= '$edit_user_mail_approval_send',`user_mail_unusual_category`= '$edit_user_mail_unusual_category_send',`user_mail_unusual_trend`= '$edit_user_mail_unusual_trend_send', `sig`= '$sig' WHERE `id` = '$edit_id'";
     if (mysqli_query($connect, $sqledit)) {
         mysqli_close($connect);
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code'</script>";
     }
 } else if (isset($_POST["delete_product"])) {
-    $del_id = $_POST['del_id'];
+    $del_id = trim($_POST['del_id']);
 
     $sqldelete = "DELETE FROM `qc_tb_part_no` WHERE `id` = '$del_id'";
     if (mysqli_query($connect, $sqldelete)) {
@@ -154,16 +154,9 @@ if (isset($_POST["register_product"])) {
 
 //Register line
 else if (isset($_POST["register_line_function"])) {
-
-    $product_family = $_POST['product_family_input'];
-    $line = $_POST['line'];
+    $product_family = trim($_POST['product_family_input']);
+    $line = trim($_POST['line']);
     $sig = $_COOKIE['username'];
-
-    if ($product_family == '' || $line == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
-
     $sqlregister_line = "INSERT INTO `qc_tb_line`(`product_family`, `line`, `sig`) VALUES ('$product_family', '$line', '$sig')";
     if (mysqli_query($connect, $sqlregister_line)) {
         mysqli_close($connect);
@@ -171,16 +164,10 @@ else if (isset($_POST["register_line_function"])) {
     }
 } else if (isset($_POST["edit_line_function"])) {
 
-    $id_edit = $_POST['edit_id'];
-    $product_family_edit = $_POST['edit_product_family_input'];
-    $line_edit = $_POST['edit_line_input'];
+    $id_edit = trim($_POST['edit_id']);
+    $product_family_edit = trim($_POST['product_family_edit']);
+    $line_edit = trim($_POST['line_edit']);
     $sig_edit = $_COOKIE['username'];
-
-    if ($line_edit == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
-
     $sqledit_line = "UPDATE `qc_tb_line` SET `product_family` = '$product_family_edit',`line` = '$line_edit', `sig`= '$sig_edit' WHERE `id` = '$id_edit'";
     if (mysqli_query($connect, $sqledit_line)) {
         mysqli_close($connect);
@@ -188,7 +175,7 @@ else if (isset($_POST["register_line_function"])) {
     }
 } else if (isset($_POST["delete_line_function"])) {
 
-    $del_id = $_POST['del_id'];
+    $del_id = trim($_POST['del_id']);
 
     $sqldelete = "DELETE FROM `qc_tb_line` WHERE `id` = '$del_id'";
     if (mysqli_query($connect, $sqldelete)) {
@@ -196,49 +183,43 @@ else if (isset($_POST["register_line_function"])) {
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_line'</script>";
     }
 }
-
 //register number machine
 else if (isset($_POST["register_number_machine_function"])) {
-
-    $line = $_POST['line'];
-    $process = $_POST['process'];
-    $number_machine = $_POST['number_machine'];
+    $product_family = trim($_POST['product_family_input']);
+    $line = trim($_POST['line_input']);
+    $process = trim($_POST['process_input']);
+    $number_machine = trim($_POST['number_machine_input']);
     $sig = $_COOKIE['username'];
 
-    if ($line == '' || $process == '' || $number_machine == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
-
-    $sqlregister_number_machine = "INSERT INTO `qc_tb_machine_number`(`line`, `process`, `number_machine`, `sig`) VALUES ('$line', '$process', '$number_machine', '$sig')";
+    $sqlregister_number_machine = "INSERT INTO `qc_tb_machine_number`(`line`, `process`, `number_machine`, `sig`,`product_family`) VALUES ('$line', '$process', '$number_machine', '$sig','$product_family')";
     if (mysqli_query($connect, $sqlregister_number_machine)) {
         mysqli_close($connect);
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_number_machine'</script>";
     }
 } else if (isset($_POST["edit_number_machine_function"])) {
-
-    $edit_id = $_POST['edit_id'];
-    $edit_line = $_POST['edit_line_input'];
-    $edit_process = $_POST['edit_process_input'];
-    $edit_number_machine = $_POST['edit_number_machine_input'];
+    $edit_product_family = trim($_POST['product_family_edit']);
+    $edit_id = trim($_POST['edit_id']);
+    $edit_line = trim($_POST['line_edit']);
+    $edit_process = trim($_POST['process_edit']);
+    $edit_number_machine = trim($_POST['number_machine_edit']);
     $sig = $_COOKIE['username'];
+    // echo "<script>alert($edit_line , $process , '234234',$number_machine);</script>";
+    // if ($edit_line == '' || $edit_process == '' || $edit_number_machine == '') {
+    //     // echo "<script>warning();</script>";
+    //     // die();
+    //     print($edit_line . '<br>');
+    //     print($edit_process . '<br>');
+    //     print($edit_number_machine . '<br>');
+    // }
 
-    if ($edit_line == '' || $edit_process == '' || $edit_number_machine == '') {
-        // echo "<script>warning();</script>";
-        // die();
-        print($edit_line . '<br>');
-        print($edit_process . '<br>');
-        print($edit_number_machine . '<br>');
-    }
-
-    $sqledit_number_machine = "UPDATE `qc_tb_machine_number` SET `line`='$edit_line',`process`='$edit_process',`number_machine`='$edit_number_machine',`sig`='$sig' WHERE `id` = '$edit_id'";
+    $sqledit_number_machine = "UPDATE `qc_tb_machine_number` SET `line`='$edit_line',`process`='$edit_process',`number_machine`='$edit_number_machine',`sig`='$sig' ,`product_family`='$edit_product_family' WHERE `id` = '$edit_id'";
     if (mysqli_query($connect, $sqledit_number_machine)) {
         mysqli_close($connect);
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_number_machine'</script>";
     }
 } else if (isset($_POST["delete_number_machine_function"])) {
 
-    $del_id = $_POST['del_id'];
+    $del_id = trim($_POST['del_id']);
 
     $sqldelete = "DELETE FROM `qc_tb_machine_number` WHERE `id` = '$del_id'";
     if (mysqli_query($connect, $sqldelete)) {
@@ -247,62 +228,53 @@ else if (isset($_POST["register_number_machine_function"])) {
     }
 }
 
-//register_measurment_items_name
+//register_measurement_items_name
 else if (isset($_POST["register_measurement_items_name_function"])) {
 
-    $product_family_input = $_POST['product_family_input'];
-    $part_no_input = $_POST['part_no_input'];
-    $line_input = $_POST['line_input'];
-    $process_input = $_POST['process_input'];
-    $measurment_items_name_input = $_POST['measurment_items_name_input'];
+    $product_family_input = trim($_POST['product_family_input']);
+    $part_no_input = trim($_POST['part_no_input']);
+    $line_input = trim($_POST['line_input']);
+    $process_input = trim($_POST['process_input']);
+    $measurement_items_name_input = trim($_POST['measurement_items_name_input']);
+
     $sig = $_COOKIE['username'];
 
-    if ($product_family_input == '' || $part_no_input == '' || $part_no_input == 'Không có mã sản phẩm nào theo dòng sản phẩm' || $line_input == '' || $process_input == '' || $process_input == 'Không có công đoạn nào theo line' || $measurment_items_name_input == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
-
-    $sqlregister_measurement_items_name = "INSERT INTO `qc_tb_measurement_items_name`(`product_family`, `part_no`, `line`, `process`, `measurement_items`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$line_input', '$process_input', '$measurment_items_name_input', '$sig')";
+    $sqlregister_measurement_items_name = "INSERT INTO `qc_tb_measurement_items_name`(`product_family`, `part_no`, `line`, `process`, `measurement_items`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$line_input', '$process_input', '$measurement_items_name_input', '$sig')";
     if (mysqli_query($connect, $sqlregister_measurement_items_name)) {
         mysqli_close($connect);
-        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items_name'</script>";
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items_name'</script>";
     }
 } else if (isset($_POST["edit_measurement_items_name_function"])) {
 
-    $id_edit = $_POST['edit_id'];
-    $product_family_edit = $_POST['product_family_edit'];
-    $part_no_edit = $_POST['part_no_edit'];
-    $line_edit = $_POST['line_edit'];
-    $process_edit = $_POST['process_edit'];
-    $measurment_items_name_edit = $_POST['measurment_items_name_edit'];
+    $id_edit = trim($_POST['edit_id']);
+    $product_family_edit = trim($_POST['product_family_edit']);
+    $part_no_edit = trim($_POST['part_no_edit']);
+    $line_edit = trim($_POST['line_edit']);
+    $process_edit = trim($_POST['process_edit']);
+    $measurement_items_name_edit = trim($_POST['measurement_items_name_edit']);
     $sig = $_COOKIE['username'];
 
-    if ($product_family_edit == '' || $part_no_edit == '' || $part_no_edit == 'Không có mã sản phẩm nào theo dòng sản phẩm' || $line_edit == '' || $process_edit == '' || $process_edit == 'Không có công đoạn nào theo line' || $measurment_items_name_edit == '') {
-        echo "<script>warning();</script>";
-        die();
-    }
-
-    $sqledit_measurement_items_name = "UPDATE `qc_tb_measurement_items_name` SET `product_family`='$product_family_edit',`part_no`='$part_no_edit',`line`='$line_edit',`process`='$process_edit',`measurement_items`='$measurment_items_name_edit',`sig`='$sig' WHERE `id` = '$id_edit'";
+    $sqledit_measurement_items_name = "UPDATE `qc_tb_measurement_items_name` SET `product_family`='$product_family_edit',`part_no`='$part_no_edit',`line`='$line_edit',`process`='$process_edit',`measurement_items`='$measurement_items_name_edit',`sig`='$sig' WHERE `id` = '$id_edit'";
     if (mysqli_query($connect, $sqledit_measurement_items_name)) {
         mysqli_close($connect);
-        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items_name'</script>";
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items_name'</script>";
     }
 } else if (isset($_POST["delete_measurement_items_name_function"])) {
-    $del_id = $_POST['del_id'];
+    $del_id = trim($_POST['del_id']);
 
     $sqldelete = "DELETE FROM `qc_tb_measurement_items_name` WHERE `id` = '$del_id'";
     if (mysqli_query($connect, $sqldelete)) {
         mysqli_close($connect);
-        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items_name'</script>";
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items_name'</script>";
     }
 }
 
 //register frequency
 else if (isset($_POST["register_frequency_function"])) {
 
-    $frequency_input = $_POST['frequency_input'];
-    $quantity_input = $_POST['quantity_input'];
-    $unit_time_input = $_POST['unit_time_input'];
+    $frequency_input = trim($_POST['frequency_input']);
+    $quantity_input = trim($_POST['quantity_input']);
+    $unit_time_input = trim($_POST['unit_time_input']);
     $sig = $_COOKIE['username'];
 
     if ($frequency_input == '' || $quantity_input == '' || $unit_time_input == '') {
@@ -316,10 +288,10 @@ else if (isset($_POST["register_frequency_function"])) {
         echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_frequency'</script>";
     }
 } else if (isset($_POST["edit_frequency_function"])) {
-    $id_edit = $_POST['edit_id'];
-    $frequency_edit = $_POST['frequency_edit'];
-    $quantity_edit = $_POST['quantity_edit'];
-    $unit_time_edit = $_POST['unit_time_edit'];
+    $id_edit = trim($_POST['edit_id']);
+    $frequency_edit = trim($_POST['frequency_edit']);
+    $quantity_edit = trim($_POST['quantity_edit']);
+    $unit_time_edit = trim($_POST['unit_time_edit']);
     $sig = $_COOKIE['username'];
 
     if ($frequency_edit == '' || $quantity_edit == '' || $unit_time_edit == '') {
@@ -334,7 +306,7 @@ else if (isset($_POST["register_frequency_function"])) {
     }
 } else if (isset($_POST["delete_frequency_function"])) {
 
-    $del_id = $_POST['del_id'];
+    $del_id = trim($_POST['del_id']);
 
     $sqldelete = "DELETE FROM `qc_tb_frequency` WHERE `id` = '$del_id'";
     if (mysqli_query($connect, $sqldelete)) {
@@ -346,61 +318,74 @@ else if (isset($_POST["register_frequency_function"])) {
 //register_measurement_items
 else if (isset($_POST["register_measurement_items_function"])) {
 
-    $product_family_input = $_POST['product_family_input'];
-    $line_input = $_POST['line_input'];
-    $part_no_input = $_POST['part_no_input'];
-    $process_input = $_POST['process_input'];
+    $product_family_input = trim($_POST['product_family_input']);
+    $line_input = trim($_POST['line_input']);
+    $part_no_input = trim($_POST['part_no_input']);
+    $process_input = trim($_POST['process_input']);
 
-    $chart_input = $_POST['chart_input'];
-    $measuring_department_input = $_POST['measuring_department_input'];
-    $no_measurment_items_input = $_POST['no_measurment_items_input'];
-    $measurement_items_input = $_POST['measurement_items_input'];
+    $chart_input = trim($_POST['chart_input']);
+    $measuring_department_input = trim($_POST['measuring_department_input']);
+    $no_measurement_items_input = trim($_POST['no_measurement_items_input']);
+    $measurement_items_input = trim($_POST['measurement_items_input']);
 
-    $form_input = $_POST['form_input'];
-    $frequency_input = $_POST['frequency_input'];
-    $measuring_tools_input = $_POST['measuring_tools_input'];
-    $allowance_display_input = $_POST['allowance_display_input'];
+    $form_input = trim($_POST['form_input']);
+    $frequency_input = trim($_POST['frequency_input']);
+    $measuring_tools_input = trim($_POST['measuring_tools_input']);
+    $allowance_display_input = trim($_POST['allowance_display_input']);
 
-    $x_ucl_input = $_POST['x_ucl_input'];
-    $x_cl_input = $_POST['x_cl_input'];
-    $x_lcl_input = $_POST['x_lcl_input'];
-    $r_ucl_input = $_POST['r_ucl_input'];
-    $r_cl_input = $_POST['r_cl_input'];
+    // $x_ucl_input = $_POST['x_ucl_input'];
 
-    $type_allowance_input = $_POST['type_allowance_input'];
-    $standard_dimension_input = $_POST['standard_dimension_input'];
-    $upper_input = $_POST['upper_input'];
-    $lower_input = $_POST['lower_input'];
-    $unit_input = $_POST['unit_input'];
+    // echo "<script>alert($x_ucl_input,typeof $x_ucl_input)</script>";
+    $x_ucl_input = trim($_POST['x_ucl_input']);
+    $x_cl_input = trim($_POST['x_cl_input']);
+    $x_lcl_input = trim($_POST['x_lcl_input']);
+    $r_ucl_input = trim($_POST['r_ucl_input']);
+    $r_cl_input = trim($_POST['r_cl_input']);
 
-
-    $use_formula_input = $_POST['use_formula_input'];
-    $type_formula_input = $_POST['type_formula_input'];
-    $number_element_input = $_POST['number_element_input'];
-    $formula_input = $_POST['formula_input'];
-
-    $definition_formula_input_one = $_POST['definition_formula_input_one'];
-    $definition_formula_input_two = $_POST['definition_formula_input_two'];
-    $definition_formula_input_three = $_POST['definition_formula_input_three'];
-    $definition_formula_input_four = $_POST['definition_formula_input_four'];
-    $definition_formula_input_five = $_POST['definition_formula_input_five'];
-    $definition_formula_input_six = $_POST['definition_formula_input_six'];
-    $definition_formula_input_seven = $_POST['definition_formula_input_seven'];
-    $definition_formula_input_eight = $_POST['definition_formula_input_eight'];
-    $definition_formula_input_nine = $_POST['definition_formula_input_nine'];
-    $definition_formula_input_ten = $_POST['definition_formula_input_ten'];
-
-    $definition_formula_input = $definition_formula_input_one . ';' . $definition_formula_input_two . ';' . $definition_formula_input_three . ';' . $definition_formula_input_four . ';' . $definition_formula_input_five . ';' . $definition_formula_input_six . ';' . $definition_formula_input_seven . ';' . $definition_formula_input_eight . ';' . $definition_formula_input_nine . ';' . $definition_formula_input_ten;
+    $type_allowance_input = trim($_POST['type_allowance_input']);
+    $standard_dimension_input = trim($_POST['standard_dimension_input']);
+    $upper_input = trim($_POST['upper_input']);
+    $lower_input = trim($_POST['lower_input']);
+    $unit_input = trim($_POST['unit_input']);
 
 
+    $use_formula_input = trim($_POST['use_formula_input']);
+    // echo "<script>alert($use_formula_input)</script>";
+    if ($use_formula_input == "Yes") $use_formula_input = 'Yes';
+    else $use_formula_input = 'No';
+    $type_formula_input = trim($_POST['type_formula_input']);
+    $number_element_input = trim($_POST['number_element_input']);
+    $formula_input = trim($_POST['formula_input']);
+
+    $keyWords = "BCDEFGHJK";
+
+    $definition_formula_input[0] = $_POST['definition_formula_input_one'];
+    $definition_formula_input[1] = $_POST['definition_formula_input_two'];
+    $definition_formula_input[2] = $_POST['definition_formula_input_three'];
+    $definition_formula_input[3] = $_POST['definition_formula_input_four'];
+    $definition_formula_input[4] = $_POST['definition_formula_input_five'];
+    $definition_formula_input[5] = $_POST['definition_formula_input_six'];
+    $definition_formula_input[6] = $_POST['definition_formula_input_seven'];
+    $definition_formula_input[7] = $_POST['definition_formula_input_eight'];
+    $definition_formula_input[8] = $_POST['definition_formula_input_nine'];
+    $definition_formula_input[9] = $_POST['definition_formula_input_ten'];
+
+    // Xử lý công thức 
+    for ($i = 0; $i < 10; $i++) {
+        if ($definition_formula_input[$i] != '') {
+            $definition_formula_input_result .= substr($keyWords, $i, 1) . ": " . $definition_formula_input[$i] . ";";
+            // echo "<script>alert($definition_formula_input_result)</script>";
+        }
+    }
+    // $definition_formula_input = $definition_formula_input_one . ';' . $definition_formula_input_two . ';' . $definition_formula_input_three . ';' . $definition_formula_input_four . ';' . $definition_formula_input_five . ';' . $definition_formula_input_six . ';' . $definition_formula_input_seven . ';' . $definition_formula_input_eight . ';' . $definition_formula_input_nine . ';' . $definition_formula_input_ten;
     // name of the uploaded file
     $management_level_one = $_FILES['management_level_one_input']['name'];
     $management_level_two = $_FILES['management_level_two_input']['name'];
     $draw = $_FILES['draw_input']['name'];
 
-    $file_name_management_level_one = $no_measurment_items_input . '-' . $management_level_one;
-    $file_name_management_level_two = $no_measurment_items_input . '-' . $management_level_two;
-    $file_name_draw = $no_measurment_items_input . '-' . $draw;
+    $file_name_management_level_one = $no_measurement_items_input . '-' . '1' . '-' . $management_level_one;
+    $file_name_management_level_two = $no_measurement_items_input . '-' . '2' . '-'. $management_level_two;
+    $file_name_draw = $no_measurement_items_input . '-'. '3' . '-' . $draw;
     // destination of the file on the server
     $destination_management_level_one = 'projects/qc/views/default/qc_imgs/' . $file_name_management_level_one;
     $destination_management_level_two = 'projects/qc/views/default/qc_imgs/' . $file_name_management_level_two;
@@ -452,7 +437,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     // print("24 allowance_display: " . $allowance_display_input . "<br>");
     // print("25 chart: " . $chart_input . "<br>");
     // print("26 management_level_one: " . $file_name_management_level_one . "<br>");
-    // print("27 no_measurement_items: " . $no_measurment_items_input . "<br>");
+    // print("27 no_measurement_items: " . $no_measurement_items_input . "<br>");
     // print("28 measuring_department: " . $measuring_department_input . "<br>");
     // print("29 status: " . "/" . "<br>");
     // print("30 management_level_two: " . $file_name_management_level_two . "<br>");
@@ -460,18 +445,18 @@ else if (isset($_POST["register_measurement_items_function"])) {
     // print("32 sig: " . $sig . "<br>");
 
     if (
-        $product_family_input == '' || $part_no_input == '' || $process_input == '' || $line_input == '' || $measurement_items_input == '' || $frequency_input == '' || $measuring_tools_input = '' ||
+        $product_family_input == '' || $part_no_input == '' || $process_input == '' || $line_input == '' || $measurement_items_input == '' || $frequency_input == '' || $measuring_tools_input == '' ||
         $standard_dimension_input == '' || $unit_input == '' || $type_allowance_input == '' || $form_input == '' || $chart_input == '' || $file_name_management_level_one == '' || $file_name_management_level_two == ''
-        || $file_name_draw == '' || $no_measurment_items_input == '' || $measuring_department_input == ''
+        || $file_name_draw == '' || $no_measurement_items_input == '' || $measuring_department_input == ''
     ) {
-        echo "<script>warning();</script>";
+        echo "<script>alert('Thiếu dữ liệu! Vui lòng nhập lại ');</script>";
         die();
     } else {
         if (!in_array($extension_management_level_one, ['png', 'jpg', 'jpeg']) || !in_array($extension_management_level_two, ['png', 'jpg', 'jpeg']) || !in_array($extension_draw, ['png', 'jpg', 'jpeg'])) {
-            echo "<script>warning();</script>";
+            echo "<script>alert('Sai định dạng ảnh');</script>";
             // echo 'You file extension must be .zip, .pdf, .docx, .jpg and .png';
         } else if ($size_management_level_one > 6000 || $size_management_level_two > 6000 || $size_draw > 6000) {
-            echo "<script>warning();</script>";
+            echo "<script>alert('Dung lượng ảnh quá lớn');</script>";
             // file shouldn't be larger than 1Megabyte
             // echo "File too large!";
 
@@ -482,17 +467,65 @@ else if (isset($_POST["register_measurement_items_function"])) {
                 `type_formula`, `number_element`, `definition_formula`, `formula`, `allowance_display`, `chart`, `management_level_one`, `no_measurement_items`, 
                 `measuring_department`, `management_level_two`, `draw`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
                 '$measurement_items_input', '$frequency_input', '$measuring_tools_input', '$standard_dimension_input', '$upper_input', '$lower_input', '$unit_input', '$type_allowance_input', '$form_input',
-                '$x_ucl_input', '$x_cl_input', '$x_lcl_input', '$r_ucl_input', '$r_cl_input', '$use_formula_input', '$type_formula_input', '$number_element_input', '$definition_formula_input',
-                '$formula_input', '$allowance_display_input', '$chart_input', '$destination_management_level_one', '$no_measurment_items_input', '$measuring_department_input', '$destination_management_level_two', '$destination_draw',
+                '$x_ucl_input', '$x_cl_input', '$x_lcl_input', '$r_ucl_input', '$r_cl_input', '$use_formula_input', '$type_formula_input', '$number_element_input', '$definition_formula_input_result',
+                '$formula_input', '$allowance_display_input', '$chart_input', '$destination_management_level_one', '$no_measurement_items_input', '$measuring_department_input', '$destination_management_level_two', '$destination_draw',
                 '$sig')";
 
                 if (mysqli_query($connect, $sqlregister_measurement_items)) {
                     mysqli_close($connect);
-                    echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurment_items'</script>";
+                    echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
                 }
             } else {
                 echo "<script>warning();</script>";
             }
         }
+    }
+} else if (isset($_POST["delete_measurement_items_function"])) {
+
+    $del_id = trim($_POST['del_id']);
+    $sqldelete = "DELETE FROM `qc_tb_measurement_items` WHERE `id` = '$del_id'";
+    if (mysqli_query($connect, $sqldelete)) {
+        mysqli_close($connect);
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
+    }
+}
+//Register_special_case
+else if (isset($_POST["register_special_case_function"])) {
+    $special_case = trim($_POST['special_case_input']);
+    $sig = $_COOKIE['username'];
+    // if ($special_case== '') {
+    //     echo "<script>warning();</script>";
+    //     die();
+    // }
+
+    $sqlspecial_case = "INSERT INTO `qc_tb_special_case_measurement`(`special_case`, `sig`) VALUES ('$special_case', '$sig')";
+    if (mysqli_query($connect, $sqlspecial_case)) {
+        mysqli_close($connect);
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_special_case_measurement'</script>";
+    }
+} else if (isset($_POST["edit_special_case_function"])) {
+
+    $id_edit = trim($_POST['edit_id']); //<input type="hidden"  name="edit_id")>
+    $special_case_edit = trim($_POST['special_case_edit']);
+    $sig_edit = $_COOKIE['username'];
+
+    // if ($special_case_edit== '') {
+    //     echo "<script>warning();</script>";
+    //     die();
+    // }
+    $sqlspecial_case = "UPDATE `qc_tb_special_case_measurement` SET `special_case` = '$special_case_edit', `sig`= '$sig_edit' WHERE `id` = '$id_edit'";
+    if (mysqli_query($connect, $sqlspecial_case)) {
+        mysqli_close($connect);
+        // Tải trang theo địa chỉ bên dưới
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_special_case_measurement'</script>";
+    }
+} else if (isset($_POST["delete_special_case_function"])) {
+
+    $del_id = trim($_POST['del_id']);
+
+    $sqldelete = "DELETE FROM `qc_tb_special_case_measurement` WHERE `id` = '$del_id'";
+    if (mysqli_query($connect, $sqldelete)) {
+        mysqli_close($connect);
+        echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_special_case_measurement'</script>";
     }
 }

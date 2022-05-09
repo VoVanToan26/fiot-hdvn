@@ -3,7 +3,7 @@
     // session_start();
     // Check if the user is already logged in, if yes then redirect him to welcome page
     if(isset($_COOKIE["loggedinHDVN"]) && $_COOKIE["loggedinHDVN"] === true){
-        header("location: /fiot-hdvn-a/");
+        header("location: /fiot-hdvn/");
         exit;
     }
     
@@ -100,7 +100,7 @@
                     if ( mysqli_query( $connect, $sqlregister ) ) {
                         mysqli_close( $connect );
                     }
-                    echo "<script>document.location = '/fiot-hdvn-a/'</script>";
+                    echo "<script>document.location = '/fiot-hdvn/'</script>";
                 }
                 
             }
@@ -136,7 +136,7 @@
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/font-google/fonts-google.css"?>">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="projects/common/public/plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->

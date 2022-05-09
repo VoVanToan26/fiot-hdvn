@@ -7,7 +7,7 @@
   <title>FIoT HDVN</title>
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="public/plugins/font-google/fonts-google.css">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="public/plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
