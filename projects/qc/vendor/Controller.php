@@ -20,7 +20,7 @@ class Controller
 				$active_page_sub = $file . 'qc';
 				require_once 'projects/common/views/layouts/application.php';
 				require_once 'projects/common/views/layouts/event_qc.php';
-				// require_once 'projects/common/views/layouts/event_qc2.php';
+
 				// echo $active_page_sub;
 			}
 			 else {

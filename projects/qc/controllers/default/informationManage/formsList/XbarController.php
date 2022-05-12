@@ -3,7 +3,7 @@
 /**
  * 
  */
-class XRsController extends Controller
+class XbarController extends Controller
 {
 	function __construct()
 	{
@@ -11,6 +11,6 @@ class XRsController extends Controller
 	}
 	function index()
 	{
-		$this->render('XRs', []);
+		$this->render('Xbar', []);
 	}
 }

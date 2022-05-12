@@ -262,7 +262,7 @@ p.footer {
                             <td class="text-nowrap">Xác nhận</td>
                         </tr>
                         <tr class="h-20 text-left">
-                            <td class="no-border-bot">Mgr</td>
+                            <td class="no-border-bot">GM</td>
                         </tr>
                         <tr class="h-60 ">
                             <td id="xr-confirm-mgr" class="no-border-top text-center"

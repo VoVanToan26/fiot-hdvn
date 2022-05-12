@@ -41,6 +41,8 @@ if ($resultcheck_measurement_items && $resultcheck_measurement_items->num_rows >
         $data_measurement_items[$i][25] = $row['no_measurement_items'];
         $data_measurement_items[$i][26] = $row['measuring_department'];
         $data_measurement_items[$i][27] = $row['status'];
+
+        // $data_management_level[$i]=$row['management_level_input'];
         $i++;
     }
 } else {
@@ -107,8 +109,33 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
 }
 
 
+//select tb_measuring_tools
+$sqlcheck_management_level = "SELECT * FROM `qc_tb_management_level` ORDER BY `id` ASC";
+$resultcheck_management_level = mysqli_query($connect, $sqlcheck_management_level);
+// $check_frequency = mysqli_fetch_assoc( $resultcheck_frequency );
+if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_management_level->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_management_level[$i][0] = $row['id'];
+        $data_management_level[$i][1] = $row['management_level_img'];
+        $data_management_level[$i][2] = $row['management_level_name'];
+        $i++;
+    }
+} else {
+    $data_management_level[0][0] = 0;
+    $data_management_level[0][1] = '';
+    $data_management_level[0][2] = '';
+}
+
 ?>
 <style type="text/css">
+    .dark-mode .select2-results__option[aria-selected=true] {
+        background-color: #00bc8cfa !important;
+        color: #dee2e6;
+    }
+
     .d-none {
         display: none;
     }
@@ -298,40 +325,24 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                         <div class="row">
                             <div class="form-group col-12">
                                 <div class="row">
-                                    <div class="col-6">
-                                        <label for="" class="col-form-label">Cấp Độ Quản Lý</label>
-                                        <div class="row" style="border-style: ridge; border-width: 1px; border-color: #808080;">
-                                            <div class="col-3">
-                                                <div class="custom-file symbol-class" style="width: 100%;">
-                                                    <input type="file" id="management_level_one_input" name="management_level_one_input" accept=".jpg,.jpeg,.png">
-                                                    <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
-
-                                                    <label for="management_level_one_input" class="col-form-label custom-label" style="border: none; cursor:pointer;padding-left:0;">
-                                                        <i class="fa fa-upload"></i>
-                                                        Hình-1
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="#" alt="" id="img-management_level_one_input" style="display:none; height: 38px; max-width:60px;">
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="custom-file symbol-class" style="width: 100%;">
-                                                    <input type="file" id="management_level_two_input" name="management_level_two_input" accept=".jpg,.jpeg,.png">
-                                                    <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
+                                    <!-- Dropzonre begin -->
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="management_level_input" class="col-form-label">Cấp độ quản lý</label><br>
+                                            <select class="form-control select2" style="width:100%" id="management_level_input" name="management_level_input[]" multiple aria-placeholder="Chọn hình ảnh">
+                                                <!-- <option value="">Select Username</option> -->
+                                                <?php
+                                                for ($i = 0; $i < count($data_management_level); $i++) {
+                                                    echo '<option value="' . $data_management_level[$i][1] . '">' . $data_management_level[$i][2] . '';
+                                                }
 
 
-                                                    <label for="management_level_two_input" class="col-form-label custom-label" style="border: none; cursor:pointer;padding-left:0;">
-                                                        <i class="fa fa-upload"></i>
-                                                        Hình-2
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="#" alt="" id="img-management_level_two_input" style="display:none; height: 38px; max-width:60px;">
-                                            </div>
+                                                ?>
+                                            </select>
+                                            <small id="management_level_input_err" class="invalid-feedback">Không để trống</small>
                                         </div>
                                     </div>
+                                    <!-- dropzone end -->
                                     <div class="col-6">
                                         <label for="" class="col-form-label">Bản Vẽ</label>
                                         <div class="row" style="border-style: ridge; border-width: 1px; border-color: #808080;">
@@ -349,7 +360,7 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                                                 <img src="#" alt="" id="img-draw_input" style="display:none; height: 38px; max-width:60px;">
                                             </div>
                                             <div class="col-3 d-flex align-items-center">
-                                                <a href="JavaScript:void(0);" onclick="clearSymbol('img-management_level_one_input', 'img-management_level_two_input', 'img-draw_input');">
+                                                <a href="JavaScript:void(0);" onclick="clearSymbol('img-draw_input');">
                                                     <i class="fa fa-trash" aria-hidden="true"> </i>
                                                     Xóa
                                                 </a>
@@ -382,6 +393,7 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                                     <option value="">Chọn bộ phận đo</option>
                                     <option value="QC">QC</option>
                                     <option value="PI">PI</option>
+                                    <option value="RE">RE</option>
                                 </select>
                                 <small class="invalid-feedback " id="_err" name="">Vui lòng nhập đủ thông tin</small>
 
@@ -486,7 +498,7 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                                 <input type="number" step='0.00001' class="form-control  change-required" id="r_cl_input" name="r_cl_input" max="999999999" min="-999999999" autocomplete="off">
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                             </div>
-                      
+
                         </div>
 
                         <!-- Form UCL end -->
@@ -496,7 +508,6 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                                 <select required class="form-control" id="type_allowance_input" name="type_allowance_input" maxlength="200" autocomplete="off" onchange="type_allowance_input_change()">
                                     <option value="">Chọn loại quy cách</option>
                                     <option value="±">±</option>
-                                    <!-- <option value="+/-">+/-</option> -->
                                     <option value="Min">Min</option>
                                     <option value="Max">Max</option>
                                     <option value="OK/NG">OK/NG</option>
@@ -530,10 +541,10 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                                 <input type="text" class="form-control" id="unit_input" name="unit_input" maxlength="200" autocomplete="off">
                                 <!-- <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>-->
                             </div>
-                        
+
                             <div class="col-12 p-0 pl-3 row">
-                                  <small class="form-text text-muted">Vui lòng nhập kiểu dữ liệu là số thực và tối đa là 5 chữ số thập phân ở các mục <span class="font-weight-bold">X-UCL ; X-CL ; X-LCL ; R-UCL ;R-CL ;Kích Thước; Cận Trên; Cận Dưới;</span> </small>
-                          
+                                <small class="form-text text-muted">Vui lòng nhập kiểu dữ liệu là số thực và tối đa là 5 chữ số thập phân ở các mục <span class="font-weight-bold">X-UCL ; X-CL ; X-LCL ; R-UCL ;R-CL ;Kích Thước; Cận Trên; Cận Dưới;</span> </small>
+
                             </div>
                         </div>
                         <!-- Form tolerance end -->
@@ -834,18 +845,10 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
 
     })
 
-    function clearSymbol(img_symbol_id_1, img_symbol_id_2, img_symbol_id_3) {
+    function clearSymbol(img_symbol_id_1) {
         if (img_symbol_id_1) {
             $("#" + img_symbol_id_1).attr("src", "");
             document.getElementById(img_symbol_id_1).style.display = 'none';
-        }
-        if (img_symbol_id_2) {
-            $("#" + img_symbol_id_2).attr("src", "");
-            document.getElementById(img_symbol_id_2).style.display = 'none';
-        }
-        if (img_symbol_id_3) {
-            $("#" + img_symbol_id_3).attr("src", "");
-            document.getElementById(img_symbol_id_3).style.display = 'none';
         }
 
     }
@@ -858,11 +861,6 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
         if (chart_input == "Biểu đồ điều tra năng lực công đoạn") {
             x_ucl_form.classList.add('d-none');
             removeRequired(inputElements);
-            // document.getElementById("x_ucl_input").disabled = true;
-            // document.getElementById("x_cl_input").disabled = true;
-            // document.getElementById("x_lcl_input").disabled = true;
-            // document.getElementById("r_ucl_input").disabled = true;
-            // document.getElementById("r_cl_input").disabled = true;
             addValueNull(inputElements);
             while (selectFormInput.firstChild) {
                 selectFormInput.removeChild(selectFormInput.firstChild);
@@ -880,14 +878,9 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
                 selectFormInput.appendChild(opt);
             }
         } else {
+            value = 'OK/NG'
             x_ucl_form.classList.remove('d-none');
             addRequired(inputElements)
-            // document.getElementById("x_ucl_input").disabled = false;
-            // document.getElementById("x_cl_input").disabled = false;
-            // document.getElementById("x_lcl_input").disabled = false;
-            // document.getElementById("r_ucl_input").disabled = false;
-            // document.getElementById("r_cl_input").disabled = false;
-
             while (selectFormInput.firstChild) {
                 selectFormInput.removeChild(selectFormInput.firstChild);
             }
@@ -916,11 +909,7 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
             "Biểu đồ điều tra năng lực công đoạn") {
             x_ucl_form.classList.add('d-none');
             removeRequired(inputElements);
-            // document.getElementById("x_ucl_input").disabled = true;
-            // document.getElementById("x_cl_input").disabled = true;
-            // document.getElementById("x_lcl_input").disabled = true;
-            // document.getElementById("r_ucl_input").disabled = true;
-            // document.getElementById("r_cl_input").disabled = true;
+
             addValueNull(inputElements);
             inputElements.forEach(function(element) {
                 // console.log()
@@ -928,20 +917,32 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
         } else {
             x_ucl_form.classList.remove('d-none');
             addRequired(inputElements)
-            // document.getElementById("x_ucl_input").disabled = false;
-            // document.getElementById("x_cl_input").disabled = false;
-            // document.getElementById("x_lcl_input").disabled = false;
-            // document.getElementById("r_ucl_input").disabled = false;
-            // document.getElementById("r_cl_input").disabled = false;
+
         }
         var type_allowance_input = $('#type_allowance_input');
         if (form_input == "Checksheet") {
-            type_allowance_input.append('<option value="OK/NG" selected="selected">OK/NG</option>')
-            // type_allowance_input.val("OK/NG") 
-
+            // type_allowance_input.append('<option value="OK/NG" selected="selected">OK/NG</option>')
+            // // type_allowance_input.val("OK/NG") 
+            // $("#type_allowance_input option[value='Min']").remove();
+            // $("#type_allowance_input option[value='Max']").remove();
+            // $("#type_allowance_input option[value='±']").remove();
+            $('#type_allowance_input')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="OK/NG">OK/NG</option>')
+                .val('OK/NG');;
             type_allowance_input_change()
         } else {
-            $("#type_allowance_input option[value='OK/NG']").remove();
+            $('#type_allowance_input')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="Min">Min</option>')
+                .append('<option value="Max">Max</option>')
+                .append('<option value="±">±</option>')
+                .val('Min');;
+
         }
 
     }
@@ -962,27 +963,20 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
             unit_input_form.classList.add('d-none');
             select_tolerance_form.classList.add('col-3');
 
-            // document.getElementById("standard_dimension_input").disabled = true;
-            // document.getElementById("upper_input").disabled = true;
-            // document.getElementById("lower_input").disabled = true;
         } else if (type_allowance_input == "Min" || type_allowance_input == "Max") {
             standard_dimension_input_form.classList.remove('d-none');
             upper_input_form.classList.add('d-none');
             lower_input_form.classList.add('d-none');
             unit_input_form.classList.remove('d-none');
             unit_input_form.classList.remove('col-3');
-            // document.getElementById("standard_dimension_input").disabled = false;
-            // document.getElementById("upper_input").disabled = true;
-            // document.getElementById("lower_input").disabled = true;
+
         } else {
             standard_dimension_input_form.classList.remove('d-none');
             upper_input_form.classList.remove('d-none');
             lower_input_form.classList.remove('d-none');
             unit_input_form.classList.remove('col-3');
             unit_input_form.classList.remove('d-none');
-            // document.getElementById("standard_dimension_input").disabled = false;
-            // document.getElementById("upper_input").disabled = false;
-            // document.getElementById("lower_input").disabled = false;
+
         }
         var unDNoneForm = document.querySelectorAll(".tolerance_form  input.change-required")
         // console.log("on",unDNoneForm)
@@ -1006,24 +1000,20 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
             document.querySelector('.formula_input_form').classList.remove('d-none');
             document.querySelector('.formula_info_form').classList.remove('d-none');
 
-            // document.getElementById("number_element_input").disabled = false;
-            // document.getElementById("formula_input").disabled = false;
+
         } else if (type_formula_input == "Max" || type_formula_input == "Min" || type_formula_input == "Max-Min") {
             document.getElementById("number_element_input").readOnly = false;
             document.querySelector('.number_element_input_form').classList.add('d-none');
             document.querySelector('.formula_input_form').classList.add('d-none');
             document.querySelector('.formula_info_form').classList.add('d-none');
 
-            // document.getElementById("number_element_input").disabled = true;
-            // document.getElementById("formula_input").disabled = true;
         } else {
             document.getElementById("number_element_input").readOnly = false;
             document.querySelector('.number_element_input_form').classList.remove('d-none');
             document.querySelector('.formula_input_form').classList.remove('d-none');
             document.querySelector('.formula_info_form').classList.remove('d-none');
 
-            // document.getElementById("number_element_input").disabled = false;
-            // document.getElementById("formula_input").disabled = false;
+
         }
 
         var unDNoneForm = document.querySelectorAll(".form_formula  input.change-required")
@@ -1492,3 +1482,38 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
     }
 </script>
 <!-- Check input measurement_items_name  measurement_items_name= MIN   -->
+<!-- Select function -->
+<script>
+    $(document).ready(function() {
+        $("#management_level_input").select2({
+            theme: "classic",
+            templateResult: formatStateResult,
+            templateSelection: formatStateSelect,
+        });
+    });
+
+    function formatStateSelect(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        console.log(state.text)
+        var baseUrl = "/fiot-hdvn/";
+        var $state = $(
+            '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + '</span>'
+        );
+        console.log($state)
+        return $state;
+    };
+
+    function formatStateResult(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        console.log(state.text)
+        var baseUrl = "/fiot-hdvn/";
+        var $state = $(
+            '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + state.text + '</span>'
+        );
+        return $state;
+    };
+</script>

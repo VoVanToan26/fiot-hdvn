@@ -57,6 +57,7 @@ if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET
         $data_status = $row['status'];
         $data_management_level_two = $row['management_level_two'];
         $data_draw = $row['draw'];
+        $data_sign_create_form = $row['sign_create_form'];
     } else {
         $data_product_family = '';
         $data_part_no = '';
@@ -88,7 +89,20 @@ if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET
         $data_status = '';
         $data_management_level_two = '';
         $data_draw = '';
+        $data_sign_create_form = '';
     }
+}
+
+
+// Lọc account người lập form 
+
+$sqlsearch_create_form = "SELECT * FROM `tb_account` WHERE `username` = '$data_sign_create_form'";
+$resultsearch_create_form = mysqli_query($connect, $sqlsearch_create_form);
+if ($sqlsearch_create_form && $resultsearch_create_form->num_rows > 0) {
+    $row = $resultsearch_create_form->fetch_assoc();
+    $data_create_form = write_name($row['full_name']);
+} else {
+    $data_create_form = '';
 }
 // lọc tên máy
 $sqlsearch_machine_number = "SELECT * FROM `qc_tb_machine_number` WHERE `line` = '$data_line' AND `process` = '$data_process'";
@@ -323,26 +337,36 @@ for ($i = 0; $i < count($data_tb); $i++) {
 }
 
 $xAverage = round($sum_x_top_left / count($data_tb), 3);
-$rAverage = round($sum_x_bot_left / (count($data_tb) - 1), 3);
+if (count($data_tb) == 1) {
+    $rAverage = 0;
+} else {
+    $rAverage = round($sum_x_bot_left / (count($data_tb) - 1), 3);
+}
+
 $𝜎 = round($rAverage / $d2_arr[2], 3);
 
 // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
-
-if ($data_type_allowance == "±") { // 2 cận
-    $cp = round(($data_x_ucl - $data_x_lcl) / (6 * $𝜎), 3);
-    $cpk1 = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
-    $cpk2 = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
-    $cpk = min($cpk1, $cpk2);
-} else if ($data_type_allowance == "Min") {
-    $cp = null;
-    $cpk = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
-} else if ($data_type_allowance == "Max") {
-    $cp = null;
-    $cpk = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+if ($𝜎 != 0) {
+    if ($data_type_allowance == "±") { // 2 cận
+        $cp = round(($data_x_ucl - $data_x_lcl) / (6 * $𝜎), 3);
+        $cpk1 = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
+        $cpk2 = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+        $cpk = min($cpk1, $cpk2);
+    } else if ($data_type_allowance == "Min") {
+        $cp = null;
+        $cpk = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
+    } else if ($data_type_allowance == "Max") {
+        $cp = null;
+        $cpk = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+    } else {
+        $cp = null;
+        $cpk = null;
+    }
 } else {
     $cp = null;
     $cpk = null;
 }
+
 
 
 // print($xAverage . "<br>" . $rAverage . "<br>" . $𝜎 . "<br>" . $cp . "<br>" . $cpk1 . "<br>" . $cpk2 . "<br>" . $cpk);
@@ -542,6 +566,11 @@ if ($data_type_allowance == "±") { // 2 cận
         font-size: 24px;
     }
 </style>
+<script>
+    data_management_level = "<?php echo $data_management_level_one ?>"
+    filenames = data_management_level.split(';');
+    filenames.forEach(value => $('#management_img_box').append(`<img src='/fiot-hdvn/${value}' alt=""  style="display:flex; height: 38px; max-width:60px;">`))
+</script>
 <!-- new-form style -->
 <div id="sub-box-xrs-form" class="sub-box   w-100 row p-0 m-0">
     <div class="sb-item sb-center col-12 p-0">
@@ -590,30 +619,20 @@ if ($data_type_allowance == "±") { // 2 cận
                         <img src="../../projects/qc/img-qc/HD-logo.png" alt="HD-logo" style="width:50px;height:30px">
                     </div>
                     <!-- Loại biểu đồ -->
-                    <div class="heading-box-content flex-mid-cen flex-column col-8 text-center">
-                        <p class="content-name ">Biểu đồ kiểm tra năng lực công đoạn</p>
-                        <p class="form-name">(X-Rs,HISTOGRAM)</p>
+                    <div class="col-11 d-flex flex-column">
+                        <div class="heading-box-content flex-mid-cen flex-row text-center w-100 h-75">
+                            <h2 style="font-size: 33px" class="content-name "><?php echo $data_chart ?> </h2>
+                            <p class="form-name pl-3">(<?php echo $data_form ?>, HISTOGRAM)</p>
+                        </div>
+
+                        <div id="management_img_box" class="w-100 flex-mid-cen  p-1">
+
+                        </div>
                     </div>
+
                     <!-- Form name -->
 
                     <!-- img1 -->
-                    <div class="row col-3 ">
-                        <div class="col-6 flex-mid-cen">
-                            <?php
-                            if ($data_management_level_one != '') {
-                                echo '<img src="../../' . $data_management_level_one . '" alt="C-logo" class="pt-2">';
-                            }
-                            ?>
-
-                        </div>
-                        <div class="col-6 flex-mid-cen">
-                            <?php
-                            if ($data_management_level_two != '') {
-                                echo '<img src="../../' . $data_management_level_two . '" alt="C-logo" class="pt-2">';
-                            }
-                            ?>
-                        </div>
-                    </div>
                     <!-- img2 -->
                 </div>
             </div>
@@ -625,10 +644,10 @@ if ($data_type_allowance == "±") { // 2 cận
                             <td class="text-nowrap">Xác nhận</td>
                         </tr>
                         <tr class="h-20 text-left">
-                            <td class="no-border-bot">Mgr</td>
+                            <td class="no-border-bot">GM</td>
                         </tr>
                         <tr class="h-60 ">
-                            <td id="xrs-confirm-mgr" class="no-border-top text-center" onclick="show_confirm_modal('xrs-confirm-mgr','ToanMgr')"></td>
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
                         </tr>
                     </table>
                 </div>
@@ -751,7 +770,15 @@ if ($data_type_allowance == "±") { // 2 cận
                         </tr>
                         <tr>
                             <td class="no-border-right">Năm</td>
-                            <td class="no-border-left">2020</td>
+                            <td class="no-border-left">
+                                <?php
+                                if (substr($data_tb[0][4], 0, 4) != substr($data_tb[count($data_tb) - 1][4], 0, 4)) {
+                                    echo (substr($data_tb[0][4], 0, 4) . " - " . substr($data_tb[count($data_tb) - 1][4], 0, 4));
+                                } else {
+                                    echo (substr($data_tb[count($data_tb) - 1][4], 0, 4));
+                                }
+                                ?>
+                            </td>
                             <td>Ngày</td>
                             <?php
                             for ($i = 0; $i < 30; $i++) {
@@ -921,7 +948,7 @@ if ($data_type_allowance == "±") { // 2 cận
                                     }
                                 }
                             }
-                            // print($count_sign_day_sv);
+                            // print($count_sign_day_sv . "<br>" . $count_sign_week . "<br>" . count($data_tb));
                             for ($i = $last_sign_week + $button_sign_week; $i < 30; $i++) {
                                 # code...
                                 echo '<td style="width:auto"></td>';
@@ -1263,11 +1290,11 @@ if ($data_type_allowance == "±") { // 2 cận
                 value: xrs_tl_pl[2],
                 dashStyle: 'longdash'
             }, {
-                color: 'red',
-                width: 1,
+                color: 'blue',
+                width: 1.5,
                 zIndex: 5,
                 value: xrs_tl_pl[1],
-                dashStyle: 'longdashdot'
+                dashStyle: 'line'
             }],
 
         },
@@ -1362,11 +1389,11 @@ if ($data_type_allowance == "±") { // 2 cận
             },
             gridLineWidth: 1,
             plotLines: [{
-                color: 'red',
-                width: 1,
+                color: 'blue',
+                width: 1.5,
                 zIndex: 5,
                 value: xrs_bl_pl[0],
-                dashStyle: 'longdashdot'
+                dashStyle: 'line'
             }, {
                 color: 'red',
                 width: 1.5,

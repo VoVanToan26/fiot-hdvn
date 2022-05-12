@@ -1,9 +1,5 @@
 <?php
-// if(isset($_POST)){
-//     var_dump($_POST);
-//     var_dump($_POST);
-//     die();
-// }
+
 function check_duplicate($name, $table_name)
 {
     $connect = $GLOBALS['connect'];
@@ -365,9 +361,9 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $lower_input = trim($_POST['lower_input']);
     $unit_input = trim($_POST['unit_input']);
 
-  
-    $use_formula_input = $_POST['use_formula_input'];
-  
+
+    $use_formula_input = trim($_POST['use_formula_input']);
+    // echo "<script>alert($use_formula_input)</script>";
     if ($use_formula_input == "Yes") $use_formula_input = 'Yes';
     else $use_formula_input = 'No';
     $type_formula_input = trim($_POST['type_formula_input']);
@@ -396,45 +392,31 @@ else if (isset($_POST["register_measurement_items_function"])) {
     }
     // $definition_formula_input = $definition_formula_input_one . ';' . $definition_formula_input_two . ';' . $definition_formula_input_three . ';' . $definition_formula_input_four . ';' . $definition_formula_input_five . ';' . $definition_formula_input_six . ';' . $definition_formula_input_seven . ';' . $definition_formula_input_eight . ';' . $definition_formula_input_nine . ';' . $definition_formula_input_ten;
     // name of the uploaded file
-    // $management_level_one = $_FILES['management_level_one_input']['name'];
-    // $management_level_two = $_FILES['management_level_two_input']['name'];
-
-    // $file_name_management_level_one = $no_measurement_items_input . '-' . '1' . '-' . $management_level_one;
-    // $file_name_management_level_two = $no_measurement_items_input . '-' . '2' . '-' . $management_level_two;
-    // // destination of the file on the server
-    // $destination_management_level_one = 'projects/qc/views/default/qc_imgs/' . $file_name_management_level_one;
-    // $destination_management_level_two = 'projects/qc/views/default/qc_imgs/' . $file_name_management_level_two;
-    // $destination_draw = 'projects/qc/views/default/qc_imgs/' . $file_name_draw;
-
-    // // get the file extension
-    // $extension_management_level_one = pathinfo($management_level_one, PATHINFO_EXTENSION);
-    // $extension_management_level_two = pathinfo($management_level_two, PATHINFO_EXTENSION);
-
-    // // the physical file on a temporary uploads directory on the server
-    // $file_management_level_one = $_FILES['management_level_one_input']['tmp_name'];
-    // $size_management_level_one = $_FILES['management_level_one_input']['size'] / 1024;
-
-    // $file_management_level_two = $_FILES['management_level_two_input']['tmp_name'];
-    // $size_management_level_two = $_FILES['management_level_two_input']['size'] / 1024;
-    // $size_show_management_level_one = $size_management_level_one / 1024;
-    // $size_show_management_level_two = $size_management_level_two / 1024;
-    $management_levels = $_POST['management_level_input'];
-    //get user_mail_approval
-    $list_management_level = '';
-    foreach ($management_levels as $management_level) {
-        if ($list_management_level == '') {
-            $list_management_level = $management_level;
-        } else {
-            $list_management_level = $list_management_level . ';' . $management_level;
-        }
-    }
-
-    echo "<script>alert(" . $list_management_level . ")</script>";
+    $management_level_one = $_FILES['management_level_one_input']['name'];
+    $management_level_two = $_FILES['management_level_two_input']['name'];
     $draw = $_FILES['draw_input']['name'];
+
+    $file_name_management_level_one = $no_measurement_items_input . '-' . '1' . '-' . $management_level_one;
+    $file_name_management_level_two = $no_measurement_items_input . '-' . '2' . '-' . $management_level_two;
     $file_name_draw = $no_measurement_items_input . '-' . '3' . '-' . $draw;
+    // destination of the file on the server
+    $destination_management_level_one = 'projects/qc/views/default/qc_imgs/' . $file_name_management_level_one;
+    $destination_management_level_two = 'projects/qc/views/default/qc_imgs/' . $file_name_management_level_two;
+    $destination_draw = 'projects/qc/views/default/qc_imgs/' . $file_name_draw;
+
+    // get the file extension
+    $extension_management_level_one = pathinfo($management_level_one, PATHINFO_EXTENSION);
+    $extension_management_level_two = pathinfo($management_level_two, PATHINFO_EXTENSION);
     $extension_draw = pathinfo($draw, PATHINFO_EXTENSION);
 
+    // the physical file on a temporary uploads directory on the server
+    $file_management_level_one = $_FILES['management_level_one_input']['tmp_name'];
+    $size_management_level_one = $_FILES['management_level_one_input']['size'] / 1024;
+    $size_show_management_level_one = $size_management_level_one / 1024;
 
+    $file_management_level_two = $_FILES['management_level_two_input']['tmp_name'];
+    $size_management_level_two = $_FILES['management_level_two_input']['size'] / 1024;
+    $size_show_management_level_two = $size_management_level_two / 1024;
 
     $file_draw = $_FILES['draw_input']['tmp_name'];
     $size_draw = $_FILES['draw_input']['size'] / 1024;
@@ -474,29 +456,41 @@ else if (isset($_POST["register_measurement_items_function"])) {
     // print("30 management_level_two: " . $file_name_management_level_two . "<br>");
     // print("31 draw: " . $file_name_draw . "<br>");
     // print("32 sig: " . $sig . "<br>");
-    // die();
+
     if (
         $product_family_input == '' || $part_no_input == '' || $process_input == '' || $line_input == '' || $measurement_items_input == '' || $frequency_input == '' || $measuring_tools_input == '' ||
-       $type_allowance_input == '' || $form_input == '' || $chart_input == ''  || $no_measurement_items_input == '' || $measuring_department_input == ''
+        $standard_dimension_input == '' || $unit_input == '' || $type_allowance_input == '' || $form_input == '' || $chart_input == '' || $file_name_management_level_one == '' || $file_name_management_level_two == ''
+        || $file_name_draw == '' || $no_measurement_items_input == '' || $measuring_department_input == ''
     ) {
         echo "<script>alert('Thiếu dữ liệu! Vui lòng nhập lại ');</script>";
         die();
     } else {
+        if (!in_array($extension_management_level_one, ['png', 'jpg', 'jpeg']) || !in_array($extension_management_level_two, ['png', 'jpg', 'jpeg']) || !in_array($extension_draw, ['png', 'jpg', 'jpeg'])) {
+            echo "<script>alert('Sai định dạng ảnh');</script>";
+            // echo 'You file extension must be .zip, .pdf, .docx, .jpg and .png';
+        } else if ($size_management_level_one > 6000 || $size_management_level_two > 6000 || $size_draw > 6000) {
+            echo "<script>alert('Dung lượng ảnh quá lớn');</script>";
+            // file shouldn't be larger than 1Megabyte
+            // echo "File too large!";
 
-        $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
+        } else {
+            if (move_uploaded_file($file_management_level_one, $destination_management_level_one) && move_uploaded_file($file_management_level_two, $destination_management_level_two) && move_uploaded_file($file_draw, $destination_draw)) {
+                $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
                 `measuring_tools`, `standard_dimension`, `upper`, `lower`, `unit`, `type_allowance`, `form`, `x_ucl`, `x_cl`, `x_lcl`, `r_ucl`, `r_cl`, `use_formula`, 
                 `type_formula`, `number_element`, `definition_formula`, `formula`, `allowance_display`, `chart`, `management_level_one`, `no_measurement_items`, 
-                `measuring_department`, `draw`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
+                `measuring_department`, `management_level_two`, `draw`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
                 '$measurement_items_input', '$frequency_input', '$measuring_tools_input', '$standard_dimension_input', '$upper_input', '$lower_input', '$unit_input', '$type_allowance_input', '$form_input',
                 '$x_ucl_input', '$x_cl_input', '$x_lcl_input', '$r_ucl_input', '$r_cl_input', '$use_formula_input', '$type_formula_input', '$number_element_input', '$definition_formula_input_result',
-                '$formula_input', '$allowance_display_input', '$chart_input',
-                '$list_management_level', 
-                '$no_measurement_items_input', '$measuring_department_input', '$destination_draw',
+                '$formula_input', '$allowance_display_input', '$chart_input', '$destination_management_level_one', '$no_measurement_items_input', '$measuring_department_input', '$destination_management_level_two', '$destination_draw',
                 '$sig')";
 
-        if (mysqli_query($connect, $sqlregister_measurement_items)) {
-            mysqli_close($connect);
-            echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
+                if (mysqli_query($connect, $sqlregister_measurement_items)) {
+                    mysqli_close($connect);
+                    echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
+                }
+            } else {
+                echo "<script>warning();</script>";
+            }
         }
     }
 } else if (isset($_POST["delete_measurement_items_function"])) {
@@ -557,7 +551,7 @@ else if (isset($_POST["register_management_level_function"])) {
     // Count total uploaded files
     $totalfiles = count($_FILES['management_level_img_input']['name']);
     $destination = 'projects/qc/img-qc/img_management_level/';
-    // echo "<script>alert('" . $totalfiles ."-". $filename. "-". $path."');</script>";
+        // echo "<script>alert('" . $totalfiles ."-". $filename. "-". $path."');</script>";
 
     // Looping over all files
     for ($i = 0; $i < $totalfiles; $i++) {
@@ -566,11 +560,11 @@ else if (isset($_POST["register_management_level_function"])) {
         $path =  $destination . $filename;
         // echo "<script>alert('" . $totalfiles ."-". $filename. "-". $path."');</script>";
         // Upload files and store in database
-        $check = check_duplicate($filename, 'qc_tb_management_level');
-
+        $check=check_duplicate($filename, 'qc_tb_management_level');
+  
         if (true) {
             if (move_uploaded_file($file,  $path)) {
-
+        
                 // Image db insert sql
                 $insert  = "INSERT INTO `qc_tb_management_level`(`management_level_img`, `management_level_name`, `sig`) VALUES ('$path', '$filename', '$sig')";
                 if (mysqli_query($connect, $insert)) {
@@ -581,7 +575,7 @@ else if (isset($_POST["register_management_level_function"])) {
             } else {
                 echo "<script>alert('Error in uploading file - ' .  $file . '<br/>');</script>";;
             }
-        }
+        } 
     }
     mysqli_close($connect);
     echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_management_level'</script>";
