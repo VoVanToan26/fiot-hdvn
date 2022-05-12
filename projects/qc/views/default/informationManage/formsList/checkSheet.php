@@ -12,7 +12,6 @@ require_once "../dbFunction/handle_data.php";
     }
 </script>
 <style type="text/css">
-
     .cs-main-table {
         table-layout: fixed;
     }
@@ -82,7 +81,7 @@ require_once "../dbFunction/handle_data.php";
                             <td class="no-border-bot">Mgr</td>
                         </tr>
                         <tr class="h-60 ">
-                            <td id="xrs-confirm-mgr" class="no-border-top text-center" ><?php echo $data_create_form ?></td>
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
                         </tr>
                     </table>
                 </div>
@@ -99,93 +98,39 @@ require_once "../dbFunction/handle_data.php";
                             <td class="col-4 no-border-bot">TL</td>
                         </tr>
                         <tr class="h-60 ">
-                    
-                            <td id="cs-confirm-production-mgr" class="no-border-top text-center" >
-                                <?php if (count($data_tb_sign) == 32)
-                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_mgr")"</i>';
-                                else if (count($data_tb_sign) > 32)
-                                    echo $data_tb_sign[30][6]  ;
+
+                            <td id="cs-confirm-production-mgr" class="no-border-top text-center">
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                    echo $data_tb_sign[30][6];
                                 else
                                     echo null;
                                 ?></td>
-                            <td id="cs-confirm-production-sup" class="no-border-top text-center" >
-                            <?php if (count($data_tb_sign) == 31)
-                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_sup")"</i>';
-                            else if (count($data_tb_sign) > 31)
-                                echo $data_tb_sign[30][5] ;
-                            else
-                                echo null;
-                            ?></td>
+                            <td id="cs-confirm-production-sup" class="no-border-top text-center">
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                    echo $data_tb_sign[$count_sig - 1][5];
+                                else
+                                    echo null;
+                                ?></td>
                             </td>
-                            <td id="cs-confirm-production-tl" class="no-border-top text-center" >
-                            <?php if (count($data_tb_sign) == 30)
-                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_tl")"</i>';
-                            else if (count($data_tb_sign) > 30)
-                                echo $data_tb_sign[30][4];
-                            else
-                                echo null;
-                            ?></td>
+                            <td id="cs-confirm-production-tl" class="no-border-top text-center">
+                                <?php
+                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                    echo $data_tb_sign[$count_sig - 1][4];
+                                else
+                                    echo null;
+                                ?></td>
                             </td>
-                   
+
                         </tr>
                     </table>
                 </div>
             </div>
-            <!-- <div class="head-right col  row d-flex text-center w-30">
-                <div class="sub-head-right w-40 d-flex justify-content-center">
-                    <table class=" h-100 w-50">
-                        <tr class="h-25 table-borderless">
-                            <td></td>
-                        </tr>
-                        <tr class="h-25 table-bordered">
-                            <td class="w-25">Phê duyệt</td>
-                        </tr>
-                        <tr class="h-50 table-bordered">
-                            <td id="cs-confirm-mgr" class="no-border-top text-center" onclick="show_confirm_modal('cs-confirm-mgr','nameOfMgr')"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="sub-head-right w-60 ">
-                    <table class="table-bordered h-100 w-100">
-                        <tr class="h-25">
-                            <td colspan="3" class="text-center">Bộ phận sản xuất</td>
-                        </tr>
-                        <tr class="text-center  h-25">
-                            <td class="col-4">Duyệt</td>
-                            <td class="col-4">Kiểm</td>
-                            <td class="col-4">Lập</td>
-                        </tr>
-                        <tr class="h-50">
-                            <td id="cs-confirm-production-mgr" class="no-border-top text-center" >
-                                <?php if (count($data_tb_sign) == 30)
-                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_mgr")"</i>';
-                                else if (count($data_tb_sign) > 30)
-                                    echo $data_tb_sign[30][6] . '<br>' . $data_tb_sign[30][2];
-                                else
-                                    echo null;
-                                ?></td>
-                            <td id="cs-confirm-production-sup" class="no-border-top text-center" >
-                            <?php if (count($data_tb_sign) == 30)
-                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_sup")"</i>';
-                            else if (count($data_tb_sign) > 30)
-                                echo $data_tb_sign[30][5] . '<br>' . $data_tb_sign[30][2];
-                            else
-                                echo null;
-                            ?></td>
-                            </td>
-                            <td id="cs-confirm-production-tl" class="no-border-top text-center" >
-                            <?php if (count($data_tb_sign) == 30)
-                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_tl")"</i>';
-                            else if (count($data_tb_sign) > 30)
-                                echo $data_tb_sign[30][4] . '<br>' . $data_tb_sign[30][2];
-                            else
-                                echo null;
-                            ?></td>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div> -->
 
         </div>
         <div class="table-body d-flex flex-row">
@@ -334,6 +279,7 @@ require_once "../dbFunction/handle_data.php";
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
                 <p><?php echo $_COOKIE['full_name'] . ' (' . $_COOKIE['username'] . ')' ?></p>
                 <input id="show_sub_id" hidden></input>
@@ -387,15 +333,18 @@ require_once "../dbFunction/handle_data.php";
                 </button>
             </div>
             <div class="modal-body">
-
                 <!-- <input id="show_sub_id" hidden></input> -->
                 <p> Xác nhận duyệt form với tên là: <span id="show_data_confirm">
                         <p><?php echo $_COOKIE['full_name'] . '<br> MSNV:' . $_COOKIE['username']  ?></p>
                     </span></p>
+                <form id="sign_confirm_approval" action="<?php echo $SCRIPT_NAME. "/qc/sign"; ?>" method="post">
+                    <input hidden id="sub_id_search_input" name="sub_id_search_input">
+                    <input hidden id="sign_form" name="sign_form">
+                </form>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-outline-light" onclick="sign_day_function()">Duyệt</button>
+                <button type="submit" form="sign_confirm_approval" class="btn btn-outline-light">Duyệt</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -425,52 +374,11 @@ require_once "../dbFunction/handle_data.php";
     }
 
     function sign_form_confirm_function(name) {
-        switch (name) {
-            case 'mgr':
-                // code block
-                break;
-            case 'sup':
-                // code block
-                break;
-            default:
-                // code block
-        }
+        $("#sign_form").val(name);
+        $("#sub_id_search_input").val('.<?php echo $sub_id_search ?>.');
         $("#form_confirm_modal").modal('toggle');
     }
 
-    function sign_function() {
-        var sub_id = document.getElementById("show_sub_id").value;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var myArr = JSON.parse(this.responseText);
-                if (myArr[0] != false) {
-                    location.reload();
-                } else {
-                    alert("ERR");
-                }
-            }
-        };
-        var link_get_data = SCRIPT_NAME + "/qc/sign";
-        xmlhttp.open(
-            "GET",
-            `${link_get_data}?sign_day=yes&sub_id=${sub_id}`,
-            true
-        );
-        xmlhttp.send();
-    }
-    // duyệt TL form
-    function sign_tl_form_confirm_function() {
-        alert("TL CONFIRM");
-    }
-    // duyệt SUP form
-    function sign_sup_form_confirm_function() {
-        alert("SUP CONFIRM");
-    }
-    // duyệt MGR form
-    function sign_mgr_form_confirm_function() {
-        alert("MGR CONFIRM");
-    }
 
     function sign_day_function() {
         var sub_id = document.getElementById("show_sub_id").value;

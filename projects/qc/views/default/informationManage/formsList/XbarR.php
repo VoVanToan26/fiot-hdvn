@@ -520,9 +520,7 @@ $rAverage = round(array_sum($r_value) / count($data_manulot), 3); //R trung bìn
     }
 </style>
 <!-- style hight chart -->
-<style>
-    /* top right */
-</style>
+
 <script>
     data_management_level = "<?php echo $data_management_level_one ?>"
     filenames = data_management_level.split(';');
