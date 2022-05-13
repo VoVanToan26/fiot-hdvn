@@ -550,9 +550,13 @@ else{
     }
 </style>
 <!-- style hight chart -->
+<<<<<<< HEAD
 <style>
     /* top right */
 </style>
+=======
+
+>>>>>>> a36b2e787ce46eda6b8eb7bbd7c1d38a089c2111
 <script>
     data_management_level = "<?php echo $data_management_level_one ?>"
     filenames = data_management_level.split(';');

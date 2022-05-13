@@ -222,6 +222,7 @@ if ($resultcheck_tb_sign && $resultcheck_tb_sign->num_rows > 0) {
         $data_tb_sign[$i][8] = $row['status'];
         $data_tb_sign[$i][9] = $row['sig'];
         $i++;
+
     }
 } else {
     $data_tb_sign[0][0] = 0;
@@ -234,8 +235,9 @@ if ($resultcheck_tb_sign && $resultcheck_tb_sign->num_rows > 0) {
     $data_tb_sign[0][7] = '';
     $data_tb_sign[0][8] = '';
     $data_tb_sign[0][9] = '';
+    $data_tb_sign_week="";
 }
-
+$count_sig= count($data_tb_sign) ;
 // lọc thiết bị đo
 $sqlsearch_measuring_tools = "SELECT * FROM `tb_measuring_tools` WHERE `measuring_tools` = '$data_measuring_tools'";
 $resultsearch_measuring_tools = mysqli_query( $connect, $sqlsearch_measuring_tools );
