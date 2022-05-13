@@ -429,7 +429,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
         }
     }
 
-    echo "<script>alert(" . $list_management_level . ")</script>";
+    // echo "<script>alert(" . $list_management_level . ")</script>";
     $draw = $_FILES['draw_input']['name'];
     $file_name_draw = $no_measurement_items_input . '-' . '3' . '-' . $draw;
     $extension_draw = pathinfo($draw, PATHINFO_EXTENSION);
