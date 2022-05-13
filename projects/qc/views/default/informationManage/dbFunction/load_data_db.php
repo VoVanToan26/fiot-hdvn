@@ -1,4 +1,5 @@
 <?php 
+require_once "../dbFunction/config_db.php";
 function write_name($username){
     $sign_name_arr = preg_split("/\s+/", $username);
     // print($sign_name_arr[count($sign_name_arr) - 1]);
@@ -14,20 +15,7 @@ function usertoName($data_account,$user){
     }
     return 'NoName';
 }
-//connfig db cloud
-define('DB_SERVER', 'ifsmvp.com');
-define('DB_USERNAME', 'ifsmvp_tech');
-define('DB_PASSWORD', 'ifsmvp@2021');
-define('DB_NAME', 'ifsmvp_hdvn_database');
 
-// define('DB_SERVER', 'localhost');
-// define('DB_USERNAME', 'root');
-// define('DB_PASSWORD', '');
-// define('DB_NAME', 'ifsmvp_hdvn_database');
-
-date_default_timezone_set("Asia/Ho_Chi_Minh");
-$connect = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-mysqli_set_charset($connect, 'UTF8');
 
 if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET['measurement_items'] && $_GET['chart'])  {
     $product_family = isset($_GET['product_family']) ? $_GET['product_family'] : NULL;
@@ -323,59 +311,5 @@ if ($resultcheck_account && $resultcheck_account->num_rows > 0) {
 $d2_arr = [0, 0, 1.13, 1.69, 2.06, 2.33, 2.53];
 $a2_arr = [0, 0, 1.88, 1.02, 0.73, 0.58, 0.48];
 $d4_arr = [00, 0, 3.27, 2.58, 2.25, 2.12, 2.00];
-// echo $d2_arr[2];
-// $data_upper_chart = $data_x_cl + 2*($data_x_ucl - $data_x_cl);
-// // echo $data_upper_chart ;
-// $data_lower_chart = $data_x_cl - 2*($data_x_cl - $data_x_lcl);
-// $data_step_chart = ($data_upper_chart - $data_lower_chart)/16;
-
-// $sign_name = $_COOKIE['full_name'];
-// echo($sign_name);
-
-
-
-//Tính toán công thức form
-// => X
-// $arr_x_top_left = array();
-// $arr_x_bot_left = array();
-// $sum_x_top_left = 0;
-// $sum_x_bot_left = 0;
-// for($i=0; $i < count($data_tb); $i++){
-//     $arr_x_top_left[$i] = $data_tb[$i][17];
-//     $sum_x_top_left += $data_tb[$i][17];
-//     // echo($data_tb[$i][17] . ',');
-//     if($i < count($data_tb) - 1){
-//         $arr_x_bot_left[$i] = abs($data_tb[$i + 1][17] - $data_tb[$i][17]);
-//         $sum_x_bot_left += $arr_x_bot_left[$i];
-//     }
-// }
-
-// $xAverage = round($sum_x_top_left/count($data_tb),3);
-// $rAverage = round($sum_x_bot_left/(count($data_tb)-1),3);
-// $𝜎 = round($rAverage / $d2_arr[2],3);
-
-// xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
-
-// if($data_type_allowance == "±"){ // 2 cận
-//     $cp = round(($data_x_ucl-$data_x_lcl)/(6*$𝜎),3);
-//     $cpk1 = round(($xAverage - $data_x_lcl)/(3*$𝜎),3);
-//     $cpk2 = round(($data_x_ucl - $xAverage)/(3*$𝜎),3);
-//     $cpk = min($cpk1,$cpk2);
-// }
-// else if($data_type_allowance == "Min"){
-//     $cp = null;
-//     $cpk = round(($xAverage - $data_x_lcl)/(3*$𝜎),3);
-// }
-// else if($data_type_allowance == "Max"){
-//     $cp = null;
-//     $cpk = round(($data_x_ucl - $xAverage)/(3*$𝜎),3);
-// }
-// else{
-//     $cp = null;
-//     $cpk = null;
-// }
-
-
-// print($xAverage . "<br>" . $rAverage . "<br>" . $𝜎 . "<br>" . $cp . "<br>" . $cpk1 . "<br>" . $cpk2 . "<br>" . $cpk);
 
 ?>

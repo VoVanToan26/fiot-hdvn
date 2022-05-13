@@ -93,7 +93,7 @@ if ($resultcheck_frequency && $resultcheck_frequency->num_rows > 0) {
 }
 
 //select tb_measuring_tools
-$sqlcheck_measuring_tools = "SELECT DISTINCT `measuring_tools` FROM `tb_measuring_tools` ORDER BY `id` ASC";
+$sqlcheck_measuring_tools = "SELECT  `measuring_tools` FROM `tb_measuring_tools` ORDER BY `id` ASC";
 $resultcheck_measuring_tools = mysqli_query($connect, $sqlcheck_measuring_tools);
 // $check_frequency = mysqli_fetch_assoc( $resultcheck_frequency );
 if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) {
@@ -400,7 +400,8 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                             </div>
                             <div class="form-group col-3">
                                 <label for="no_measurement_items_input" class="col-form-label">No. Hạng Mục</label>
-                                <input required type="text" class="form-control" id="no_measurement_items_input" name="no_measurement_items_input" value="<?php echo ($data_measurement_items[count($data_measurement_items) - 1][0] + 1); ?>" readonly>
+                                <input required type="text" class="form-control" id="no_measurement_items_input" name="no_measurement_items_input" 
+                                value="<?php echo ($data_measurement_items[0][0] + 1); ?>" readonly>
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
 
                             </div>

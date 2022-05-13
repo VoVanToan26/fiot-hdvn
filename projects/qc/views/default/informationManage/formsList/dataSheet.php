@@ -470,18 +470,11 @@ $chart_step = ($chart_max - $chart_min) / 10;
         document.getElementById("show_sub_id_week").value = fx_send_sub_id_week;
         $("#confirm-modal-week").modal('toggle');
     }
-
+    
     function sign_form_confirm_function(name) {
-        switch (name) {
-            case 'mgr':
-                // code block
-                break;
-            case 'sup':
-                // code block
-                break;
-            default:
-                // code block
-        }
+        $("#sign_form").val(name);
+        $("#sub_id_search_input").val('<?php echo $sub_id_search ?>');
+        $("#current_url").val(document.URL);
         $("#form_confirm_modal").modal('toggle');
     }
 

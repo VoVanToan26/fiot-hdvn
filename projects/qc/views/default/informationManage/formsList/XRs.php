@@ -1,18 +1,5 @@
 <?php
-//connfig db cloud
-define('DB_SERVER', 'ifsmvp.com');
-define('DB_USERNAME', 'ifsmvp_tech');
-define('DB_PASSWORD', 'ifsmvp@2021');
-define('DB_NAME', 'ifsmvp_hdvn_database');
-
-// define('DB_SERVER', 'localhost');
-// define('DB_USERNAME', 'root');
-// define('DB_PASSWORD', '');
-// define('DB_NAME', 'ifsmvp_hdvn_database');
-
-date_default_timezone_set("Asia/Ho_Chi_Minh");
-$connect = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-mysqli_set_charset($connect, 'UTF8');
+require_once "../dbFunction/config_db.php";
 
 if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET['measurement_items'] && $_GET['chart']) {
     $product_family = isset($_GET['product_family']) ? $_GET['product_family'] : NULL;
@@ -303,6 +290,10 @@ if ($resultcheck_account && $resultcheck_account->num_rows > 0) {
 $d2_arr = [0, 0, 1.13, 1.69, 2.06, 2.33, 2.53];
 $a2_arr = [0, 0, 1.88, 1.02, 0.73, 0.58, 0.48];
 $d4_arr = [00, 0, 3.27, 2.58, 2.25, 2.12, 2.00];
+
+
+
+
 // echo $d2_arr[2];
 $data_upper_chart = $data_x_cl + 2 * ($data_x_ucl - $data_x_cl);
 // echo $data_upper_chart ;
@@ -370,6 +361,42 @@ if ($𝜎 != 0) {
 
 
 // print($xAverage . "<br>" . $rAverage . "<br>" . $𝜎 . "<br>" . $cp . "<br>" . $cpk1 . "<br>" . $cpk2 . "<br>" . $cpk);
+?>
+<?php
+//select qc_tb_sign
+$sqlcheck_tb_sign = "SELECT * FROM `qc_tb_sign` WHERE `sub_id` LIKE '$sub_id_search%' ORDER BY `id` ASC";
+$resultcheck_tb_sign = mysqli_query($connect, $sqlcheck_tb_sign);
+if ($resultcheck_tb_sign && $resultcheck_tb_sign->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_tb_sign->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_tb_sign[$i][0] = $row['id'];
+        $data_tb_sign[$i][1] = $row['sub_id'];
+        $data_tb_sign[$i][2] = $row['sign_day'];
+        $data_tb_sign[$i][3] = $row['sign_week'];
+        $data_tb_sign[$i][4] = $row['sign_tl'];
+        $data_tb_sign[$i][5] = $row['sign_sup'];
+        $data_tb_sign[$i][6] = $row['sign_mgr'];
+        $data_tb_sign[$i][7] = $row['sign_creator'];
+        $data_tb_sign[$i][8] = $row['status'];
+        $data_tb_sign[$i][9] = $row['sig'];
+        $i++;
+    }
+} else {
+    $data_tb_sign[0][0] = 0;
+    $data_tb_sign[0][1] = '';
+    $data_tb_sign[0][2] = '';
+    $data_tb_sign[0][3] = '';
+    $data_tb_sign[0][4] = '';
+    $data_tb_sign[0][5] = '';
+    $data_tb_sign[0][6] = '';
+    $data_tb_sign[0][7] = '';
+    $data_tb_sign[0][8] = '';
+    $data_tb_sign[0][9] = '';
+    $data_tb_sign_week = "";
+}
+$count_sig = count($data_tb_sign);
 ?>
 <style type="text/css">
     .box-shadow {
@@ -663,31 +690,31 @@ if ($𝜎 != 0) {
                             <td class="col-4 no-border-bot">Sup</td>
                             <td class="col-4 no-border-bot">TL</td>
                         </tr>
-                        
+
                         <tr class="h-60 ">
                             <td id="cs-confirm-production-mgr" class="no-border-top text-center">
-                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null&&$data_tb_sign[$count_sig - 1][6] == null)
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null && $data_tb_sign[$count_sig - 1][6] == null)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
                                 else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][6] != null)
-                                echo usertoName($data_account,$data_tb_sign[$count_sig - 1][6]) ;
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][6]);
                                 else
                                     echo null;
                                 ?></td>
                             <td id="cs-confirm-production-sup" class="no-border-top text-center">
-                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null&&$data_tb_sign[$count_sig - 1][5] == null)
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null && $data_tb_sign[$count_sig - 1][5] == null)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
                                 else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
-                                    echo usertoName($data_account,$data_tb_sign[$count_sig - 1][5]);
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][5]);
                                 else
                                     echo null;
                                 ?></td>
                             </td>
                             <td id="cs-confirm-production-tl" class="no-border-top text-center">
                                 <?php
-                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null&&$data_tb_sign[$count_sig - 1][4] == null)
+                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null && $data_tb_sign[$count_sig - 1][4] == null)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
                                 else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
-                                    echo usertoName($data_account,$data_tb_sign[$count_sig - 1][4]);
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][4]);
                                 else
                                     echo null;
                                 ?></td>
@@ -696,7 +723,7 @@ if ($𝜎 != 0) {
                         </tr>
                     </table>
                 </div>
-            </div> 
+            </div>
 
         </div>
         <!-- Body of table -->
@@ -1237,7 +1264,37 @@ if ($𝜎 != 0) {
     </div>
     <!-- /.modal -->
 </div>
+<!-- Modal approval full form-->
+<div class="modal fade" id="form_confirm_modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-secondary">
+            <div class="modal-header">
+                <h4 class="modal-title">Xác nhận duyệt form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <input id="show_sub_id" hidden></input> -->
+                <p> Xác nhận duyệt form với tên là: <span id="show_data_confirm">
+                        <p><?php echo $_COOKIE['full_name'] . '<br> MSNV:' . $_COOKIE['username']  ?></p>
+                    </span></p>
 
+                <form id="sign_confirm_approval" action="<?php echo   "/fiot-hdvn/qc/sign"; ?>" method="post">
+                    <input hidden id="sub_id_search_input" name="sub_id_search_input">
+                    <input hidden id="sign_form" name="sign_form">
+                    <input hidden id="current_url" name="current_url">
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
+                <button type="submit" form="sign_confirm_approval" class="btn btn-outline-light">Duyệt</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <!-- Chart top-left -->
 <script>
     var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
@@ -1589,18 +1646,7 @@ if ($𝜎 != 0) {
         document.getElementById("show_sub_id_week").value = fx_send_sub_id_week;
         $("#confirm-modal-week").modal('toggle');
     }
-    // duyệt TL form
-    function sign_tl_form_confirm_function() {
-        alert("TL CONFIRM");
-    }
-    // duyệt SUP form
-    function sign_sup_form_confirm_function() {
-        alert("SUP CONFIRM");
-    }
-    // duyệt MGR form
-    function sign_mgr_form_confirm_function() {
-        alert("MGR CONFIRM");
-    }
+
 
     function sign_day_function() {
         var sub_id = document.getElementById("show_sub_id").value;
@@ -1648,5 +1694,12 @@ if ($𝜎 != 0) {
             true
         );
         xmlhttp.send();
+    }
+
+    function sign_form_confirm_function(name) {
+        $("#sign_form").val(name);
+        $("#sub_id_search_input").val('<?php echo $sub_id_search ?>');
+        $("#current_url").val(document.URL);
+        $("#form_confirm_modal").modal('toggle');
     }
 </script>
