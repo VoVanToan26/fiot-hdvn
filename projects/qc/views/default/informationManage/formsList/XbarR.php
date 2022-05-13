@@ -613,7 +613,11 @@ function resize_chart() {
                             <td class="no-border-bot">Mgr</td>
                         </tr>
                         <tr class="h-60 ">
-                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center">
+                                <?php 
+                                // echo $data_create_form 
+                                ?>
+                            </td>
                         </tr>
                     </table>
                 </div>
