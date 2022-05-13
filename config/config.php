@@ -1,15 +1,15 @@
 <?php
 /* Database credentials. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-define('DB_SERVER', 'ifsmvp.com');
-define('DB_USERNAME', 'ifsmvp_tech');
-define('DB_PASSWORD', 'ifsmvp@2021');
-define('DB_NAME', 'ifsmvp_hdvn_database');
+// define('DB_SERVER', 'ifsmvp.com');
+// define('DB_USERNAME', 'ifsmvp_tech');
+// define('DB_PASSWORD', 'ifsmvp@2021');
+// define('DB_NAME', 'ifsmvp_hdvn_database');
 
-// define('DB_SERVER', '192.168.1.100');
-// define('DB_USERNAME', 'hdvn');
-// define('DB_PASSWORD', 'Hdvn@01234');
-// define('DB_NAME', 'ifsmvp_hdvn_database'); 
+define('DB_SERVER', '192.168.1.100');
+define('DB_USERNAME', 'hdvn');
+define('DB_PASSWORD', 'Hdvn@01234');
+define('DB_NAME', 'ifsmvp_hdvn_database'); 
 
 date_default_timezone_set("Asia/Ho_Chi_Minh");
 /* Attempt to connect to MySQL database */
@@ -19,16 +19,16 @@ mysqli_set_charset($connect, 'UTF8');
 
 
 
-$servername = "ifsmvp.com";
-$username = "ifsmvp_tech";
-$password = "ifsmvp@2021";
-$dbname = "ifsmvp_hdvn_database";
-
-
-// $servername = "192.168.1.100";
-// $username = "hdvn";
-// $password = "Hdvn@01234";
+// $servername = "ifsmvp.com";
+// $username = "ifsmvp_tech";
+// $password = "ifsmvp@2021";
 // $dbname = "ifsmvp_hdvn_database";
+
+
+$servername = "192.168.1.100";
+$username = "hdvn";
+$password = "Hdvn@01234";
+$dbname = "ifsmvp_hdvn_database";
 
 $connectPDO = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password); 
 

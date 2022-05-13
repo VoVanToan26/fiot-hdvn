@@ -1,19 +1,6 @@
 <!-- <pre> -->
 <?php 
-//connfig db cloud
-define('DB_SERVER', 'ifsmvp.com');
-define('DB_USERNAME', 'ifsmvp_tech');
-define('DB_PASSWORD', 'ifsmvp@2021');
-define('DB_NAME', 'ifsmvp_hdvn_database');
-
-// define('DB_SERVER', 'localhost');
-// define('DB_USERNAME', 'root');
-// define('DB_PASSWORD', '');
-// define('DB_NAME', 'ifsmvp_hdvn_database');
-
-date_default_timezone_set("Asia/Ho_Chi_Minh");
-$connect = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-mysqli_set_charset($connect, 'UTF8');
+require_once "../dbFunction/config_db.php";
 
 if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET['measurement_items'] && $_GET['chart'])  {
     $product_family = isset($_GET['product_family']) ? $_GET['product_family'] : NULL;
