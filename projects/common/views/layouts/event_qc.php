@@ -365,9 +365,9 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $lower_input = trim($_POST['lower_input']);
     $unit_input = trim($_POST['unit_input']);
 
-  
+
     $use_formula_input = $_POST['use_formula_input'];
-  
+
     if ($use_formula_input == "Yes") $use_formula_input = 'Yes';
     else $use_formula_input = 'No';
     $type_formula_input = trim($_POST['type_formula_input']);
@@ -477,7 +477,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     // die();
     if (
         $product_family_input == '' || $part_no_input == '' || $process_input == '' || $line_input == '' || $measurement_items_input == '' || $frequency_input == '' || $measuring_tools_input == '' ||
-       $type_allowance_input == '' || $form_input == '' || $chart_input == ''  || $no_measurement_items_input == '' || $measuring_department_input == ''
+        $type_allowance_input == '' || $form_input == '' || $chart_input == ''  || $no_measurement_items_input == '' || $measuring_department_input == ''
     ) {
         echo "<script>alert('Thiếu dữ liệu! Vui lòng nhập lại ');</script>";
         die();
@@ -567,21 +567,21 @@ else if (isset($_POST["register_management_level_function"])) {
         // echo "<script>alert('" . $totalfiles ."-". $filename. "-". $path."');</script>";
         // Upload files and store in database
         $check = check_duplicate($filename, 'qc_tb_management_level');
-
-        if (true) {
+        if (!$check) {
             if (move_uploaded_file($file,  $path)) {
-
                 // Image db insert sql
                 $insert  = "INSERT INTO `qc_tb_management_level`(`management_level_img`, `management_level_name`, `sig`) VALUES ('$path', '$filename', '$sig')";
                 if (mysqli_query($connect, $insert)) {
                     echo 'Đăng ký thành công';
+                
                 } else {
-                    echo 'Error: ' . mysqli_error($connect);
+                    // echo 'Error: ' . mysqli_error($connect);
                 }
             } else {
                 echo "<script>alert('Error in uploading file - ' .  $file . '<br/>');</script>";;
             }
         }
+            
     }
     mysqli_close($connect);
     echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_management_level'</script>";

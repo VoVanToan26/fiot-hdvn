@@ -1,8 +1,8 @@
 <?php
 $connect = $GLOBALS['connect'];
 
-var_dump($_POST);
-die;
+// var_dump($_POST);
+// die;
 if(isset($_GET['sign_day']) && $_GET['sign_day'] == "yes"){
 	$data_load = array();
 	if(isset($_GET['sub_id']) && $_GET['sub_id'] != ''){
@@ -43,22 +43,24 @@ else if(isset($_GET['sign_week']) && $_GET['sign_week'] == "yes"){
 	}
 	echo json_encode($data_load);
 }
-else {
-	// echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/'</script>";
-	echo '<script>history.back()</script>';
-}
+// else {
+// 	// echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/'</script>";
+// 	echo '<script>history.back()</script>';
+// }
 
-
-    // $sig = $_COOKIE['username'];
-    // $sub_id_search_input=$_POST['sub_id_search_input'];
-    // $sig_form=$_POST['sign_form'];
-	// $sqlupdate_sign_form = "UPDATE `qc_tb_sign` SET `". $sig_form."`='". $sig."' WHERE `sub_id` LIKE '". $sub_id_search_input."%'";
-	// if (mysqli_query($connect, $sqlupdate_sign_form)) {
-
-	// 	array_push($data_load, $sqlupdate_sign_form);
-	// }
-	// mysqli_close($connect);
+// var_dump($_POST);die;
+ if(isset($_POST['sign_form'])){
+    $sig = $_COOKIE['username'];
+    $sub_id_search_input=$_POST['sub_id_search_input'];
+    $sig_form=$_POST['sign_form'];
+	$url=$_POST['current_url'];
+	$sqlupdate_sign_form = "UPDATE `qc_tb_sign` SET `". $sig_form."`='". $sig."' WHERE `sub_id` LIKE '$sub_id_search_input%'";
+	// var_dump($sqlupdate_sign_form);die;
+	if (mysqli_query($connect, $sqlupdate_sign_form)) {
+		// array_push($data_load, $sqlupdate_sign_form);
+		mysqli_close($connect);
+		echo "<script>document.location = '" . $url . "'</script>";
+	}
+	
 	// echo "<script>alert(".$sqlupdate_sign_form.")</script>";
-	// echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code'</script>";
-
-?>
+}

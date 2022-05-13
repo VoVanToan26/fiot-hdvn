@@ -46,7 +46,7 @@ require_once "../dbFunction/handle_data.php";
                 <tr>
                     <td height=50 class="w-10 pl-2 "></td>
                     <td class="w-20 pl-2"></td>
-                    <td  class="w-70">
+                    <td class="w-70">
                         <div id="management_img_box" class="w-100 d-flex align-items-center justify-content-center">
 
                         </div>
@@ -77,41 +77,67 @@ require_once "../dbFunction/handle_data.php";
             </table>
         </div>
 
-  
+
         <div class="head-right row d-flex  justify-content-end w-35 m-0">
-                <div class="sub-head-right w-24">
-                    <table class=" h-100  w-100 mr-3 table-bordered">
-                        <tr class="h-20  text-center ">
-                            <td class="text-nowrap">Xác nhận</td>
-                        </tr>
-                        <tr class="h-20 text-left">
-                            <td class="no-border-bot">Mgr</td>
-                        </tr>
-                        <tr class="h-60 ">
-                            <td id="xrs-confirm-mgr" class="no-border-top text-center" ><?php echo $data_create_form ?></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="sub-head-right w-4">
-                </div>
-                <div class="sub-head-right w-72  ">
-                    <table class="table-bordered h-100 w-100 ">
-                        <tr class="h-20">
-                            <td colspan="3" class="text-center">HDVN QA INSPECTION</td>
-                        </tr>
-                        <tr class=" h-20 text-left ">
-                            <td class="col-4 no-border-bot">Mgr</td>
-                            <td class="col-4 no-border-bot">Sup</td>
-                            <td class="col-4 no-border-bot">TL</td>
-                        </tr>
-                        <tr class="h-60 ">
-                            <td id="xrs-confirm2-mgr" class="no-border-top text-center" onclick="sign_mgr_form_confirm_function()"></td>
-                            <td id="xrs-confirm-sup" class="no-border-top text-center" onclick="sign_sup_form_confirm_function()"></td>
-                            <td id="xrs-confirm-tl" class="no-border-top text-center" onclick="sign_tl_form_confirm_function()"></td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="sub-head-right w-24">
+                <table class=" h-100  w-100 mr-3 table-bordered">
+                    <tr class="h-20  text-center ">
+                        <td class="text-nowrap">Xác nhận</td>
+                    </tr>
+                    <tr class="h-20 text-left">
+                        <td class="no-border-bot">Mgr</td>
+                    </tr>
+                    <tr class="h-60 ">
+                        <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
+                    </tr>
+                </table>
             </div>
+            <div class="sub-head-right w-4">
+            </div>
+            <div class="sub-head-right w-72  ">
+                <table class="table-bordered h-100 w-100 ">
+                    <tr class="h-20">
+                        <td colspan="3" class="text-center">HDVN QA INSPECTION</td>
+                    </tr>
+                    <tr class=" h-20 text-left ">
+                        <td class="col-4 no-border-bot">Mgr</td>
+                        <td class="col-4 no-border-bot">Sup</td>
+                        <td class="col-4 no-border-bot">TL</td>
+                    </tr>
+
+                    <tr class="h-60 ">
+                        <td id="cs-confirm-production-mgr" class="no-border-top text-center">
+                            <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null && $data_tb_sign[$count_sig - 1][6] == null)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
+                            else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][6] != null)
+                                echo usertoName($data_account, $data_tb_sign[$count_sig - 1][6]);
+                            else
+                                echo null;
+                            ?></td>
+                        <td id="cs-confirm-production-sup" class="no-border-top text-center">
+                            <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null && $data_tb_sign[$count_sig - 1][5] == null)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
+                            else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                echo usertoName($data_account, $data_tb_sign[$count_sig - 1][5]);
+                            else
+                                echo null;
+                            ?></td>
+                        </td>
+                        <td id="cs-confirm-production-tl" class="no-border-top text-center">
+                            <?php
+                            if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null && $data_tb_sign[$count_sig - 1][4] == null)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
+                            else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                echo usertoName($data_account, $data_tb_sign[$count_sig - 1][4]);
+                            else
+                                echo null;
+                            ?></td>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
 
     </div>
 
@@ -281,7 +307,7 @@ require_once "../dbFunction/handle_data.php";
 <!-- /.modal -->
 </div>
 
-<!-- Modal aproval full form-->
+<!-- Modal approval full form-->
 <div class="modal fade" id="form_confirm_modal">
     <div class="modal-dialog">
         <div class="modal-content bg-secondary">
@@ -292,15 +318,20 @@ require_once "../dbFunction/handle_data.php";
                 </button>
             </div>
             <div class="modal-body">
-
                 <!-- <input id="show_sub_id" hidden></input> -->
                 <p> Xác nhận duyệt form với tên là: <span id="show_data_confirm">
                         <p><?php echo $_COOKIE['full_name'] . '<br> MSNV:' . $_COOKIE['username']  ?></p>
                     </span></p>
+
+                <form id="sign_confirm_approval" action="<?php echo   "/fiot-hdvn/qc/sign"; ?>" method="post">
+                    <input hidden id="sub_id_search_input" name="sub_id_search_input">
+                    <input hidden id="sign_form" name="sign_form">
+                    <input hidden id="current_url" name="current_url">
+                </form>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-outline-light" onclick="sign_day_function()">Duyệt</button>
+                <button type="submit" form="sign_confirm_approval" class="btn btn-outline-light">Duyệt</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -319,7 +350,7 @@ $chart_step = ($chart_max - $chart_min) / 10;
 ?>
 
 <script>
-    var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,29, 30]
+    var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
     var y_value = [
         <?php
         for ($i = 0; $i < count($data_tb); $i++) {

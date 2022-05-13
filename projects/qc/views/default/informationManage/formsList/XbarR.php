@@ -382,38 +382,34 @@ function write_name($username)
 
 // //Tính toán công thức form
 //X trung bình
-$xAverage = round(array_sum($arr_average_x_top_left) / count($data_manulot),3); 
+$xAverage = round(array_sum($arr_average_x_top_left) / count($data_manulot), 3);
 $r_value = array();
-for ($i=0; $i < count($arr_x_top_left); $i++) {
-    $r_value[$i] = max($arr_x_top_left[$i])- min($arr_x_top_left[$i]);
+for ($i = 0; $i < count($arr_x_top_left); $i++) {
+    $r_value[$i] = max($arr_x_top_left[$i]) - min($arr_x_top_left[$i]);
 }
 //R trung bình
-$rAverage = round(array_sum($r_value) / count($data_manulot),3); 
+$rAverage = round(array_sum($r_value) / count($data_manulot), 3);
 //𝜎 trung bình
-$𝜎 = round($rAverage / $d2_arr[2],3);
+$𝜎 = round($rAverage / $d2_arr[2], 3);
 //CP và CPK
 // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
-if($𝜎 != 0){
-    if($data_type_allowance == "±"){ // 2 cận
-        $cp = round(($data_x_ucl-$data_x_lcl)/(6*$𝜎),3);
-        $cpk1 = round(($xAverage - $data_x_lcl)/(3*$𝜎),3);
-        $cpk2 = round(($data_x_ucl - $xAverage)/(3*$𝜎),3);
-        $cpk = min($cpk1,$cpk2);
-    }
-    else if($data_type_allowance == "Min"){
+if ($𝜎 != 0) {
+    if ($data_type_allowance == "±") { // 2 cận
+        $cp = round(($data_x_ucl - $data_x_lcl) / (6 * $𝜎), 3);
+        $cpk1 = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
+        $cpk2 = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+        $cpk = min($cpk1, $cpk2);
+    } else if ($data_type_allowance == "Min") {
         $cp = null;
-        $cpk = round(($xAverage - $data_x_lcl)/(3*$𝜎),3);
-    }
-    else if($data_type_allowance == "Max"){
+        $cpk = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
+    } else if ($data_type_allowance == "Max") {
         $cp = null;
-        $cpk = round(($data_x_ucl - $xAverage)/(3*$𝜎),3);
-    }
-    else{
+        $cpk = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+    } else {
         $cp = null;
         $cpk = null;
     }
-}
-else{
+} else {
     $cp = null;
     $cpk = null;
 }
@@ -550,13 +546,7 @@ else{
     }
 </style>
 <!-- style hight chart -->
-<<<<<<< HEAD
-<style>
-    /* top right */
-</style>
-=======
 
->>>>>>> a36b2e787ce46eda6b8eb7bbd7c1d38a089c2111
 <script>
     data_management_level = "<?php echo $data_management_level_one ?>"
     filenames = data_management_level.split(';');
@@ -634,10 +624,10 @@ else{
                         <td class="text-nowrap">Xác nhận</td>
                     </tr>
                     <tr class="h-20 text-left">
-                        <td class="no-border-bot">GM</td>
+                        <td class="no-border-bot">Mgr</td>
                     </tr>
                     <tr class="h-60 ">
-                        <td id="xbarr-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
+                        <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
                     </tr>
                 </table>
             </div>
@@ -653,10 +643,36 @@ else{
                         <td class="col-4 no-border-bot">Sup</td>
                         <td class="col-4 no-border-bot">TL</td>
                     </tr>
+
                     <tr class="h-60 ">
-                        <td id="xbarr-confirm2-mgr" class="no-border-top text-center" onclick="show_confirm_modal('xbarr-confirm2-mgr','ToanMgr')"></td>
-                        <td id="xbarr-confirm-sup" class="no-border-top text-center" onclick="show_confirm_modal('xbarr-confirm-sup','ToanMgr')"></td>
-                        <td id="xbarr-confirm-tl" class="no-border-top text-center" onclick="show_confirm_modal('xbarr-confirm-tl','ToanMgr')"></td>
+                        <td id="cs-confirm-production-mgr" class="no-border-top text-center">
+                            <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null && $data_tb_sign[$count_sig - 1][6] == null)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
+                            else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][6] != null)
+                                echo usertoName($data_account, $data_tb_sign[$count_sig - 1][6]);
+                            else
+                                echo null;
+                            ?></td>
+                        <td id="cs-confirm-production-sup" class="no-border-top text-center">
+                            <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null && $data_tb_sign[$count_sig - 1][5] == null)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
+                            else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                echo usertoName($data_account, $data_tb_sign[$count_sig - 1][5]);
+                            else
+                                echo null;
+                            ?></td>
+                        </td>
+                        <td id="cs-confirm-production-tl" class="no-border-top text-center">
+                            <?php
+                            if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null && $data_tb_sign[$count_sig - 1][4] == null)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
+                            else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                echo usertoName($data_account, $data_tb_sign[$count_sig - 1][4]);
+                            else
+                                echo null;
+                            ?></td>
+                        </td>
+
                     </tr>
                 </table>
             </div>
@@ -931,7 +947,7 @@ else{
             <div class="fb-item fbi-body-mid d-flex flex-row w-100  " style="height:337px">
                 <div class="summary-container w-80  ">
                     <table class="summary-table">
-                    <tr>
+                        <tr>
                             <td class="w-20 ">X̅ =</td>
                             <!-- =まとめ!=summary-->
                             <td class="w-25 "><?php echo $xAverage; ?></td>
@@ -943,19 +959,19 @@ else{
                             <td>σ＝</td>
                             <td><?php echo $𝜎 ?></td>
                             <td>6σ＝</td>
-                            <td><?php echo 6*$𝜎 ?></td>
+                            <td><?php echo 6 * $𝜎 ?></td>
                         </tr>
                         <tr>
                             <td>Cp＝</td>
                             <td><?php echo $cp ?></td>
                             <td>X̅̅+3σ＝</td>
-                            <td><?php echo ($xAverage + 3*$𝜎) ?></td>
+                            <td><?php echo ($xAverage + 3 * $𝜎) ?></td>
                         </tr>
                         <tr>
                             <td>Cpk＝</td>
                             <td><?php echo $cpk ?></td>
                             <td>X̅̅-3σ＝</td>
-                            <td><?php echo ($xAverage - 3*$𝜎) ?></td>
+                            <td><?php echo ($xAverage - 3 * $𝜎) ?></td>
                         </tr>
                         <tr>
                             <td rowspan="2" colspan="2">
@@ -1028,6 +1044,38 @@ else{
     <div class="sb-item text-right w-100">
         FQI-P0503(Rev.date.14-12-30)
     </div>
+</div>
+
+<!-- Modal approval full form-->
+<div class="modal fade" id="form_confirm_modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-secondary">
+            <div class="modal-header">
+                <h4 class="modal-title">Xác nhận duyệt form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <input id="show_sub_id" hidden></input> -->
+                <p> Xác nhận duyệt form với tên là: <span id="show_data_confirm">
+                        <p><?php echo $_COOKIE['full_name'] . '<br> MSNV:' . $_COOKIE['username']  ?></p>
+                    </span></p>
+
+                <form id="sign_confirm_approval" action="<?php echo   "/fiot-hdvn/qc/sign"; ?>" method="post">
+                    <input hidden id="sub_id_search_input" name="sub_id_search_input">
+                    <input hidden id="sign_form" name="sign_form">
+                    <input hidden id="current_url" name="current_url">
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
+                <button type="submit" form="sign_confirm_approval" class="btn btn-outline-light">Duyệt</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 
 <!-- Chart top-left -->

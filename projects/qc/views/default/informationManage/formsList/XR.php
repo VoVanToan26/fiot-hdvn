@@ -262,11 +262,10 @@ p.footer {
                             <td class="text-nowrap">Xác nhận</td>
                         </tr>
                         <tr class="h-20 text-left">
-                            <td class="no-border-bot">GM</td>
+                            <td class="no-border-bot">Mgr</td>
                         </tr>
                         <tr class="h-60 ">
-                            <td id="xr-confirm-mgr" class="no-border-top text-center"
-                                onclick="show_confirm_modal('xr-confirm-mgr','ToanMgr')"></td>
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
                         </tr>
                     </table>
                 </div>
@@ -282,17 +281,40 @@ p.footer {
                             <td class="col-4 no-border-bot">Sup</td>
                             <td class="col-4 no-border-bot">TL</td>
                         </tr>
+                        
                         <tr class="h-60 ">
-                            <td id="xr-confirm2-mgr" class="no-border-top text-center"
-                                onclick="show_confirm_modal('xr-confirm2-mgr','ToanMgr')"></td>
-                            <td id="dxr-confirm-sup" class="no-border-top text-center"
-                                onclick="show_confirm_modal('dxr-confirm-sup','ToanMgr')"></td>
-                            <td id="xr-confirm-tl" class="no-border-top text-center"
-                                onclick="show_confirm_modal('xr-confirm-tl','ToanMgr')"></td>
+                            <td id="cs-confirm-production-mgr" class="no-border-top text-center">
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null&&$data_tb_sign[$count_sig - 1][6] == null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][6] != null)
+                                echo usertoName($data_account,$data_tb_sign[$count_sig - 1][6]) ;
+                                else
+                                    echo null;
+                                ?></td>
+                            <td id="cs-confirm-production-sup" class="no-border-top text-center">
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null&&$data_tb_sign[$count_sig - 1][5] == null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                    echo usertoName($data_account,$data_tb_sign[$count_sig - 1][5]);
+                                else
+                                    echo null;
+                                ?></td>
+                            </td>
+                            <td id="cs-confirm-production-tl" class="no-border-top text-center">
+                                <?php
+                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null&&$data_tb_sign[$count_sig - 1][4] == null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                    echo usertoName($data_account,$data_tb_sign[$count_sig - 1][4]);
+                                else
+                                    echo null;
+                                ?></td>
+                            </td>
+
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> 
 
         </div>
         <!-- Body of table -->

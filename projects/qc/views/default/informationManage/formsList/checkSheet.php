@@ -97,31 +97,31 @@ require_once "../dbFunction/handle_data.php";
                             <td class="col-4 no-border-bot">Sup</td>
                             <td class="col-4 no-border-bot">TL</td>
                         </tr>
-                        <tr class="h-60 ">
 
+                        <tr class="h-60 ">
                             <td id="cs-confirm-production-mgr" class="no-border-top text-center">
-                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null && $data_tb_sign[$count_sig - 1][6] == null)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
-                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
-                                    echo $data_tb_sign[30][6];
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][6] != null)
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][6]);
                                 else
                                     echo null;
                                 ?></td>
                             <td id="cs-confirm-production-sup" class="no-border-top text-center">
-                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null && $data_tb_sign[$count_sig - 1][5] == null)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
                                 else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
-                                    echo $data_tb_sign[$count_sig - 1][5];
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][5]);
                                 else
                                     echo null;
                                 ?></td>
                             </td>
                             <td id="cs-confirm-production-tl" class="no-border-top text-center">
                                 <?php
-                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null)
+                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null && $data_tb_sign[$count_sig - 1][4] == null)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
                                 else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
-                                    echo $data_tb_sign[$count_sig - 1][4];
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][4]);
                                 else
                                     echo null;
                                 ?></td>
@@ -130,7 +130,7 @@ require_once "../dbFunction/handle_data.php";
                         </tr>
                     </table>
                 </div>
-            </div> -->
+            </div>
 
         </div>
         <div class="table-body d-flex flex-row">
@@ -322,7 +322,7 @@ require_once "../dbFunction/handle_data.php";
 <!-- /.modal -->
 </div>
 
-<!-- Modal aproval full form-->
+<!-- Modal approval full form-->
 <div class="modal fade" id="form_confirm_modal">
     <div class="modal-dialog">
         <div class="modal-content bg-secondary">
@@ -338,9 +338,10 @@ require_once "../dbFunction/handle_data.php";
                         <p><?php echo $_COOKIE['full_name'] . '<br> MSNV:' . $_COOKIE['username']  ?></p>
                     </span></p>
 
-                <form id="sign_confirm_approval" action="<?php echo $SCRIPT_NAME . "/qc/sign"; ?>" method="post">
+                <form id="sign_confirm_approval" action="<?php echo   "/fiot-hdvn/qc/sign"; ?>" method="post">
                     <input hidden id="sub_id_search_input" name="sub_id_search_input">
                     <input hidden id="sign_form" name="sign_form">
+                    <input hidden id="current_url" name="current_url">
                 </form>
             </div>
             <div class="modal-footer justify-content-between">
@@ -376,7 +377,8 @@ require_once "../dbFunction/handle_data.php";
 
     function sign_form_confirm_function(name) {
         $("#sign_form").val(name);
-        $("#sub_id_search_input").val('.<?php echo $sub_id_search ?>.');
+        $("#sub_id_search_input").val('<?php echo $sub_id_search ?>');
+        $("#current_url").val(document.URL);
         $("#form_confirm_modal").modal('toggle');
     }
 

@@ -4,6 +4,16 @@ function write_name($username){
     // print($sign_name_arr[count($sign_name_arr) - 1]);
     return $sign_name_arr[count($sign_name_arr) - 1];
 }
+function usertoName($data_account,$user){
+   
+    for ($i = 0; $i < count($data_account); $i++) {
+        if ($user == $data_account[$i][1]) {
+            return write_name($data_account[$i][2]);
+        }
+       
+    }
+    return 'NoName';
+}
 //connfig db cloud
 define('DB_SERVER', 'ifsmvp.com');
 define('DB_USERNAME', 'ifsmvp_tech');
