@@ -1,7 +1,6 @@
 <?php
 require_once "../dbFunction/load_data_db.php";
 require_once "../dbFunction/handle_data.php";
-
 ?>
 <script type="text/javascript">
     function edit_sanpham(params) {
@@ -13,13 +12,6 @@ require_once "../dbFunction/handle_data.php";
     }
 </script>
 <style type="text/css">
-    .cs-table-head-center th {
-        font-weight: 400;
-    }
-
-    .cs-table-head-center td {
-        font-weight: bold;
-    }
 
     .cs-main-table {
         table-layout: fixed;
@@ -30,40 +22,116 @@ require_once "../dbFunction/handle_data.php";
         padding: 3px;
     }
 </style>
-
+<script>
+    data_management_level = "<?php echo $data_management_level_one ?>"
+    filenames = data_management_level.split(';');
+    filenames.forEach(value => $('#management_img_box').append(`<img src='/fiot-hdvn/${value}' alt=""  style="display:flex; height: 38px; max-width:60px;">`))
+</script>
 <div class="w-100% ">
     <div class="sub-box d-flex flex-column border   ">
         <div class="table-head d-flex flex-row m-tb-5 p-0">
-            <div class="head-left row w-50 ">
-                <div class="col-1 text-center font-weight-bold">LINE:</div>
-                <div class="col-9 text-left font-weight-bold"><?php echo $data_line ?></div>
-                <div class="col-12 text-center ">
-                    <h3>CHECKSHEET</h3>
-                </div>
-            </div>
-            <!-- table đăng kí -->
-            <div class="head-center col row d-flex justify-content-center w-20">
-                <table class="cs-table-head-center w-100 table-bordered">
+            <div class="head-left col row ">
+                <table class="w-100 text-nowrap ">
                     <tr>
-                        <th>Mã SP　　品番</th>
-                        <td><?php echo $data_line ?></td>
+                        <td height=60 class="w-10 pl-2 ">Line:</td>
+                        <td class="w-20 pl-2"><?php echo $data_line ?></td>
+                        <td class="w-70 text-center">
+                            <h3>CHECKSHEET</h3>
+                        </td>
                     </tr>
                     <tr>
-                        <th>Tên sản phẩm　　製品名</th>
-                        <td><?php echo $data_part_no ?></td>
-                    </tr>
-                    <tr>
-                        <th>Tên CĐ　　工程名</th>
-                        <td><?php echo $data_process ?></td>
-                    </tr>
-                    <tr>
-                        <th>Số quản lý　　管理№</th>
-                        <td>FZ-04-2010-5 (#0910)</td>
+                        <td height=50 class="w-10 pl-2 "></td>
+                        <td class="w-20 pl-2"></td>
+                        <td class="w-70">
+                            <div id="management_img_box" class="w-100 d-flex align-items-center justify-content-center">
+
+                            </div>
+                        </td>
+
                     </tr>
                 </table>
             </div>
-
-            <div class="head-right col  row d-flex text-center w-30">
+            <!-- table đăng kí -->
+            <div class="head-center col row d-flex justify-content-center">
+                <table class="cs-table-head-center w-90 table-bordered">
+                    <tr>
+                        <td class="w-40">Mã SP　　品番</td>
+                        <th class="w-60"><?php echo $data_line ?></th>
+                    </tr>
+                    <tr>
+                        <td>Tên sản phẩm　　製品名</td>
+                        <th><?php echo $data_part_no ?></th>
+                    </tr>
+                    <tr>
+                        <td>Tên CĐ　　工程名</td>
+                        <th><?php echo $data_process ?></th>
+                    </tr>
+                    <tr>
+                        <td>Số quản lý　　管理№</td>
+                        <th>DDCV3-04-12</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="head-right row d-flex  justify-content-end w-35 m-0">
+                <div class="sub-head-right w-24">
+                    <table class=" h-100  w-100 mr-3 table-bordered">
+                        <tr class="h-20  text-center ">
+                            <td class="text-nowrap">Xác nhận</td>
+                        </tr>
+                        <tr class="h-20 text-left">
+                            <td class="no-border-bot">Mgr</td>
+                        </tr>
+                        <tr class="h-60 ">
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center" ><?php echo $data_create_form ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="sub-head-right w-4">
+                </div>
+                <div class="sub-head-right w-72  ">
+                    <table class="table-bordered h-100 w-100 ">
+                        <tr class="h-20">
+                            <td colspan="3" class="text-center">HDVN QA INSPECTION</td>
+                        </tr>
+                        <tr class=" h-20 text-left ">
+                            <td class="col-4 no-border-bot">Mgr</td>
+                            <td class="col-4 no-border-bot">Sup</td>
+                            <td class="col-4 no-border-bot">TL</td>
+                        </tr>
+                        <tr class="h-60 ">
+                    
+                            <td id="cs-confirm-production-mgr" class="no-border-top text-center" >
+                                <?php if (count($data_tb_sign) == 32)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_mgr")"</i>';
+                                else if (count($data_tb_sign) > 32)
+                                    echo $data_tb_sign[30][6]  ;
+                                else
+                                    echo null;
+                                ?></td>
+                            <td id="cs-confirm-production-sup" class="no-border-top text-center" >
+                            <?php if (count($data_tb_sign) == 31)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_sup")"</i>';
+                            else if (count($data_tb_sign) > 31)
+                                echo $data_tb_sign[30][5] ;
+                            else
+                                echo null;
+                            ?></td>
+                            </td>
+                            <td id="cs-confirm-production-tl" class="no-border-top text-center" >
+                            <?php if (count($data_tb_sign) == 30)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_tl")"</i>';
+                            else if (count($data_tb_sign) > 30)
+                                echo $data_tb_sign[30][4];
+                            else
+                                echo null;
+                            ?></td>
+                            </td>
+                   
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- <div class="head-right col  row d-flex text-center w-30">
                 <div class="sub-head-right w-40 d-flex justify-content-center">
                     <table class=" h-100 w-50">
                         <tr class="h-25 table-borderless">
@@ -89,43 +157,43 @@ require_once "../dbFunction/handle_data.php";
                         </tr>
                         <tr class="h-50">
                             <td id="cs-confirm-production-mgr" class="no-border-top text-center" >
-                                <?php if (count($data_tb_sign) ==30)
+                                <?php if (count($data_tb_sign) == 30)
                                     echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_mgr")"</i>';
-                                else if (count($data_tb_sign) >30)
+                                else if (count($data_tb_sign) > 30)
                                     echo $data_tb_sign[30][6] . '<br>' . $data_tb_sign[30][2];
                                 else
                                     echo null;
                                 ?></td>
                             <td id="cs-confirm-production-sup" class="no-border-top text-center" >
-                            <?php if (count($data_tb_sign) ==30)
-                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_sup")"</i>';
-                                else if (count($data_tb_sign) >30)
-                                    echo $data_tb_sign[30][5] . '<br>' . $data_tb_sign[30][2];
-                                else
-                                    echo null;
-                                ?></td>
+                            <?php if (count($data_tb_sign) == 30)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_sup")"</i>';
+                            else if (count($data_tb_sign) > 30)
+                                echo $data_tb_sign[30][5] . '<br>' . $data_tb_sign[30][2];
+                            else
+                                echo null;
+                            ?></td>
                             </td>
                             <td id="cs-confirm-production-tl" class="no-border-top text-center" >
-                            <?php if (count($data_tb_sign) ==30)
-                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_tl")"</i>';
-                                else if (count($data_tb_sign) >30)
-                                    echo $data_tb_sign[30][4] . '<br>' . $data_tb_sign[30][2];
-                                else
-                                    echo null;
-                                ?></td>
+                            <?php if (count($data_tb_sign) == 30)
+                                echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function("sign_tl")"</i>';
+                            else if (count($data_tb_sign) > 30)
+                                echo $data_tb_sign[30][4] . '<br>' . $data_tb_sign[30][2];
+                            else
+                                echo null;
+                            ?></td>
                             </td>
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> -->
 
         </div>
         <div class="table-body d-flex flex-row">
             <table class="cs-main-table table-bordered table  text-nowrap text-center w-100 p-0">
                 <tr>
                     <td rowspan="3" class="w-10">Hạng mục <br> KTチェック項目</td>
-                    <td rowspan="6" class="w-8">Dụng cụ đo <br>頻度 </td>
-                    <td rowspan="6" class="w-8 text-wrap">Tần suất kiểm tra <br>頻度 </td>
+                    <td rowspan="6" class="w-5">Dụng cụ đo <br>頻度 </td>
+                    <td rowspan="6" class="w-3 text-wrap">Tần suất kiểm tra <br>頻度 </td>
                     <td class="w-5">Ngày</td>
                     <?php
                     //add_data_time_one_row($td_count, $array_data, $index, $position_in_tb, $length)
@@ -176,7 +244,7 @@ require_once "../dbFunction/handle_data.php";
                     ?>
                 </tr>
                 <tr class="">
-                    <td height=100 class="text-wrap"><?php echo $data_process ?></td>
+                    <td height=100 class="text-wrap"><?php echo $data_measurement_items ?></td>
                     <td rowspan="2" class="text-wrap"><?php echo $data_measuring_tools ?></td>
                     <td rowspan="2" colspan="2" class="w-30 text-wrap"><?php echo $data_frequency ?></td>
                     <?php
@@ -197,12 +265,14 @@ require_once "../dbFunction/handle_data.php";
                     <td colspan="2" rowspan="3" height=150>
                         <!-- <img src="../../../projects/qc/img-qc/form_CheckSheet.png" alt="Form check sheet"
                             style="max-width:100%;max-height:100%"> -->
-                        <?php
-                        if ($data_draw != '') {
-                            echo '<img src="../../' . $data_draw . '" alt="Form check sheet"
-                                    style="max-height:140px;max-width:285px">';
-                        }
-                        ?>
+
+                        <div class=" d-flex w-100">
+                            <?php
+                            if ($data_draw != '') {
+                                echo '<img src="/fiot-hdvn/' . $data_draw . '" alt="Bản vẽ form check sheet"
+                                    style="max-height:140px;max-width:100%">';
+                            }
+                            ?>
                     </td>
 
                     <td colspan="2">Người thao tác</td>
@@ -234,7 +304,7 @@ require_once "../dbFunction/handle_data.php";
                     ?>
                 </tr>
                 <tr>
-                    <td colspan="4" class=".text-font-s text-left">Cột liên lạc: 連絡 <br>
+                    <td colspan="4" class="text-font-m text-left p-0">Cột liên lạc: 連絡 <br>
                         Khi có phát sinh bất thường phải ghi nguyên nhân và đối sách.<br>
                         異常発生すれば、原因と対策を記入する事
                     </td>
@@ -254,7 +324,7 @@ require_once "../dbFunction/handle_data.php";
 </div>
 
 
-
+<!-- Modal confirm sign begin -->
 <div class="modal fade" id="confirm-modal">
     <div class="modal-dialog">
         <div class="modal-content bg-secondary">

@@ -284,12 +284,12 @@ function load_chart(
       if (myArr[0] == "yes") {
         $("#search_form").modal("hide");
         switch (myArr[1]) {
-          case "Datasheet":
+          case "Checksheet":
             $("#load_data").load(
               `${SCRIPT_NAME}/projects/qc/views/default/informationManage/formsList/checkSheet.php?product_family=${product_family}&line=${line}&part_no=${part_no}&measurement_items=${measurement_items}&chart=${chart}`
             );
             break;
-          case "Checksheet":
+          case "Datasheet":
             $("#load_data").load(
               `${SCRIPT_NAME}/projects/qc/views/default/informationManage/formsList/dataSheet.php?product_family=${product_family}&line=${line}&part_no=${part_no}&measurement_items=${measurement_items}&chart=${chart}`
             );

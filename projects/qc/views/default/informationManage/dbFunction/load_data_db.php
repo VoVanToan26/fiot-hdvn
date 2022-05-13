@@ -1,4 +1,9 @@
 <?php 
+function write_name($username){
+    $sign_name_arr = preg_split("/\s+/", $username);
+    // print($sign_name_arr[count($sign_name_arr) - 1]);
+    return $sign_name_arr[count($sign_name_arr) - 1];
+}
 //connfig db cloud
 define('DB_SERVER', 'ifsmvp.com');
 define('DB_USERNAME', 'ifsmvp_tech');
@@ -55,8 +60,9 @@ if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET
 		$data_no_measurement_items =$row['no_measurement_items'];
 		$data_measuring_department =$row['measuring_department'];
 		$data_status =$row['status'];
-		$data_management_level_two =$row['management_level_two'];
+		// $data_management_level_two =$row['management_level_two'];
 		$data_draw =$row['draw'];
+        $data_sign_create_form =$row['sign_create_form'];
 	}
 	else{
 		$data_product_family ='';
@@ -87,10 +93,24 @@ if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET
 		$data_no_measurement_items ='';
 		$data_measuring_department ='';
 		$data_status ='';
-		$data_management_level_two ='';
+		// $data_management_level_two ='';
 		$data_draw ='';
+        $data_sign_create_form ='';
 	}
 }
+
+// Lọc account người lập form 
+
+$sqlsearch_create_form = "SELECT * FROM `tb_account` WHERE `username` = '$data_sign_create_form'";
+$resultsearch_create_form = mysqli_query( $connect, $sqlsearch_create_form );
+if ($sqlsearch_create_form && $resultsearch_create_form->num_rows > 0) {
+    $row = $resultsearch_create_form->fetch_assoc();
+    $data_create_form = write_name($row['full_name']);
+}
+else{
+    $data_create_form = '';
+}
+
 // lọc tên máy
 $sqlsearch_machine_number = "SELECT * FROM `qc_tb_machine_number` WHERE `line` = '$data_line' AND `process` = '$data_process'";
 $resultsearch_machine_number = mysqli_query( $connect, $sqlsearch_machine_number );
@@ -153,7 +173,6 @@ if ($resultcheck_tb_data && $resultcheck_tb_data->num_rows > 0) {
         $data_tb[$i][27] = $row['status_complete'];
         $data_tb[$i][28] = $row['sig'];
         $i++;
-      
     }
 } else {
     $data_tb[0][0] = 0;
@@ -301,32 +320,27 @@ $d4_arr = [00, 0, 3.27, 2.58, 2.25, 2.12, 2.00];
 // $sign_name = $_COOKIE['full_name'];
 // echo($sign_name);
 
-function write_name($username){
-    $sign_name_arr = preg_split("/\s+/", $username);
-    // print($sign_name_arr[count($sign_name_arr) - 1]);
-    return $sign_name_arr[count($sign_name_arr) - 1];
-}
 
 
 //Tính toán công thức form
 // => X
-$arr_x_top_left = array();
-$arr_x_bot_left = array();
-$sum_x_top_left = 0;
-$sum_x_bot_left = 0;
-for($i=0; $i < count($data_tb); $i++){
-    $arr_x_top_left[$i] = $data_tb[$i][17];
-    $sum_x_top_left += $data_tb[$i][17];
-    // echo($data_tb[$i][17] . ',');
-    if($i < count($data_tb) - 1){
-        $arr_x_bot_left[$i] = abs($data_tb[$i + 1][17] - $data_tb[$i][17]);
-        $sum_x_bot_left += $arr_x_bot_left[$i];
-    }
-}
+// $arr_x_top_left = array();
+// $arr_x_bot_left = array();
+// $sum_x_top_left = 0;
+// $sum_x_bot_left = 0;
+// for($i=0; $i < count($data_tb); $i++){
+//     $arr_x_top_left[$i] = $data_tb[$i][17];
+//     $sum_x_top_left += $data_tb[$i][17];
+//     // echo($data_tb[$i][17] . ',');
+//     if($i < count($data_tb) - 1){
+//         $arr_x_bot_left[$i] = abs($data_tb[$i + 1][17] - $data_tb[$i][17]);
+//         $sum_x_bot_left += $arr_x_bot_left[$i];
+//     }
+// }
 
-$xAverage = round($sum_x_top_left/count($data_tb),3);
-$rAverage = round($sum_x_bot_left/(count($data_tb)-1),3);
-$𝜎 = round($rAverage / $d2_arr[2],3);
+// $xAverage = round($sum_x_top_left/count($data_tb),3);
+// $rAverage = round($sum_x_bot_left/(count($data_tb)-1),3);
+// $𝜎 = round($rAverage / $d2_arr[2],3);
 
 // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
 
@@ -351,4 +365,5 @@ $𝜎 = round($rAverage / $d2_arr[2],3);
 
 
 // print($xAverage . "<br>" . $rAverage . "<br>" . $𝜎 . "<br>" . $cp . "<br>" . $cpk1 . "<br>" . $cpk2 . "<br>" . $cpk);
+
 ?>

@@ -38,6 +38,11 @@
     <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/dist/js/adminlte.js" ?>">
     </script>
 
+    <!-- dropzonejs -->
+    <!-- <script src="../../plugins/dropzone/min/dropzone.min.js"></script> -->
+    <!-- AdminLTE App -->
+
+
     <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->
     <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/common/public/plugins/jquery-mousewheel/jquery.mousewheel.js" ?>">
@@ -398,10 +403,10 @@
                                     </a>
 
                                 </li>
-                                <li class="nav-item <?php if ($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurement_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurement_itemsqc") {
+                                <li class="nav-item <?php if ($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurement_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurement_itemsqc" || $active_page_sub == "register_management_levelqc") {
                                                         echo "menu-open";
                                                     } ?>">
-                                    <a href="QC" class="nav-link <?php if ($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurement_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurement_itemsqc") {
+                                    <a href="QC" class="nav-link <?php if ($active_page_sub == "register_lineqc" || $active_page_sub == "register_product_codeqc" || $active_page_sub == "register_number_machineqc" || $active_page_sub == "register_measurement_items_nameqc" || $active_page_sub == "register_frequencyqc" || $active_page_sub == "register_measurement_itemsqc" || $active_page_sub == "register_management_levelqc") {
                                                                         echo "active";
                                                                     } ?>">
                                         <i class="nav-icon fas fa-circle"></i>
@@ -418,20 +423,20 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code/" ?>" class="nav-link <?php if ($active_page_sub == "register_product_codeqc") {
-                                                                                                                                                                        echo "active";
-                                                                                                                                                                    } ?>">
-                                                <i class="nav-icon far fa-circle"></i>
-                                                <p>Đăng Ký Mã Sản Phẩm</p>
-                                            </a>
-
-                                        </li>
-                                        <li class="nav-item">
                                             <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_number_machine/" ?>" class="nav-link <?php if ($active_page_sub == "register_number_machineqc") {
                                                                                                                                                                         echo "active";
                                                                                                                                                                     } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Đăng Ký Mã Máy</p>
+                                            </a>
+
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_product_code/" ?>" class="nav-link <?php if ($active_page_sub == "register_product_codeqc") {
+                                                                                                                                                                        echo "active";
+                                                                                                                                                                    } ?>">
+                                                <i class="nav-icon far fa-circle"></i>
+                                                <p>Đăng Ký Mã Sản Phẩm</p>
                                             </a>
 
                                         </li>
@@ -444,6 +449,14 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items/" ?>" class="nav-link <?php if ($active_page_sub == "register_measurement_itemsqc") {
+                                                                                                                                                                            echo "active";
+                                                                                                                                                                        } ?>">
+                                                <i class="nav-icon far fa-circle"></i>
+                                                <p>Đăng Ký Hạng Mục Đo</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_frequency/" ?>" class="nav-link <?php if ($active_page_sub == "register_frequencyqc") {
                                                                                                                                                                     echo "active";
                                                                                                                                                                 } ?>">
@@ -452,11 +465,11 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items/" ?>" class="nav-link <?php if ($active_page_sub == "register_measurement_itemsqc") {
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_management_level/" ?>" class="nav-link <?php if ($active_page_sub == "register_management_levelqc") {
                                                                                                                                                                             echo "active";
                                                                                                                                                                         } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
-                                                <p>Đăng Ký Hạng Mục Đo</p>
+                                                <p>Đăng ký Cấp Độ Quản Lý</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -467,29 +480,44 @@
                                                 <p>Đăng Ký điều kiện đo đặc biệt</p>
                                             </a>
                                         </li>
+                                       
+                                   
+                                        
+                                     
+                                      
                                     </ul>
                                 </li>
-                                <li class="nav-item <?php if ($active_page_sub == "approvalqc"||$active_page_sub == "reset_measurement_itemsqc"||$active_page_sub == "reset_measuring_toolsqc") {echo "menu-open";} ?>">
-                                    <a href="QC" class="nav-link <?php if ($active_page_sub == "approvalqc"||$active_page_sub == "reset_measurement_itemsqc"||$active_page_sub == "reset_measuring_toolsqc") {echo "active";} ?>">
+                                <li class="nav-item <?php if ($active_page_sub == "approvalqc" || $active_page_sub == "reset_measurement_itemsqc" || $active_page_sub == "reset_measuring_toolsqc") {
+                                                        echo "menu-open";
+                                                    } ?>">
+                                    <a href="QC" class="nav-link <?php if ($active_page_sub == "approvalqc" || $active_page_sub == "reset_measurement_itemsqc" || $active_page_sub == "reset_measuring_toolsqc") {
+                                                                        echo "active";
+                                                                    } ?>">
                                         <i class="nav-icon fas fa-circle"></i>
                                         <p>Quản Lý Thông Tin</p>
                                         <i class="right fas fa-angle-left"></i>
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/informationManage/approval/" ?>" class="nav-link <?php if ($active_page_sub == "approvalqc") {echo "active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/informationManage/approval/" ?>" class="nav-link <?php if ($active_page_sub == "approvalqc") {
+                                                                                                                                                                echo "active";
+                                                                                                                                                            } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Duyệt, chỉnh sửa, xuất báo cáo</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/informationManage/reset_measurement_items" ?>" class="nav-link <?php if ($active_page_sub == "reset_measurement_itemsqc") {echo "active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/informationManage/reset_measurement_items" ?>" class="nav-link <?php if ($active_page_sub == "reset_measurement_itemsqc") {
+                                                                                                                                                                            echo "active";
+                                                                                                                                                                        } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Reset hạng mục đo</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/informationManage/reset_measuring_tools" ?>" class="nav-link <?php if ($active_page_sub == "reset_measuring_toolsqc") {echo "active";} ?>">
+                                            <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/informationManage/reset_measuring_tools" ?>" class="nav-link <?php if ($active_page_sub == "reset_measuring_toolsqc") {
+                                                                                                                                                                            echo "active";
+                                                                                                                                                                        } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
                                                 <p>Reset trạng thái dụng cụ đo</p>
                                             </a>

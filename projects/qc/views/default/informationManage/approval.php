@@ -71,19 +71,19 @@ td.no-border {
 }
 
 .text-font-s {
-    font-size: 12px;
+    font-size: 12px !important;
 }
 
 .text-font-m {
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .text-font-l {
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 .text-font-xl {
-    font-size: 18px;
+    font-size: 18px !important;
 }
 
 .font-weight-400 {

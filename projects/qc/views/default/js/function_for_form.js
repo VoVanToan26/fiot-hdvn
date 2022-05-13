@@ -1,4 +1,7 @@
-
+$(document).ready(function () {
+  $(".select2").select2({
+  });
+});
 
 function checkDuplicateValue(value, Array) {
   let dem = 0;
@@ -25,42 +28,38 @@ function checkInputValue(Array, idOfInput, idOfErr, checkDuplicate) {
   var value = input.value.trim();
   if (value == "") {
     addIsInVail(input);
-    feedback_err.innerHTML="Vui lòng nhập đủ thông tin";
+    feedback_err.innerHTML = "Vui lòng nhập đủ thông tin";
     return false;
   } else if (checkDuplicate) {
     if (Array.length == 0) {
       addIsVail(input);
       return true;
-    } else if (Array.length != 0) { 
+    } else if (Array.length != 0) {
       var check = checkDuplicateValue(value, Array);
       if (check) {
         addIsInVail(input);
-        feedback_err.innerHTML="Đã tồn tại";
+        feedback_err.innerHTML = "Đã tồn tại";
         return false;
       } else {
         addIsVail(input);
         return true;
       }
     }
-  }else {
-    addIsVail(input)
+  } else {
+    addIsVail(input);
     return true;
   }
-
- 
 }
 
-function formValidation(idForm){
-  form=document.getElementById(idForm)
+function formValidation(idForm) {
+  form = document.getElementById(idForm);
   if (!form.checkValidity()) {
-    form.classList.add("was-validated")
+    form.classList.add("was-validated");
     // alert(false)
-    return(false)
-   
-  } 
+    return false;
+  }
   // alert(true)
   return true;
-
 }
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 // (function () {
@@ -88,34 +87,42 @@ function formValidation(idForm){
 function validate($data) {
   $data.trim();
 }
-$(document).ready(function ()  {
-
+$(document).ready(function () {
   // selectButton= document.querySelectorAll('button')
   // console.log(selectButton)
   // $selectButton.dblclick(false);
 });
+//  Array remove
 function arrayRemove(arr, indexOfArr) {
-  return arr.filter(function(value,index){
-      return index != indexOfArr;
+  return arr.filter(function (value, index) {
+    return index != indexOfArr;
   });
 }
 
-function removeRequired(elements){
-  elements.forEach(function(element){
-    element.removeAttribute("required")
-  })
+function removeRequired(elements) {
+  elements.forEach(function (element) {
+    element.removeAttribute("required");
+  });
 }
-function addRequired(elements){
-  elements.forEach(function(element){
-    element.setAttribute("required",true)
-  })
+function addRequired(elements) {
+  elements.forEach(function (element) {
+    element.setAttribute("required", true);
+  });
 }
-function addValueNull(elements){
-  elements.forEach(function(element){
-    element.value=null;
-  })
+function addValueNull(elements) {
+  elements.forEach(function (element) {
+    element.value = null;
+  });
 }
-
+function validateSize(input, max_value) {
+  const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+  if (fileSize > max_value) {
+    alert("File size exceeds 2 MiB");
+    // $(file).val(''); //for clearing with Jquery
+  } else {
+    // Proceed further
+  }
+}
 // $(document).ready(function () {
 //   $("button").on("click", function() {
 //       $(this).attr("disabled", "disabled");
