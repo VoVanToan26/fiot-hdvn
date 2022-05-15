@@ -258,7 +258,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
         </div>
     </form>
 
-    <form onsubmit="checkForm()" id='register_MIN_form_delete' needs-validation action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items_name"; ?>" method="post">
+    <form  id='register_MIN_form_delete' needs-validation action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items_name"; ?>" method="post">
 
         <!-- model -->
         <div class="modal fade" id="myDelete">
