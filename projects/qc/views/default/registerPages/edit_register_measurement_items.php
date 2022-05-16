@@ -225,8 +225,8 @@
                     </div>
 
                     <!-- Form UCL end -->
-                    <div class="row tolerance_form">
-                        <div class="form-group col select_tolerance_form col">
+                    <div class="row tolerance_form_edit">
+                        <div class="form-group col select_tolerance_form_edit col">
                             <label for="type_allowance_edit" class="col-form-label">Loại Quy Cách</label>
                             <select required class="form-control" id="type_allowance_edit" name="type_allowance_edit" maxlength="200" autocomplete="off" onchange="type_allowance_edit_change()">
                                 <option value="">Chọn loại quy cách</option>
@@ -314,8 +314,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 form-group table-responsive formula_info_form">
-                            <table class="table-cong-thuc table table-bordered text-center mt-38">
+                        <div class="col-6 form-group table-responsive formula_info_form_edit">
+                            <table class="table_fomular_edit table table-bordered text-center mt-38">
                                 <tr>
                                     <th class="h-38 w-50">Ký tự</th>
                                     <th class=" w-50">Ghi chú</th>

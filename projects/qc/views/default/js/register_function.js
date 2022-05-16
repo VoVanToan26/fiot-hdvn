@@ -42,10 +42,20 @@ function disableBtn(btId) {
 }
 
 function loadSelectbox(id_place, val) {
-    valStrToArr = val.split(';');
-    try {
-        $("#" + id_place).val(valStrToArr).trigger("change"); //tag used select2
-    } catch (error) {
-        // console.log(error);
-    }
+  valStrToArr = val.split(";");
+  try {
+    $("#" + id_place)
+      .val(valStrToArr)
+      .trigger("change"); //tag used select2
+  } catch (error) {
+    // console.log(error);
+  }
 }
+
+// String between : ;
+function getStringsBetweenTwoCharactor(str) {
+  // let result = str.match(/:\w+;/g) || [];
+  let result2 = str.match(/(?<=:)\w+(?=;)/g) || [];
+  return result2;
+}
+
