@@ -595,7 +595,6 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var myArr = JSON.parse(this.responseText);
-
                     for (i = 0; i < myArr.length; i++) {
                         if (myArr[i] != process_edit) {
                             opt = document.createElement('option');
@@ -603,7 +602,6 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                             opt.innerHTML = myArr[i];
                             selectLine1.appendChild(opt);
                         }
-
                     }
                 }
             };

@@ -191,7 +191,7 @@
 
                     <!-- form_MIN_info  name=""end -->
 
-                    <div class="row x_ucl_form bordered">
+                    <div class="row x_ucl_form_edit bordered">
                         <div class="form-group col">
                             <label for="x_ucl_edit" class="col-form-label">X-UCL</label>
                             <input type="number" class="form-control  change-required" id="x_ucl_edit" name="x_ucl_edit" step='0.00001' max="999999999" min="-999999999" autocomplete="off">
@@ -275,12 +275,12 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="custom-control custom-switch">
-                                <input class="custom-control-edit" type="checkbox" id="use_formula_edit" name="use_formula_edit" value="Yes" onclick="FormulaCb_function()">
+                                <input class="custom-control-input" type="checkbox" id="use_formula_edit" name="use_formula_edit" value="Yes" onclick="FormulaCb_function_edit()">
                                 <label for="use_formula_edit" class="custom-control-label" id="use_formula_label">Có Sử Dụng Công Thức</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row form_formula d-none">
+                    <div class="row form_formula_edit d-none">
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-6 form-group">
@@ -413,102 +413,3 @@
 
 </form>
 
-<script>
-      function editmeasurementItemsName(id) {
-        $('#product_family_edit').attr("disabled", true);
-// var selectProductFamily = document.getElementById('part_no_edit');
-// var selectLine = document.getElementById('process_edit');
-// document.getElementById('edit_id').value = id_edit;
-// document.getElementById('product_family_edit').value = product_family_edit;
-// document.getElementById('part_no_edit').value = part_no_edit;
-// document.getElementById('line_edit').value = line_edit;
-// document.getElementById('process_edit').value = process_edit;
-// document.getElementById('measurement_items_name_edit').value = measurement_items_edit;
-// // get part_no
-// if (product_family_edit == "") {
-//     while (selectProductFamily.firstChild) {
-//         selectProductFamily.removeChild(selectProductFamily.firstChild);
-//     }
-//     opt = document.createElement('option');
-//     opt.value = "";
-//     opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
-//     selectProductFamily.appendChild(opt);
-// } else {
-//     // console.log(part_no_edit);
-//     while (selectProductFamily.firstChild) {
-//         selectProductFamily.removeChild(selectProductFamily.firstChild);
-//     }
-//     var opt = null;
-//     opt = document.createElement('option');
-//     opt.value = part_no_edit;
-//     opt.innerHTML = part_no_edit;
-//     selectProductFamily.appendChild(opt);
-
-//     var xmlhttp = new XMLHttpRequest();
-//     xmlhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             var myArr = JSON.parse(this.responseText);
-
-//             for (i = 0; i < myArr.length; i++) {
-//                 if (myArr[i] != part_no_edit) {
-//                     opt = document.createElement('option');
-//                     opt.value = myArr[i];
-//                     opt.innerHTML = myArr[i];
-//                     selectProductFamily.appendChild(opt);
-//                 }
-
-//             }
-//         }
-//     };
-//     // xmlhttp.open("GET", url, true);
-//     var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-//     xmlhttp.open("GET", link_get_data + "?auto_popup_part_no=yes&product_family=" + product_family_edit, true);
-//     xmlhttp.send();
-// }
-
-// //get process
-// if (process_edit == "") {
-//     while (selectLine.firstChild) {
-//         selectLine.removeChild(selectLine.firstChild);
-//     }
-//     opt = document.createElement('option');
-//     opt.value = "";
-//     opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
-//     selectLine.appendChild(opt);
-// } else {
-//     // console.log(process_edit);
-//     while (selectLine.firstChild) {
-//         selectLine.removeChild(selectLine.firstChild);
-//     }
-//     var opt = null;
-//     opt = document.createElement('option');
-//     opt.value = process_edit;
-//     opt.innerHTML = process_edit;
-//     selectLine.appendChild(opt);
-
-//     var xmlhttp = new XMLHttpRequest();
-//     xmlhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             var myArr = JSON.parse(this.responseText);
-
-//             for (i = 0; i < myArr.length; i++) {
-//                 if (myArr[i] != process_edit) {
-//                     opt = document.createElement('option');
-//                     opt.value = myArr[i];
-//                     opt.innerHTML = myArr[i];
-//                     selectLine.appendChild(opt);
-//                 }
-
-//             }
-//         }
-//     };
-//     // xmlhttp.open("GET", url, true);
-//     var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-//     xmlhttp.open("GET", link_get_data + "?auto_popup_process=yes&line_input=" + line_edit, true);
-//     xmlhttp.send();
-// }
-
-$("#edit_measurement_items_modal").modal('toggle');
-}
-
-</script>

@@ -41,8 +41,9 @@ if ($resultcheck_measurement_items && $resultcheck_measurement_items->num_rows >
         $data_measurement_items[$i][25] = $row['no_measurement_items'];
         $data_measurement_items[$i][26] = $row['measuring_department'];
         $data_measurement_items[$i][27] = $row['status'];
-
-        // $data_management_level[$i]=$row['management_level_input'];
+        $data_measurement_items[$i][28] = $row['management_level_one'];
+        $data_measurement_items[$i][29] = $row['draw'];
+        $data_measurement_items[$i][30] = $row['allowance_display'];
         $i++;
     }
 } else {
@@ -73,6 +74,9 @@ if ($resultcheck_measurement_items && $resultcheck_measurement_items->num_rows >
     $data_measurement_items[0][24] = '';
     $data_measurement_items[0][25] = '';
     $data_measurement_items[0][27] = '';
+    $data_measurement_items[0][28] = '';
+    $data_measurement_items[0][29] = '';
+    $data_measurement_items[0][30] = '';
 }
 
 
@@ -256,7 +260,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                             <td>' . $data_measurement_items[$i][17] . '</td>
                                             <td>' . $data_measurement_items[$i][18] . '</td>';
                                         echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
-                                            onclick ="editmeasurementItemsName('.$data_measurement_items[$i][0].')">Sửa</button></td>';
+                                            onclick ="editmeasurementItemsName(' . $i . ',' . ')">Sửa</button></td>';
                                         echo '<td><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
                                             onclick ="deletemeasurementItemsName(' . $data_measurement_items[$i][0] . ',' . '\'' . $data_measurement_items[$i][5] . '\'' . ')">Xóa</button></td>';
                                         echo '</tr>';
@@ -381,8 +385,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                 <label for="chart_input" class="col-form-label">Biểu Đồ</label>
                                 <select required class="form-control" id="chart_input" name="chart_input" onchange="chart_input_change()">
                                     <option value="">Chọn loại biểu đồ</option>
-                                    <option value="Biểu đồ điều tra năng lực công đoạn">Biểu đồ điều tra năng lực công
-                                        đoạn</option>
+                                    <option value="Biểu đồ điều tra năng lực công đoạn">Biểu đồ điều tra năng lực công đoạn</option>
                                     <option value="Biểu đồ quản lý">Biểu đồ quản lý</option>
                                 </select>
                                 <small class="invalid-feedback " id="_err" name="">Vui lòng nhập đủ thông tin</small>
@@ -736,9 +739,15 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
     //createDataTable(id,pagelength, seaching)
     createDataTable('measurement_item_table', 10, true);
 </script>
+
 <script type="text/javascript">
     //ON CHANGE 
     var data_measurement_items = <?php echo json_encode($data_measurement_items); ?>;
+    console.log(data_measurement_items)
+    // var data_frequency = <?php echo json_encode($data_frequency); ?>;
+    // var data_management_level= <?php echo json_encode($data_management_level); ?>;
+    // var data_measuring_tools= <?php echo json_encode($data_measuring_tools); ?>;
+
     // console.log(data_measurement_items)
     var data_measurement_items_array = [];
     var select_measurement_items_input = document.getElementById('measurement_items_input');
@@ -821,6 +830,32 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         addValueNull(dNoneForm);
         // console.log("remove", dNoneForm)
     }
+    function FormulaCb_function_edit() {
+        var use_formula_inputElement = document.getElementById("use_formula_edit")
+        var use_formula_input = document.getElementById("use_formula_edit").checked;
+        var form_formula = document.querySelector('.form_formula_edit')
+        if (use_formula_input) {
+            document.getElementById("use_formula_label").style.cssText = "color: rgb(47 129 250);";
+            form_formula.classList.remove('d-none');
+
+        } else {
+            document.getElementById("use_formula_label").style.cssText = "color:white";
+            form_formula.classList.add('d-none');
+
+        }
+        var unDNoneForm = document.querySelectorAll(".form_formula_edit  .change-required")
+        // console.log("on", unDNoneForm)
+        addRequired(unDNoneForm)
+        var dNoneForm = document.querySelectorAll(".form_formula_edit .d-none .change-required")
+        removeRequired(dNoneForm);
+        addValueNull(dNoneForm);
+        // console.log("remove", dNoneForm)
+    }
+
+    
+
+
+    
     $(function() {
         $("#management_level_one_input").change(function(event) {
             var x = URL.createObjectURL(event.target.files[0]);
@@ -838,6 +873,12 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var x = URL.createObjectURL(event.target.files[0]);
             $("#img-draw_input").attr("src", x);
             document.getElementById('img-draw_input').style.display = 'flex';
+            // console.log(event);
+        });
+        $("#draw_edit").change(function(event) {
+            var x = URL.createObjectURL(event.target.files[0]);
+            $("#img-draw_edit").attr("src", x);
+            document.getElementById('img-draw_edit').style.display = 'flex';
             // console.log(event);
         });
 
@@ -898,6 +939,53 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             }
         }
     }
+    function chart_input_change_edit() {
+        var chart_input = document.getElementById('chart_edit').value;
+        var x_ucl_form = document.querySelector('.x_ucl_form_edit');
+        var selectFormInput = document.getElementById('form_edit');
+        var inputElements = x_ucl_form.querySelectorAll('.change-required')
+        if (chart_input == "Biểu đồ điều tra năng lực công đoạn") {
+            x_ucl_form.classList.add('d-none');
+            removeRequired(inputElements);
+            addValueNull(inputElements);
+            while (selectFormInput.firstChild) {
+                selectFormInput.removeChild(selectFormInput.firstChild);
+            }
+            var opt = null;
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Chọn form";
+            selectFormInput.appendChild(opt);
+            myArr = ["Xbar-R", "X-R", "X-Rs"]
+            for (i = 0; i < myArr.length; i++) {
+                opt = document.createElement('option');
+                opt.value = myArr[i];
+                opt.innerHTML = myArr[i];
+                selectFormInput.appendChild(opt);
+            }
+        } else {
+            value = 'OK/NG'
+            x_ucl_form.classList.remove('d-none');
+            addRequired(inputElements)
+            while (selectFormInput.firstChild) {
+                selectFormInput.removeChild(selectFormInput.firstChild);
+            }
+            var opt = null;
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Chọn form";
+            selectFormInput.appendChild(opt);
+            myArr = ["Xbar-R", "X-R", "X-Rs", "Datasheet", "Checksheet"]
+            for (i = 0; i < myArr.length; i++) {
+                opt = document.createElement('option');
+                opt.value = myArr[i];
+                opt.innerHTML = myArr[i];
+                selectFormInput.appendChild(opt);
+            }
+        }
+    }
+
+
 
     function form_input_change() {
         var chart_input = document.getElementById('chart_input').value.trim();
@@ -1238,7 +1326,45 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                 xmlhttp.send();
             }
         } else if (action == "edit") {
-            // continue();
+            var product_family = $('#product_family_edit').val();
+            var selectLine = document.getElementById('line_edit');
+            if (product_family == "") {
+                while (selectLine.firstChild) {
+                    selectLine.removeChild(selectLine.firstChild);
+                }
+                opt = document.createElement('option');
+                opt.value = "";
+                opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
+                selectLine.appendChild(opt);
+            } else {
+                var xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var myArr = JSON.parse(this.responseText);
+                        while (selectLine.firstChild) {
+                            selectLine.removeChild(selectLine.firstChild);
+                        }
+                        var opt = null;
+                        opt = document.createElement('option');
+                        opt.value = "";
+                        opt.innerHTML = "Chọn line";
+
+                        selectLine.appendChild(opt);
+                        console.log(selectLine)
+                        for (i = 0; i < myArr.length; i++) {
+                            opt = document.createElement('option');
+                            opt.value = myArr[i];
+                            opt.innerHTML = myArr[i];
+                            selectLine.appendChild(opt);
+                        }
+                    }
+                };
+                // xmlhttp.open("GET", url, true);
+                var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+                xmlhttp.open("GET", link_get_data + "?auto_popup_line=yes&product_family=" + product_family, true);
+                xmlhttp.send();
+            }
         }
     }
 
@@ -1362,101 +1488,220 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 
     }
 
-    function editmeasurementItemsName(id) {
+    function set_select_line_edit(product_family_id, line_id, line_value) {
+        var product_family = document.getElementById(product_family_id).value;
+        var selectLine = document.getElementById(line_id);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+                while (selectLine.firstChild) {
+                    selectLine.removeChild(selectLine.firstChild);
+                }
+                var opt = null;
+                opt = document.createElement("option");
+                //  Set value for select  line
+                opt.value = line_value;
+                opt.innerHTML = line_value;
 
+                selectLine.appendChild(opt);
+                for (i = 0; i < myArr.length; i++) {
+                    if (myArr[i] != line_value) {
+                        opt = document.createElement("option");
+                        opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        selectLine.appendChild(opt);
+                    }
+                }
+            }
+        };
+        // xmlhttp.open("GET", url, true);
+        var link_get_data =
+            "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+        xmlhttp.open(
+            "GET",
+            link_get_data + "?auto_popup_line=yes&product_family=" + product_family,
+            true
+        );
+        xmlhttp.send();
+    }
 
+    function set_select_part_no_edit(product_family_id, line_id, part_no_id, part_no_value) {
+        var product_family = document.getElementById(product_family_id).value;
+        var line = document.getElementById(line_id).value;
+        var select_part_no = document.getElementById(part_no_id)
 
-        // var selectProductFamily = document.getElementById('part_no_edit');
-        // var selectLine = document.getElementById('process_edit');
-        // document.getElementById('edit_id').value = id_edit;
-        // document.getElementById('product_family_edit').value = product_family_edit;
-        // document.getElementById('part_no_edit').value = part_no_edit;
-        // document.getElementById('line_edit').value = line_edit;
-        // document.getElementById('process_edit').value = process_edit;
-        // document.getElementById('measurement_items_name_edit').value = measurement_items_edit;
-        // // get part_no
-        // if (product_family_edit == "") {
-        //     while (selectProductFamily.firstChild) {
-        //         selectProductFamily.removeChild(selectProductFamily.firstChild);
-        //     }
-        //     opt = document.createElement('option');
-        //     opt.value = "";
-        //     opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
-        //     selectProductFamily.appendChild(opt);
-        // } else {
-        //     // console.log(part_no_edit);
-        //     while (selectProductFamily.firstChild) {
-        //         selectProductFamily.removeChild(selectProductFamily.firstChild);
-        //     }
-        //     var opt = null;
-        //     opt = document.createElement('option');
-        //     opt.value = part_no_edit;
-        //     opt.innerHTML = part_no_edit;
-        //     selectProductFamily.appendChild(opt);
+        while (select_part_no.firstChild) {
+            select_part_no.removeChild(select_part_no.firstChild);
+        }
+        var opt = null;
+        opt = document.createElement('option');
+        opt.value = part_no_value;
+        opt.innerHTML = part_no_value;
+        select_part_no.appendChild(opt);
 
-        //     var xmlhttp = new XMLHttpRequest();
-        //     xmlhttp.onreadystatechange = function() {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //             var myArr = JSON.parse(this.responseText);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
 
-        //             for (i = 0; i < myArr.length; i++) {
-        //                 if (myArr[i] != part_no_edit) {
-        //                     opt = document.createElement('option');
-        //                     opt.value = myArr[i];
-        //                     opt.innerHTML = myArr[i];
-        //                     selectProductFamily.appendChild(opt);
-        //                 }
+                for (i = 0; i < myArr.length; i++) {
+                    if (myArr[i] != part_no_value) {
+                        opt = document.createElement('option');
+                        opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        select_part_no.appendChild(opt);
+                    }
 
-        //             }
-        //         }
-        //     };
-        //     // xmlhttp.open("GET", url, true);
-        //     var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-        //     xmlhttp.open("GET", link_get_data + "?auto_popup_part_no=yes&product_family=" + product_family_edit, true);
-        //     xmlhttp.send();
-        // }
+                }
+            }
+        };
+        // xmlhttp.open("GET", url, true);
+        var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+        // xmlhttp.open("GET", link_get_data + "?auto_popup_part_no=yes&line=" + line_edit, true);
+        xmlhttp.open("GET", link_get_data + "?auto_popup_part_no=yes&product_family=" + product_family + "&line=" + line, true);
+        xmlhttp.send();
+    }
 
-        // //get process
-        // if (process_edit == "") {
-        //     while (selectLine.firstChild) {
-        //         selectLine.removeChild(selectLine.firstChild);
-        //     }
-        //     opt = document.createElement('option');
-        //     opt.value = "";
-        //     opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
-        //     selectLine.appendChild(opt);
-        // } else {
-        //     // console.log(process_edit);
-        //     while (selectLine.firstChild) {
-        //         selectLine.removeChild(selectLine.firstChild);
-        //     }
-        //     var opt = null;
-        //     opt = document.createElement('option');
-        //     opt.value = process_edit;
-        //     opt.innerHTML = process_edit;
-        //     selectLine.appendChild(opt);
+    function set_select_process_edit(line_id, process_id, process_value) {
+        var line = document.getElementById(line_id).value;
+        var select_process = document.getElementById(process_id)
+        while (select_process.firstChild) {
+            select_process.removeChild(select_process.firstChild);
+        }
+        var opt = null;
+        opt = document.createElement('option');
+        opt.value = process_value;
+        opt.innerHTML = process_value;
+        select_process.appendChild(opt);
 
-        //     var xmlhttp = new XMLHttpRequest();
-        //     xmlhttp.onreadystatechange = function() {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //             var myArr = JSON.parse(this.responseText);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
 
-        //             for (i = 0; i < myArr.length; i++) {
-        //                 if (myArr[i] != process_edit) {
-        //                     opt = document.createElement('option');
-        //                     opt.value = myArr[i];
-        //                     opt.innerHTML = myArr[i];
-        //                     selectLine.appendChild(opt);
-        //                 }
+                for (i = 0; i < myArr.length; i++) {
+                    if (myArr[i] != process_value) {
+                        opt = document.createElement('option');
+                        opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        select_process.appendChild(opt);
+                    }
 
-        //             }
-        //         }
-        //     };
-        //     // xmlhttp.open("GET", url, true);
-        //     var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-        //     xmlhttp.open("GET", link_get_data + "?auto_popup_process=yes&line_input=" + line_edit, true);
-        //     xmlhttp.send();
-        // }
+                }
+            }
+        };
+        // xmlhttp.open("GET", url, true);
+        var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+        xmlhttp.open("GET", link_get_data + "?auto_popup_process=yes&line_input=" + line, true);
+        xmlhttp.send();
+    }
+
+    function set_select_measurement_items_edit(product_family_id, line_id, part_no_id, process_id, measurement_items_id, measurement_items_value) {
+        product_family = document.getElementById(product_family_id).value
+        line = document.getElementById(line_id).value
+        part_no = document.getElementById(part_no_id).value
+        process = document.getElementById(process_id).value
+
+        select_measurement_items = document.getElementById(measurement_items_id)
+        while (select_measurement_items.firstChild) {
+            select_measurement_items.removeChild(select_measurement_items.firstChild);
+        }
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+
+                var opt = null;
+                opt = document.createElement('option');
+                opt.value = measurement_items_value;
+                opt.innerHTML = measurement_items_value;
+                select_measurement_items.appendChild(opt);
+                for (i = 0; i < myArr.length; i++) {
+                    if (myArr[i] != measurement_items_value && myArr[i] != '') {
+                        opt = document.createElement('option');
+                        opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        select_measurement_items.appendChild(opt);
+                    }
+                }
+
+            }
+        };
+        // xmlhttp.open("GET", url, true);
+        var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+        xmlhttp.open("GET", link_get_data + "?auto_popup_measurement_items=yes&product_family=" + product_family +
+            "&part_no=" + part_no + "&line=" + line + "&process=" + process, true);
+        xmlhttp.send();
+    }
+
+    function editmeasurementItemsName(index) {
+        $('#id_edit')
+
+        $('#id_edit').val(data_measurement_items[index][0])
+        $('#product_family_edit').val(data_measurement_items[index][1])
+
+        // $('#part_no_edit').val(data_measurement_items[index][2]);
+        // $('#process_edit').val(data_measurement_items[index][3])
+        // get_line_value('product_family_edit', 'line_edit')
+        set_select_line_edit('product_family_edit', 'line_edit', data_measurement_items[index][4])
+        set_select_part_no_edit('product_family_edit', 'line_edit', 'part_no_edit', data_measurement_items[index][2])
+        set_select_process_edit('line_edit', 'process_edit', data_measurement_items[index][3])
+        set_select_measurement_items_edit('product_family_edit', 'line_edit', 'part_no_edit', 'process_edit', 'measurement_items_edit', data_measurement_items[index][5])
+        // $('#measurement_items_edit').val(data_measurement_items[index][5])
+        $('#frequency_edit').val(data_measurement_items[index][6])
+        $('#measuring_tools_edit').val(data_measurement_items[index][7])
+        $('#standard_dimension_edit').val(data_measurement_items[index][8])
+        $('#upper_edit').val(data_measurement_items[index][9])
+        $('#lower_edit').val(data_measurement_items[index][10])
+        $('#unit_edit').val(data_measurement_items[index][11])
+        $('#type_allowance_edit').val(data_measurement_items[index][12])
+        chart_input_change_edit() 
+        $('#form_edit').val(data_measurement_items[index][13])
+
+        $('#x_ucl_edit').val(data_measurement_items[index][14])
+        $('#x_cl_edit').val(data_measurement_items[index][15])
+        $('#x_lcl_edit').val(data_measurement_items[index][16])
+        $('#r_ucl_edit').val(data_measurement_items[index][17])
+        $('#r_cl_edit').val(data_measurement_items[index][18])
+// Có sử dụng công thức
+        if(data_measurement_items[index][19]=='Yes'){
+            document.getElementById("use_formula_edit").checked=true;
+        }
+        else {
+            document.getElementById("use_formula_edit").checked=false; 
+        }
+        FormulaCb_function_edit()
+
+        console.log(true)
+        $('#type_formula_edit').val(data_measurement_items[index][20])
+        $('#number_element_edit').val(data_measurement_items[index][21])
+        $('#definition_formula_edit').val(data_measurement_items[index][22])
+        $('#formula_edit').val(data_measurement_items[index][23])
+        $('#chart_edit').val(data_measurement_items[index][24])
+        $('#no_measurement_items_edit').val(data_measurement_items[index][25])
+        $('#measuring_department_edit').val(data_measurement_items[index][26])
+        
+        // $('#management_level_edit').val(data_measurement_items[index][28])
+        function loadSelectbox(id_place, val) {
+            valStrToArr = val.split(';');
+            try {
+                $("#" + id_place).val(valStrToArr).trigger("change"); //tag used select2
+            } catch (error) {
+                // console.log(error);
+            }
+        }
+        loadSelectbox('management_level_edit', data_measurement_items[index][28])
+
+        // $('#draw_edit').val(+data_measurement_items[index][29])
+        console.log(data_measurement_items[index][29])
+        url= "/fiot-hdvn/"+data_measurement_items[index][29]
+        console.log(url)
+        $("#img-draw_edit").attr("src",url);
+        $("#img-draw_edit").css("display","flex")
+
+        $('#allowance_display_edit').val(data_measurement_items[index][30])
+  
 
         $("#edit_measurement_items_modal").modal('toggle');
     }
@@ -1497,7 +1742,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         if (!state.id) {
             return state.text;
         }
-        console.log(state.text)
+        // console.log(state.text)
         var baseUrl = "/fiot-hdvn/";
         var $state = $(
             '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + '</span>'
@@ -1510,7 +1755,43 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         if (!state.id) {
             return state.text;
         }
-        console.log(state.text)
+        // console.log(state.text)
+        var baseUrl = "/fiot-hdvn/";
+        var $state = $(
+            '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + state.text + '</span>'
+        );
+        return $state;
+    };
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $("#management_level_edit").select2({
+            theme: "classic",
+            templateResult: formatStateResult,
+            templateSelection: formatStateSelect,
+        });
+    });
+
+    function formatStateSelect(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        // console.log(state.text)
+        var baseUrl = "/fiot-hdvn/";
+        var $state = $(
+            '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + '</span>'
+        );
+
+        return $state;
+    };
+
+    function formatStateResult(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        // console.log(state.text)
         var baseUrl = "/fiot-hdvn/";
         var $state = $(
             '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + state.text + '</span>'
