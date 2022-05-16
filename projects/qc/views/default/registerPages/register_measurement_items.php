@@ -775,7 +775,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
     function register_measurement_btn() {
         disableBtn('measurement_btn');
         var MIN_value = document.getElementById('measurement_items_input').value.trim()
-        if (checkFormula()) {
+        if (checkFormula('register')) {
             $('#formula_input_err').html("Vui lòng nhập đủ thông tin");
             $('#formula_input').addClass("is-valid");
             $('#formula_input').removeClass("is-invalid");
@@ -796,8 +796,6 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $('#formula_input').addClass("is-invalid");
             $('#formula_input').removeClass("is-valid");
         }
-
-
     }
 
     function check_resultMIN() {
@@ -1355,49 +1353,51 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
     }
 
     function auto_popup_part_no(action) {
+        //  set vars
         if (action == "register") {
             var product_family = document.getElementById('product_family_input').value;
             var line_input = document.getElementById('line_input').value;
-
             var selectPartNo = document.getElementById('part_no_input');
-
-            if (product_family == "") {
-                while (selectPartNo.firstChild) {
-                    selectPartNo.removeChild(selectPartNo.firstChild);
-                }
-                opt = document.createElement('option');
-                opt.value = "";
-                opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
-                selectPartNo.appendChild(opt);
-            } else {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var myArr = JSON.parse(this.responseText);
-                        while (selectPartNo.firstChild) {
-                            selectPartNo.removeChild(selectPartNo.firstChild);
-                        }
-                        var opt = null;
-                        opt = document.createElement('option');
-                        opt.value = "";
-                        opt.innerHTML = "Chọn mã sản phẩm";
-                        selectPartNo.appendChild(opt);
-                        for (i = 0; i < myArr.length; i++) {
-                            opt = document.createElement('option');
-                            opt.value = myArr[i];
-                            opt.innerHTML = myArr[i];
-                            selectPartNo.appendChild(opt);
-                        }
-                    }
-                };
-                // xmlhttp.open("GET", url, true);
-                var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-                xmlhttp.open("GET", link_get_data + "?auto_popup_part_no=yes&product_family=" + product_family + "&line=" +
-                    line_input, true);
-                xmlhttp.send();
-            }
         } else if (action == "edit") {
-            // continue();
+            var product_family = document.getElementById('product_family_edit').value;
+            var line_input = document.getElementById('line_edit').value;
+            var selectPartNo = document.getElementById('part_no_edit');
+        }
+        //  Xử lý dữ liệu
+        if (product_family == "") {
+            while (selectPartNo.firstChild) {
+                selectPartNo.removeChild(selectPartNo.firstChild);
+            }
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
+            selectPartNo.appendChild(opt);
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    while (selectPartNo.firstChild) {
+                        selectPartNo.removeChild(selectPartNo.firstChild);
+                    }
+                    var opt = null;
+                    opt = document.createElement('option');
+                    opt.value = "";
+                    opt.innerHTML = "Chọn mã sản phẩm";
+                    selectPartNo.appendChild(opt);
+                    for (i = 0; i < myArr.length; i++) {
+                        opt = document.createElement('option');
+                        opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        selectPartNo.appendChild(opt);
+                    }
+                }
+            };
+            // xmlhttp.open("GET", url, true);
+            var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+            xmlhttp.open("GET", link_get_data + "?auto_popup_part_no=yes&product_family=" + product_family + "&line=" +
+                line_input, true);
+            xmlhttp.send();
         }
     }
 
@@ -1488,46 +1488,46 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var line_input = document.getElementById('line_input').value;
             var selectLine = document.getElementById('process_input');
 
-            if (line_input == "") {
-                while (selectLine.firstChild) {
-                    selectLine.removeChild(selectLine.firstChild);
-                }
-                opt = document.createElement('option');
-                opt.value = "";
-                opt.innerHTML = "Vui lòng chọn line trước";
-                selectLine.appendChild(opt);
-            } else {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var myArr = JSON.parse(this.responseText);
-                        while (selectLine.firstChild) {
-                            selectLine.removeChild(selectLine.firstChild);
-                        }
 
-                        var opt = null;
-                        opt = document.createElement('option');
-                        opt.value = "";
-                        opt.innerHTML = "Chọn công đoạn";
-                        selectLine.appendChild(opt);
-                        for (i = 0; i < myArr.length; i++) {
-                            opt = document.createElement('option');
-                            opt.value = myArr[i];
-                            opt.innerHTML = myArr[i];
-                            selectLine.appendChild(opt);
-                        }
-                    }
-                };
-                var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-                xmlhttp.open("GET", link_get_data + "?auto_popup_process=yes&line_input=" + line_input, true);
-                xmlhttp.send();
-            }
         } else if (action == "edit") {
-            // continue();
+            var line_input = document.getElementById('line_edit').value;
+            var selectLine = document.getElementById('process_edit');
         }
 
+        if (line_input == "") {
+            while (selectLine.firstChild) {
+                selectLine.removeChild(selectLine.firstChild);
+            }
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Vui lòng chọn line trước";
+            selectLine.appendChild(opt);
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    while (selectLine.firstChild) {
+                        selectLine.removeChild(selectLine.firstChild);
+                    }
 
-        // xmlhttp.open("GET", url, true);
+                    var opt = null;
+                    opt = document.createElement('option');
+                    opt.value = "";
+                    opt.innerHTML = "Chọn công đoạn";
+                    selectLine.appendChild(opt);
+                    for (i = 0; i < myArr.length; i++) {
+                        opt = document.createElement('option');
+                        opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        selectLine.appendChild(opt);
+                    }
+                }
+            };
+            var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+            xmlhttp.open("GET", link_get_data + "?auto_popup_process=yes&line_input=" + line_input, true);
+            xmlhttp.send();
+        }
 
     }
 
@@ -1538,67 +1538,72 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var selectLine = document.getElementById('line_input').value;
             var selectProcess = document.getElementById('process_input').value;
             var selectMeasurementItems = document.getElementById('measurement_items_input');
-
-            if (product_family == "") {
-                while (selectMeasurementItems.firstChild) {
-                    selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
-                }
-                opt = document.createElement('option');
-                opt.value = "";
-                opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
-                selectMeasurementItems.appendChild(opt);
-            } else if (selectPart_no == "") {
-                while (selectMeasurementItems.firstChild) {
-                    selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
-                }
-                opt = document.createElement('option');
-                opt.value = "";
-                opt.innerHTML = "Vui lòng chọn mã sản phẩm trước";
-                selectMeasurementItems.appendChild(opt);
-            } else if (selectLine == "") {
-                while (selectMeasurementItems.firstChild) {
-                    selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
-                }
-                opt = document.createElement('option');
-                opt.value = "";
-                opt.innerHTML = "Vui lòng chọn line trước";
-                selectMeasurementItems.appendChild(opt);
-            } else if (selectProcess == "") {
-                while (selectMeasurementItems.firstChild) {
-                    selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
-                }
-                opt = document.createElement('option');
-                opt.value = "";
-                opt.innerHTML = "Vui lòng chọn công đoạn trước";
-                selectMeasurementItems.appendChild(opt);
-            } else {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var myArr = JSON.parse(this.responseText);
-                        while (selectMeasurementItems.firstChild) {
-                            selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
-                        }
-                        var opt = null;
-                        opt = document.createElement('option');
-                        opt.value = "";
-                        opt.innerHTML = "Chọn hạng mục đo";
-                        selectMeasurementItems.appendChild(opt);
-                        for (i = 0; i < myArr.length; i++) {
-                            opt = document.createElement('option');
-                            if (myArr[i] == 'Không có hạng mục nào') opt.value = '';
-                            else opt.value = myArr[i];
-                            opt.innerHTML = myArr[i];
-                            selectMeasurementItems.appendChild(opt);
-                        }
-                    }
-                };
-                // xmlhttp.open("GET", url, true);
-                var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
-                xmlhttp.open("GET", link_get_data + "?auto_popup_measurement_items=yes&product_family=" + product_family +
-                    "&part_no=" + selectPart_no + "&line=" + selectLine + "&process=" + selectProcess, true);
-                xmlhttp.send();
+        } else if (action == "edit") {
+            var product_family = document.getElementById('product_family_edit').value;
+            var selectPart_no = document.getElementById('part_no_edit').value;
+            var selectLine = document.getElementById('line_edit').value;
+            var selectProcess = document.getElementById('process_edit').value;
+            var selectMeasurementItems = document.getElementById('measurement_items_edit');
+        }
+        if (product_family == "") {
+            while (selectMeasurementItems.firstChild) {
+                selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
             }
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Vui lòng chọn dòng sản phẩm trước";
+            selectMeasurementItems.appendChild(opt);
+        } else if (selectPart_no == "") {
+            while (selectMeasurementItems.firstChild) {
+                selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
+            }
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Vui lòng chọn mã sản phẩm trước";
+            selectMeasurementItems.appendChild(opt);
+        } else if (selectLine == "") {
+            while (selectMeasurementItems.firstChild) {
+                selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
+            }
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Vui lòng chọn line trước";
+            selectMeasurementItems.appendChild(opt);
+        } else if (selectProcess == "") {
+            while (selectMeasurementItems.firstChild) {
+                selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
+            }
+            opt = document.createElement('option');
+            opt.value = "";
+            opt.innerHTML = "Vui lòng chọn công đoạn trước";
+            selectMeasurementItems.appendChild(opt);
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    while (selectMeasurementItems.firstChild) {
+                        selectMeasurementItems.removeChild(selectMeasurementItems.firstChild);
+                    }
+                    var opt = null;
+                    opt = document.createElement('option');
+                    opt.value = "";
+                    opt.innerHTML = "Chọn hạng mục đo";
+                    selectMeasurementItems.appendChild(opt);
+                    for (i = 0; i < myArr.length; i++) {
+                        opt = document.createElement('option');
+                        if (myArr[i] == 'Không có hạng mục nào') opt.value = '';
+                        else opt.value = myArr[i];
+                        opt.innerHTML = myArr[i];
+                        selectMeasurementItems.appendChild(opt);
+                    }
+                }
+            };
+            // xmlhttp.open("GET", url, true);
+            var link_get_data = "<?php echo dirname($_SERVER['SCRIPT_NAME']) . '/qc/autopopup' ?>";
+            xmlhttp.open("GET", link_get_data + "?auto_popup_measurement_items=yes&product_family=" + product_family +
+                "&part_no=" + selectPart_no + "&line=" + selectLine + "&process=" + selectProcess, true);
+            xmlhttp.send();
         }
 
     }
@@ -1795,23 +1800,24 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var str1 = str.split(";")
             var result = [];
             str1.forEach(function(value) {
-                if(value!=''){
+                if (value != '') {
                     result.push(value.slice(
-                    str.indexOf(' ') + 1,
-                    str.lenght, 
-                ))
+                        str.indexOf(' ') + 1,
+                        str.lenght,
+                    ))
                 }
             })
             return result
         }
         //  Load data into commnent
-        // $('#definition_formula_edit').val(data_measurement_items[index][22])
-        strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22])
-    
-        InputFomularElement = document.querySelectorAll('.table_fomular_edit tr input')
-        for (var i = 0; i < strs.length; i++) {
-            InputFomularElement[i].value = strs[i]
+        if (data_measurement_items[index][22] != null) {
+            strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22]);
+            InputFomularElement = document.querySelectorAll('.table_fomular_edit tr input')
+            for (var i = 0; i < strs.length; i++) {
+                InputFomularElement[i].value = strs[i]
+            }
         }
+
 
         $('#formula_edit').val(data_measurement_items[index][23])
         $('#chart_edit').val(data_measurement_items[index][24])
@@ -1827,12 +1833,12 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                 // console.log(error);
             }
         }
-        loadSelectbox('management_level_edit', data_measurement_items[index][28])
+        if (data_measurement_items[index][28] != '') {
+            loadSelectbox('management_level_edit', data_measurement_items[index][28])
+        }
 
         // $('#draw_edit').val(+data_measurement_items[index][29])
-        console.log(data_measurement_items[index][29])
         url = "/fiot-hdvn/" + data_measurement_items[index][29]
-        console.log(url)
         $("#img-draw_edit").attr("src", url);
         $("#img-draw_edit").css("display", "flex")
 
@@ -1842,12 +1848,16 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         $("#edit_measurement_items_modal").modal('toggle');
     }
 
-
-
-    function checkFormula() {
+    function checkFormula(action) {
+        if (action = "register") {
+            var A = document.getElementById('formula_input').value.trim()
+            var dem = document.getElementById('number_element_input').value
+        } else if (action = "edit") {
+            var A = document.getElementById('formula_edit').value.trim()
+            var dem = document.getElementById('number_element_edit').value
+        }
         var Str = "BCDEFGHJKH"
-        var A = document.getElementById('formula_input').value.trim()
-        var dem = document.getElementById('number_element_input').value
+
         for (var i = 0; i < dem; i++) {
             eval(Str[i] + '=10')
         }
