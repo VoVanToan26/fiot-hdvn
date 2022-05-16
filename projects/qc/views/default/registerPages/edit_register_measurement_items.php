@@ -1,4 +1,4 @@
-<form id="form_MIN_info" name="form_MIN_info" action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items"; ?>" method="post" enctype="multipart/form-data">
+<form id="form_MIN_info_edit" name="form_MIN_info_edit" action="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items"; ?>" method="post" enctype="multipart/form-data">
     <div class="modal fade" id="edit_measurement_items_modal" tabindex="-1" role="dialog" aria-labelledby="exadd_measurement_items" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -101,7 +101,7 @@
                     <div class="row">
                         <div class="form-group col-3">
                             <label for="chart_edit" class="col-form-label">Biểu Đồ</label>
-                            <select required class="form-control" id="chart_edit" name="chart_edit" onchange="chart_input_change()">
+                            <select required class="form-control" id="chart_edit" name="chart_edit" onchange="chart_input_change('edit')">
                                 <option value="">Chọn loại biểu đồ</option>
                                 <option value="Biểu đồ điều tra năng lực công đoạn">Biểu đồ điều tra năng lực công
                                     đoạn</option>
@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="form-group col-3">
                             <label for="form_edit" class="col-form-label">Form</label>
-                            <select required class="form-control" id="form_edit" name="form_edit" onchange="form_edit_change()">
+                            <select required class="form-control" id="form_edit" name="form_edit" onchange="form_input_change('edit')">
                                 <option value="">Chọn form</option>
                                 <!-- <option value="Datasheet">Datasheet</option>
                                     <option value="Checksheet">Checksheet</option>
@@ -228,7 +228,7 @@
                     <div class="row tolerance_form_edit">
                         <div class="form-group col select_tolerance_form_edit col">
                             <label for="type_allowance_edit" class="col-form-label">Loại Quy Cách</label>
-                            <select required class="form-control" id="type_allowance_edit" name="type_allowance_edit" maxlength="200" autocomplete="off" onchange="type_allowance_edit_change()">
+                            <select required class="form-control" id="type_allowance_edit" name="type_allowance_edit" maxlength="200" autocomplete="off" onchange="type_allowance_input_change('edit')">
                                 <option value="">Chọn loại quy cách</option>
                                 <option value="±">±</option>
                                 <option value="Min">Min</option>
@@ -286,7 +286,7 @@
                                 <div class="col-6 form-group">
                                     <label for="type_formula_edit" class="col-form-label">Chọn Dạng Công
                                         Thức</label>
-                                    <select class="form-control change-required" id="type_formula_edit" name="type_formula_edit" onchange="type_formula_edit_change(); number_element_edit_change()">
+                                    <select class="form-control change-required" id="type_formula_edit" name="type_formula_edit" onchange="type_formula_change_edit(); number_element_change('edit')">
                                         <option value="">Chọn dạng công thức</option>
                                         <option value="Normal">Normal</option>
                                         <option value="Max-Min">Max-Min</option>
@@ -299,7 +299,7 @@
                                 </div>
                                 <div class="col-6 form-group number_element_edit_form">
                                     <label for="number_element_edit" class="col-form-label">Nhập Số Phần Tử</label>
-                                    <input type="number" class="form-control change-required" id="number_element_edit" name="number_element_edit" max="10" min="1" value="1" onchange="number_element_edit_change();" readonly>
+                                    <input type="number" class="form-control change-required" id="number_element_edit" name="number_element_edit" max="10" min="1" value="1" onchange="number_element_change('edit');" readonly>
                                     <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin và giá trị (1÷10)</small>
 
                                 </div>
@@ -315,7 +315,7 @@
                             </div>
                         </div>
                         <div class="col-6 form-group table-responsive formula_info_form_edit">
-                            <table class="table_fomular_edit table table-bordered text-center mt-38">
+                            <table class="table_formula_edit table table-bordered text-center mt-38">
                                 <tr>
                                     <th class="h-38 w-50">Ký tự</th>
                                     <th class=" w-50">Ghi chú</th>
@@ -399,10 +399,10 @@
                             </table>
                         </div>
                     </div>
-                    <input value="true" id="register_measurement_items_function" name="register_measurement_items_function" hidden></input>
+                    <input value="true" id="edit_measurement_items_function" name="edit_measurement_items_function" hidden></input>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="button" id="measurement_btn" class="btn btn-primary" onclick="register_measurement_btn()">Đăng ký</button>
+                        <button type="button" id="measurement_btn_edit" class="btn btn-primary" onclick="edit_measurement_btn()">Sửa</button>
                     </div>
                 </div>
 

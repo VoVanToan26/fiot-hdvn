@@ -383,7 +383,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                         <div class="row">
                             <div class="form-group col-3">
                                 <label for="chart_input" class="col-form-label">Biểu Đồ</label>
-                                <select required class="form-control" id="chart_input" name="chart_input" onchange="chart_input_change()">
+                                <select required class="form-control" id="chart_input" name="chart_input" onchange="chart_input_change('register')">
                                     <option value="">Chọn loại biểu đồ</option>
                                     <option value="Biểu đồ điều tra năng lực công đoạn">Biểu đồ điều tra năng lực công đoạn</option>
                                     <option value="Biểu đồ quản lý">Biểu đồ quản lý</option>
@@ -421,7 +421,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                         <div class="row">
                             <div class="form-group col-3">
                                 <label for="form_input" class="col-form-label">Form</label>
-                                <select required class="form-control" id="form_input" name="form_input" onchange="form_input_change()">
+                                <select required class="form-control" id="form_input" name="form_input" onchange="form_input_change('register')">
                                     <option value="">Chọn form</option>
                                     <!-- <option value="Datasheet">Datasheet</option>
                                     <option value="Checksheet">Checksheet</option>
@@ -509,7 +509,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                         <div class="row tolerance_form">
                             <div class="form-group col select_tolerance_form col">
                                 <label for="type_allowance_input" class="col-form-label">Loại Quy Cách</label>
-                                <select required class="form-control" id="type_allowance_input" name="type_allowance_input" maxlength="200" autocomplete="off" onchange="type_allowance_input_change()">
+                                <select required class="form-control" id="type_allowance_input" name="type_allowance_input" maxlength="200" autocomplete="off" onchange="type_allowance_input_change('register')">
                                     <option value="">Chọn loại quy cách</option>
                                     <option value="±">±</option>
                                     <option value="Min">Min</option>
@@ -567,7 +567,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                     <div class="col-6 form-group">
                                         <label for="type_formula_input" class="col-form-label">Chọn Dạng Công
                                             Thức</label>
-                                        <select class="form-control change-required" id="type_formula_input" name="type_formula_input" onchange="type_formula_input_change(); number_element_input_change()">
+                                        <select class="form-control change-required" id="type_formula_input" name="type_formula_input" onchange="type_formula_change(); number_element_change('register')">
                                             <option value="">Chọn dạng công thức</option>
                                             <option value="Normal">Normal</option>
                                             <option value="Max-Min">Max-Min</option>
@@ -580,7 +580,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                     </div>
                                     <div class="col-6 form-group number_element_input_form">
                                         <label for="number_element_input" class="col-form-label">Nhập Số Phần Tử</label>
-                                        <input type="number" class="form-control change-required" id="number_element_input" name="number_element_input" max="10" min="1" value="1" onchange="number_element_input_change();" readonly>
+                                        <input type="number" class="form-control change-required" id="number_element_input" name="number_element_input" max="10" min="1" value="1" onchange="number_element_change('register');" readonly>
                                         <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin và giá trị (1÷10)</small>
 
                                     </div>
@@ -596,7 +596,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                 </div>
                             </div>
                             <div class="col-6 form-group table-responsive formula_info_form">
-                                <table class="table-cong-thuc table table-bordered text-center mt-38">
+                                <table class="table_formula_input  table table-bordered text-center mt-38">
                                     <tr>
                                         <th class="h-38 w-50">Ký tự</th>
                                         <th class=" w-50">Ghi chú</th>
@@ -797,7 +797,31 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $('#formula_input').removeClass("is-valid");
         }
     }
+    function edit_measurement_btn() {
+        disableBtn('measurement_btn_edit');
+        var MIN_value = document.getElementById('measurement_items_edit').value.trim()
+        if (checkFormula('edit')) {
+            $('#formula_edit_err').html("Vui lòng nhập đủ thông tin");
+            $('#formula_edit').addClass("is-valid");
+            $('#formula_edit').removeClass("is-invalid");
+            create_check_array();
+            check = formValidation('form_MIN_info_edit')
 
+            // console.log(check,checkMIN)
+            if (check) {
+                checkMIN = check_resultMIN()
+                if (checkMIN) {
+                    $('#form_MIN_info_edit').submit();
+                }
+
+            }
+        } else {
+            // formula_edit
+            $('#formula_edit_err').html("Định dạng công thức sai, Vui lòng nhập lại");
+            $('#formula_edit').addClass("is-invalid");
+            $('#formula_edit').removeClass("is-valid");
+        }
+    }
     function check_resultMIN() {
         checkMIN = checkInputValue(data_measurement_items_array, 'measurement_items_input', 'measurement_items_input_err', true)
         if (checkMIN) {
@@ -886,11 +910,20 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         $("#myDelete").modal('toggle');
     }
 
-    function chart_input_change() {
-        var chart_input = document.getElementById('chart_input').value;
-        var x_ucl_form = document.querySelector('.x_ucl_form');
-        var selectFormInput = document.getElementById('form_input');
-        var inputElements = x_ucl_form.querySelectorAll('.change-required')
+    function chart_input_change(action) {
+
+        if (action == 'register') {
+            var chart_input = document.getElementById('chart_input').value;
+            var x_ucl_form = document.querySelector('.x_ucl_form');
+            var selectFormInput = document.getElementById('form_input');
+            var inputElements = x_ucl_form.querySelectorAll('.change-required')
+        } else if (action == 'edit') {
+            var chart_input = document.getElementById('chart_edit').value;
+            var x_ucl_form = document.querySelector('.x_ucl_form_edit');
+            var selectFormInput = document.getElementById('form_edit');
+            var inputElements = x_ucl_form.querySelectorAll('.change-required')
+        }
+
         if (chart_input == "Biểu đồ điều tra năng lực công đoạn") {
             x_ucl_form.classList.add('d-none');
             removeRequired(inputElements);
@@ -932,106 +965,22 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         }
     }
 
-    function chart_input_change_edit() {
-        var chart_input = document.getElementById('chart_edit').value;
-        var x_ucl_form = document.querySelector('.x_ucl_form_edit');
-        var selectFormInput = document.getElementById('form_edit');
-        var inputElements = x_ucl_form.querySelectorAll('.change-required')
-        if (chart_input == "Biểu đồ điều tra năng lực công đoạn") {
-            x_ucl_form.classList.add('d-none');
-            removeRequired(inputElements);
-            addValueNull(inputElements);
-            while (selectFormInput.firstChild) {
-                selectFormInput.removeChild(selectFormInput.firstChild);
-            }
-            var opt = null;
-            opt = document.createElement('option');
-            opt.value = "";
-            opt.innerHTML = "Chọn form";
-            selectFormInput.appendChild(opt);
-            myArr = ["Xbar-R", "X-R", "X-Rs"]
-            for (i = 0; i < myArr.length; i++) {
-                opt = document.createElement('option');
-                opt.value = myArr[i];
-                opt.innerHTML = myArr[i];
-                selectFormInput.appendChild(opt);
-            }
-        } else {
-            value = 'OK/NG'
-            x_ucl_form.classList.remove('d-none');
-            addRequired(inputElements)
-            while (selectFormInput.firstChild) {
-                selectFormInput.removeChild(selectFormInput.firstChild);
-            }
-            var opt = null;
-            opt = document.createElement('option');
-            opt.value = "";
-            opt.innerHTML = "Chọn form";
-            selectFormInput.appendChild(opt);
-            myArr = ["Xbar-R", "X-R", "X-Rs", "Datasheet", "Checksheet"]
-            for (i = 0; i < myArr.length; i++) {
-                opt = document.createElement('option');
-                opt.value = myArr[i];
-                opt.innerHTML = myArr[i];
-                selectFormInput.appendChild(opt);
-            }
-        }
-    }
 
-    function form_input_change() {
-        var chart_input = document.getElementById('chart_input').value.trim();
-        var form_input = document.getElementById('form_input').value.trim();
-        var x_ucl_form = document.querySelector('.x_ucl_form');
-        var inputElements = x_ucl_form.querySelectorAll('.change-required')
-
-        if (form_input == "Datasheet" || form_input == "Checksheet" || chart_input ==
-            "Biểu đồ điều tra năng lực công đoạn") {
-            x_ucl_form.classList.add('d-none');
-            removeRequired(inputElements);
-
-            addValueNull(inputElements);
-            inputElements.forEach(function(element) {
-                // console.log()
-            })
-        } else {
-            x_ucl_form.classList.remove('d-none');
-            addRequired(inputElements)
-
-        }
-        var type_allowance_input = $('#type_allowance_input');
-        if (form_input == "Checksheet") {
-            // type_allowance_input.append('<option value="OK/NG" selected="selected">OK/NG</option>')
-            // // type_allowance_input.val("OK/NG") 
-            // $("#type_allowance_input option[value='Min']").remove();
-            // $("#type_allowance_input option[value='Max']").remove();
-            // $("#type_allowance_input option[value='±']").remove();
-            $('#type_allowance_input')
-                .find('option')
-                .remove()
-                .end()
-                .append('<option value="OK/NG">OK/NG</option>')
-                .val('OK/NG');;
-            type_allowance_input_change()
-        } else {
-            $('#type_allowance_input')
-                .find('option')
-                .remove()
-                .end()
-                .append('<option value="Min">Min</option>')
-                .append('<option value="Max">Max</option>')
-                .append('<option value="±">±</option>')
-                .val('Min');;
-
+    function form_input_change(action) {
+        if (action == "register") {
+            var chart_input = document.getElementById('chart_input').value.trim();
+            var form_input = document.getElementById('form_input').value.trim();
+            var x_ucl_form = document.querySelector('.x_ucl_form');
+            var inputElements = x_ucl_form.querySelectorAll('.change-required');
+            var type_allowance_input = $('#type_allowance_input');
+        } else if (action == "edit") {
+            var chart_input = document.getElementById('chart_edit').value.trim();
+            var form_input = document.getElementById('form_edit').value.trim();
+            var x_ucl_form = document.querySelector('.x_ucl_form_edit');
+            var inputElements = x_ucl_form.querySelectorAll('.change-required');
+            var type_allowance_input = $('#type_allowance_edit');
         }
 
-    }
-
-    function form_input_change_edit() {
-        var chart_input = document.getElementById('chart_edit').value.trim();
-        var form_input = document.getElementById('form_edit').value.trim();
-        var x_ucl_form = document.querySelector('.x_ucl_form_edit');
-        var inputElements = x_ucl_form.querySelectorAll('.change-required')
-        var type_allowance_input = $('#type_allowance_edit');
         if (form_input == "Datasheet" || form_input == "Checksheet" || chart_input ==
             "Biểu đồ điều tra năng lực công đoạn") {
             x_ucl_form.classList.add('d-none');
@@ -1049,15 +998,15 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 
         if (form_input == "Checksheet") {
 
-            $('#type_allowance_edit')
+            type_allowance_input
                 .find('option')
                 .remove()
                 .end()
                 .append('<option value="OK/NG">OK/NG</option>')
                 .val('OK/NG');;
-            type_allowance_input_change()
+            type_allowance_input_change(action)
         } else {
-            $('#type_allowance_edit')
+            type_allowance_input
                 .find('option')
                 .remove()
                 .end()
@@ -1065,20 +1014,32 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                 .append('<option value="Max">Max</option>')
                 .append('<option value="±">±</option>')
                 .val('Min');;
-
+            type_allowance_input_change(action)
         }
-
     }
 
-    function type_allowance_input_change() {
 
-        var type_allowance_input = document.getElementById('type_allowance_input').value.trim();
+    function type_allowance_input_change(action) {
+        if (action == 'register') {
+            var type_allowance_input = document.getElementById('type_allowance_input').value.trim();
+            var standard_dimension_input_form = document.querySelector('.standard_dimension_input_form');
+            var select_tolerance_form = document.querySelector('.select_tolerance_form');
+            var upper_input_form = document.querySelector('.upper_input_form');
+            var lower_input_form = document.querySelector('.lower_input_form');
+            var unit_input_form = document.querySelector('.unit_input_form');
+            var unDNoneForm = document.querySelectorAll(".tolerance_form  input.change-required")
+            var dNoneForm = document.querySelectorAll(".tolerance_form .d-none input.change-required")
+        } else if (action == 'edit') {
+            var type_allowance_input = document.getElementById('type_allowance_edit').value.trim();
+            var standard_dimension_input_form = document.querySelector('.standard_dimension_edit_form');
+            var select_tolerance_form = document.querySelector('.select_tolerance_form_edit');
+            var upper_input_form = document.querySelector('.upper_edit_form');
+            var lower_input_form = document.querySelector('.lower_edit_form');
+            var unit_input_form = document.querySelector('.unit_edit_form');
+            var unDNoneForm = document.querySelectorAll(".tolerance_form_edit  input.change-required")
+            var dNoneForm = document.querySelectorAll(".tolerance_form_edit .d-none input.change-required")
+        }
 
-        var standard_dimension_input_form = document.querySelector('.standard_dimension_input_form');
-        var select_tolerance_form = document.querySelector('.select_tolerance_form');
-        var upper_input_form = document.querySelector('.upper_input_form');
-        var lower_input_form = document.querySelector('.lower_input_form');
-        var unit_input_form = document.querySelector('.unit_input_form');
         if (type_allowance_input == "OK/NG") {
             standard_dimension_input_form.classList.add('d-none');
             upper_input_form.classList.add('d-none');
@@ -1101,65 +1062,23 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             unit_input_form.classList.remove('d-none');
 
         }
-        var unDNoneForm = document.querySelectorAll(".tolerance_form  input.change-required")
+
         // console.log("on",unDNoneForm)
         addRequired(unDNoneForm)
-        var dNoneForm = document.querySelectorAll(".tolerance_form .d-none input.change-required")
+
         removeRequired(dNoneForm);
         addValueNull(dNoneForm);
         //  console.log("",dNoneForm)
 
     }
 
-    function type_allowance_input_change_edit() {
-
-        var type_allowance_input = document.getElementById('type_allowance_edit').value.trim();
-
-        var standard_dimension_input_form = document.querySelector('.standard_dimension_edit_form');
-        var select_tolerance_form = document.querySelector('.select_tolerance_form');
-        var upper_input_form = document.querySelector('.upper_edit_form');
-        var lower_input_form = document.querySelector('.lower_edit_form');
-        var unit_input_form = document.querySelector('.unit_edit_form');
-        if (type_allowance_input == "OK/NG") {
-            standard_dimension_input_form.classList.add('d-none');
-            upper_input_form.classList.add('d-none');
-            lower_input_form.classList.add('d-none');
-            unit_input_form.classList.add('d-none');
-            select_tolerance_form.classList.add('col-3');
-
-        } else if (type_allowance_input == "Min" || type_allowance_input == "Max") {
-            standard_dimension_input_form.classList.remove('d-none');
-            upper_input_form.classList.add('d-none');
-            lower_input_form.classList.add('d-none');
-            unit_input_form.classList.remove('d-none');
-            unit_input_form.classList.remove('col-3');
-
-        } else {
-            standard_dimension_input_form.classList.remove('d-none');
-            upper_input_form.classList.remove('d-none');
-            lower_input_form.classList.remove('d-none');
-            unit_input_form.classList.remove('col-3');
-            unit_input_form.classList.remove('d-none');
-
-        }
-        var unDNoneForm = document.querySelectorAll(".tolerance_form_edit  input.change-required")
-        // console.log("on",unDNoneForm)
-        addRequired(unDNoneForm)
-        var dNoneForm = document.querySelectorAll(".tolerance_form_edit .d-none input.change-required")
-        removeRequired(dNoneForm);
-        addValueNull(dNoneForm);
-        //  console.log("",dNoneForm)
-
-    }
-
-    function type_formula_input_change() {
+    function type_formula_change() {
         var type_formula_inputElement = document.getElementById('type_formula_input')
         var type_formula_input = type_formula_inputElement.value.trim();
 
         if (type_formula_input == "Average") {
             document.getElementById("number_element_input").readOnly = true;
             document.getElementById("number_element_input").value = 1;
-
             document.querySelector('.number_element_input_form').classList.remove('d-none');
             document.querySelector('.formula_input_form').classList.remove('d-none');
             document.querySelector('.formula_info_form').classList.remove('d-none');
@@ -1176,8 +1095,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             document.querySelector('.number_element_input_form').classList.remove('d-none');
             document.querySelector('.formula_input_form').classList.remove('d-none');
             document.querySelector('.formula_info_form').classList.remove('d-none');
-
-
+           
         }
 
         var unDNoneForm = document.querySelectorAll(".form_formula  input.change-required")
@@ -1189,32 +1107,27 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         // console.log("dNoneForm",dNoneForm)
     }
 
-    function type_formula_input_change_edit() {
+    function type_formula_change_edit() {
         var type_formula_inputElement = document.getElementById('type_formula_edit')
         var type_formula_input = type_formula_inputElement.value.trim();
 
         if (type_formula_input == "Average") {
             document.getElementById("number_element_edit").readOnly = true;
             document.getElementById("number_element_edit").value = 1;
-
             document.querySelector('.number_element_edit_form').classList.remove('d-none');
             document.querySelector('.formula_edit_form').classList.remove('d-none');
             document.querySelector('.formula_info_form_edit').classList.remove('d-none');
-
-
         } else if (type_formula_input == "Max" || type_formula_input == "Min" || type_formula_input == "Max-Min") {
             document.getElementById("number_element_edit").readOnly = false;
             document.querySelector('.number_element_edit_form').classList.add('d-none');
             document.querySelector('.formula_edit_form').classList.add('d-none');
             document.querySelector('.formula_info_form_edit').classList.add('d-none');
-
         } else {
-            document.getElementById("number_element_input").readOnly = false;
-            document.querySelector('.number_element_input_form').classList.remove('d-none');
+            document.getElementById("number_element_edit").readOnly = false;
+            document.querySelector('.number_element_edit_form').classList.remove('d-none');
             document.querySelector('.formula_edit_form').classList.remove('d-none');
             document.querySelector('.formula_info_form_edit').classList.remove('d-none');
-
-
+            // $('#number_element_edit').val(1);
         }
 
         var unDNoneForm = document.querySelectorAll(".form_formula_edit  input.change-required")
@@ -1226,130 +1139,152 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         // console.log("dNoneForm",dNoneForm)
     }
 
-    function number_element_input_change() {
+    function number_element_change(action) {
         // body...
-        var number_element_inputElement = document.getElementById('number_element_input');
-        var number_element_input = number_element_inputElement.value;
-
-        if (number_element_input == 1) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.add('d-none');
-            document.querySelector('.d_form').classList.add('d-none');
-            document.querySelector('.e_form').classList.add('d-none');
-            document.querySelector('.f_form').classList.add('d-none');
-            document.querySelector('.g_form').classList.add('d-none');
-            document.querySelector('.h_form').classList.add('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 2) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.add('d-none');
-            document.querySelector('.e_form').classList.add('d-none');
-            document.querySelector('.f_form').classList.add('d-none');
-            document.querySelector('.g_form').classList.add('d-none');
-            document.querySelector('.h_form').classList.add('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 3) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.add('d-none');
-            document.querySelector('.f_form').classList.add('d-none');
-            document.querySelector('.g_form').classList.add('d-none');
-            document.querySelector('.h_form').classList.add('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 4) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.add('d-none');
-            document.querySelector('.g_form').classList.add('d-none');
-            document.querySelector('.h_form').classList.add('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 5) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.remove('d-none');
-            document.querySelector('.g_form').classList.add('d-none');
-            document.querySelector('.h_form').classList.add('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 6) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.remove('d-none');
-            document.querySelector('.g_form').classList.remove('d-none');
-            document.querySelector('.h_form').classList.add('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 7) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.remove('d-none');
-            document.querySelector('.g_form').classList.remove('d-none');
-            document.querySelector('.h_form').classList.remove('d-none');
-            document.querySelector('.i_form').classList.add('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 8) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.remove('d-none');
-            document.querySelector('.g_form').classList.remove('d-none');
-            document.querySelector('.h_form').classList.remove('d-none');
-            document.querySelector('.i_form').classList.remove('d-none');
-            document.querySelector('.j_form').classList.add('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 9) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.remove('d-none');
-            document.querySelector('.g_form').classList.remove('d-none');
-            document.querySelector('.h_form').classList.remove('d-none');
-            document.querySelector('.i_form').classList.remove('d-none');
-            document.querySelector('.j_form').classList.remove('d-none');
-            document.querySelector('.k_form').classList.add('d-none');
-        } else if (number_element_input == 10) {
-            document.querySelector('.b_form').classList.remove('d-none');
-            document.querySelector('.c_form').classList.remove('d-none');
-            document.querySelector('.d_form').classList.remove('d-none');
-            document.querySelector('.e_form').classList.remove('d-none');
-            document.querySelector('.f_form').classList.remove('d-none');
-            document.querySelector('.g_form').classList.remove('d-none');
-            document.querySelector('.h_form').classList.remove('d-none');
-            document.querySelector('.i_form').classList.remove('d-none');
-            document.querySelector('.j_form').classList.remove('d-none');
-            document.querySelector('.k_form').classList.remove('d-none');
+        if (action == "register") {
+            var table_formula = document.querySelector('.table_formula_input')
+            var number_element_inputElement = document.getElementById('number_element_input');
+        } else if (action == "edit") {
+            var table_formula = document.querySelector('.table_formula_edit')
+            var number_element_inputElement = document.getElementById('number_element_edit');
         }
-        var unDNoneForm = document.querySelectorAll(".form_formula  input.change-required")
+        var number_element_input = number_element_inputElement.value;
+        forms = table_formula.querySelectorAll('tr')
 
-        addRequired(unDNoneForm)
-        // console.log("ON",unDNoneForm)
-        var dNoneForm = document.querySelectorAll(".form_formula .d-none input.change-required")
-        removeRequired(dNoneForm);
-        addValueNull(dNoneForm);
+        for (var i = 1; i < forms.length; i++) {
+            if (i <= number_element_input) forms[i].classList.remove('d-none')
+            else forms[i].classList.add('d-none')
+        }
+
+        if (action == "register") {
+            var unDNoneForm = document.querySelectorAll(".form_formula  input.change-required")
+            addRequired(unDNoneForm)
+            // console.log("ON",unDNoneForm)
+            var dNoneForm = document.querySelectorAll(".form_formula .d-none input.change-required")
+            removeRequired(dNoneForm);
+            addValueNull(dNoneForm);
+        } else if (action == "edit") {
+            var unDNoneForm = document.querySelectorAll(".form_formula_edit  input.change-required")
+            addRequired(unDNoneForm)
+            // console.log("ON",unDNoneForm)
+            var dNoneForm = document.querySelectorAll(".form_formula_edit .d-none input.change-required")
+            removeRequired(dNoneForm);
+            addValueNull(dNoneForm);
+        }
+
         // console.log("dNoneForm",dNoneForm)
+        // if (number_element_input == 1) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.add('d-none');
+        //    table_formula.querySelector('.d_form').classList.add('d-none');
+        //    table_formula.querySelector('.e_form').classList.add('d-none');
+        //    table_formula.querySelector('.f_form').classList.add('d-none');
+        //    table_formula.querySelector('.g_form').classList.add('d-none');
+        //    table_formula.querySelector('.h_form').classList.add('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 2) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.add('d-none');
+        //    table_formula.querySelector('.e_form').classList.add('d-none');
+        //    table_formula.querySelector('.f_form').classList.add('d-none');
+        //    table_formula.querySelector('.g_form').classList.add('d-none');
+        //    table_formula.querySelector('.h_form').classList.add('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 3) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.add('d-none');
+        //    table_formula.querySelector('.f_form').classList.add('d-none');
+        //    table_formula.querySelector('.g_form').classList.add('d-none');
+        //    table_formula.querySelector('.h_form').classList.add('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 4) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.add('d-none');
+        //    table_formula.querySelector('.g_form').classList.add('d-none');
+        //    table_formula.querySelector('.h_form').classList.add('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 5) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.remove('d-none');
+        //    table_formula.querySelector('.g_form').classList.add('d-none');
+        //    table_formula.querySelector('.h_form').classList.add('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 6) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.remove('d-none');
+        //    table_formula.querySelector('.g_form').classList.remove('d-none');
+        //    table_formula.querySelector('.h_form').classList.add('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 7) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.remove('d-none');
+        //    table_formula.querySelector('.g_form').classList.remove('d-none');
+        //    table_formula.querySelector('.h_form').classList.remove('d-none');
+        //    table_formula.querySelector('.i_form').classList.add('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 8) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.remove('d-none');
+        //    table_formula.querySelector('.g_form').classList.remove('d-none');
+        //    table_formula.querySelector('.h_form').classList.remove('d-none');
+        //    table_formula.querySelector('.i_form').classList.remove('d-none');
+        //    table_formula.querySelector('.j_form').classList.add('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 9) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.remove('d-none');
+        //    table_formula.querySelector('.g_form').classList.remove('d-none');
+        //    table_formula.querySelector('.h_form').classList.remove('d-none');
+        //    table_formula.querySelector('.i_form').classList.remove('d-none');
+        //    table_formula.querySelector('.j_form').classList.remove('d-none');
+        //    table_formula.querySelector('.k_form').classList.add('d-none');
+        // } else if (number_element_input == 10) {
+        //    table_formula.querySelector('.b_form').classList.remove('d-none');
+        //    table_formula.querySelector('.c_form').classList.remove('d-none');
+        //    table_formula.querySelector('.d_form').classList.remove('d-none');
+        //    table_formula.querySelector('.e_form').classList.remove('d-none');
+        //    table_formula.querySelector('.f_form').classList.remove('d-none');
+        //    table_formula.querySelector('.g_form').classList.remove('d-none');
+        //    table_formula.querySelector('.h_form').classList.remove('d-none');
+        //    table_formula.querySelector('.i_form').classList.remove('d-none');
+        //    table_formula.querySelector('.j_form').classList.remove('d-none');
+        //    table_formula.querySelector('.k_form').classList.remove('d-none');
+        // }
+
     }
 
     function auto_popup_part_no(action) {
@@ -1756,34 +1691,48 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
     }
 
     function editmeasurementItemsName(index) {
-        $('#id_edit')
 
         $('#id_edit').val(data_measurement_items[index][0])
         $('#product_family_edit').val(data_measurement_items[index][1])
+        $('#frequency_edit').val(data_measurement_items[index][6])
+        $('#measuring_tools_edit').val(data_measurement_items[index][7])
+       
+       
+        $('#formula_edit').val(data_measurement_items[index][23])
+        $('#no_measurement_items_edit').val(data_measurement_items[index][25])
+        $('#measuring_department_edit').val(data_measurement_items[index][26])
+        $('#allowance_display_edit').val(data_measurement_items[index][30])
 
-        // $('#part_no_edit').val(data_measurement_items[index][2]);
-        // $('#process_edit').val(data_measurement_items[index][3])
-        // get_line_value('product_family_edit', 'line_edit')
         set_select_line_edit('product_family_edit', 'line_edit', data_measurement_items[index][4])
         set_select_part_no_edit('product_family_edit', 'line_edit', 'part_no_edit', data_measurement_items[index][2])
         set_select_process_edit('line_edit', 'process_edit', data_measurement_items[index][3])
         set_select_measurement_items_edit('product_family_edit', 'line_edit', 'part_no_edit', 'process_edit', 'measurement_items_edit', data_measurement_items[index][5])
         // $('#measurement_items_edit').val(data_measurement_items[index][5])
-        $('#frequency_edit').val(data_measurement_items[index][6])
-        $('#measuring_tools_edit').val(data_measurement_items[index][7])
-        $('#standard_dimension_edit').val(data_measurement_items[index][8])
-        $('#upper_edit').val(data_measurement_items[index][9])
-        $('#lower_edit').val(data_measurement_items[index][10])
-        $('#unit_edit').val(data_measurement_items[index][11])
-        $('#type_allowance_edit').val(data_measurement_items[index][12])
-        chart_input_change_edit()
+
+
+        $('#chart_edit').val(data_measurement_items[index][24])
+        chart_input_change('edit')
+
+        // chart_input_change('edit')
         $('#form_edit').val(data_measurement_items[index][13])
+        form_input_change('edit')
 
         $('#x_ucl_edit').val(data_measurement_items[index][14])
         $('#x_cl_edit').val(data_measurement_items[index][15])
         $('#x_lcl_edit').val(data_measurement_items[index][16])
         $('#r_ucl_edit').val(data_measurement_items[index][17])
         $('#r_cl_edit').val(data_measurement_items[index][18])
+
+
+        $('#type_allowance_edit').val(data_measurement_items[index][12])
+        type_allowance_input_change('edit')
+
+
+        $('#standard_dimension_edit').val(data_measurement_items[index][8])
+        $('#upper_edit').val(data_measurement_items[index][9])
+        $('#lower_edit').val(data_measurement_items[index][10])
+        $('#unit_edit').val(data_measurement_items[index][11])
+
         // Có sử dụng công thức
         if (data_measurement_items[index][19] == 'Yes') {
             document.getElementById("use_formula_edit").checked = true;
@@ -1793,9 +1742,13 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         FormulaCb_function_edit()
 
         $('#type_formula_edit').val(data_measurement_items[index][20])
-        $('#number_element_edit').val(data_measurement_items[index][21])
-        // String between : ;
+        type_formula_change(); number_element_change('edit');
+       
 
+
+        $('#number_element_edit').val(data_measurement_items[index][21])
+        number_element_change('edit');
+        // Ghi chú thích vào từ ô B C D...
         function getStringsBetweenTwoCharactor(str) {
             var str1 = str.split(";")
             var result = [];
@@ -1812,17 +1765,12 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         //  Load data into commnent
         if (data_measurement_items[index][22] != null) {
             strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22]);
-            InputFomularElement = document.querySelectorAll('.table_fomular_edit tr input')
+            InputformulaElement = document.querySelectorAll('.table_formula_edit tr input')
             for (var i = 0; i < strs.length; i++) {
-                InputFomularElement[i].value = strs[i]
+                InputformulaElement[i].value = strs[i]
             }
         }
 
-
-        $('#formula_edit').val(data_measurement_items[index][23])
-        $('#chart_edit').val(data_measurement_items[index][24])
-        $('#no_measurement_items_edit').val(data_measurement_items[index][25])
-        $('#measuring_department_edit').val(data_measurement_items[index][26])
 
         // $('#management_level_edit').val(data_measurement_items[index][28])
         function loadSelectbox(id_place, val) {
@@ -1842,18 +1790,16 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         $("#img-draw_edit").attr("src", url);
         $("#img-draw_edit").css("display", "flex")
 
-        $('#allowance_display_edit').val(data_measurement_items[index][30])
-
 
         $("#edit_measurement_items_modal").modal('toggle');
     }
 
     function checkFormula(action) {
-        if (action = "register") {
-            var A = document.getElementById('formula_input').value.trim()
+        if (action == "register") {
+            var A_result = document.getElementById('formula_input').value.trim()
             var dem = document.getElementById('number_element_input').value
-        } else if (action = "edit") {
-            var A = document.getElementById('formula_edit').value.trim()
+        } else if (action == "edit") {
+            var A_result = document.getElementById('formula_edit').value.trim()
             var dem = document.getElementById('number_element_edit').value
         }
         var Str = "BCDEFGHJKH"
@@ -1862,7 +1808,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             eval(Str[i] + '=10')
         }
         try {
-            checkFomular = eval(A)
+            checkformula = eval(A_result)
             return true;
         } catch (error) {
             return false;
