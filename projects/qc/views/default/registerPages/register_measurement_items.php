@@ -1790,21 +1790,27 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         $('#type_formula_edit').val(data_measurement_items[index][20])
         $('#number_element_edit').val(data_measurement_items[index][21])
         // String between : ;
-    
-        str = 'MyLongString has :multiple; words that i :need; to :extract;'
-        console.log(data_measurement_items[index][22], str)
-let result = str.match(/:\w+;/g) || [];
-console.log(result);
 
-let result2 = str.match(/(?<=:)\w+(?=;)/g) || [];
-console.log(result2);
+        function getStringsBetweenTwoCharactor(str) {
+            var str1 = str.split(";")
+            var result = [];
+            str1.forEach(function(value) {
+                if(value!=''){
+                    result.push(value.slice(
+                    str.indexOf(' ') + 1,
+                    str.lenght, 
+                ))
+                }
+            })
+            return result
+        }
         //  Load data into commnent
         // $('#definition_formula_edit').val(data_measurement_items[index][22])
         strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22])
+    
         InputFomularElement = document.querySelectorAll('.table_fomular_edit tr input')
         for (var i = 0; i < strs.length; i++) {
             InputFomularElement[i].value = strs[i]
-            console.log(true)
         }
 
         $('#formula_edit').val(data_measurement_items[index][23])
