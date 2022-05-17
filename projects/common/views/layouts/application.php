@@ -469,7 +469,7 @@
                                                                                                                                                                             echo "active";
                                                                                                                                                                         } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
-                                                <p>Đăng ký Cấp Độ Quản Lý</p>
+                                                <p>Đăng Ký Cấp Độ Quản Lý</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -477,7 +477,7 @@
                                                                                                                                                                                     echo "active";
                                                                                                                                                                                 } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
-                                                <p>Đăng Ký điều kiện đo đặc biệt</p>
+                                                <p>Đăng Ký Điều Kiện Đặc Biệt</p>
                                             </a>
                                         </li>
                                        
@@ -503,7 +503,7 @@
                                                                                                                                                                 echo "active";
                                                                                                                                                             } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
-                                                <p>Duyệt, chỉnh sửa, xuất báo cáo</p>
+                                                <p>Duyệt-Sửa-Xuất Báo Cáo</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -511,7 +511,7 @@
                                                                                                                                                                             echo "active";
                                                                                                                                                                         } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
-                                                <p>Reset hạng mục đo</p>
+                                                <p>Reset Hạng Mục Đo</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -519,7 +519,7 @@
                                                                                                                                                                             echo "active";
                                                                                                                                                                         } ?>">
                                                 <i class="nav-icon far fa-circle"></i>
-                                                <p>Reset trạng thái dụng cụ đo</p>
+                                                <p>Reset Dụng Cụ Đo</p>
                                             </a>
                                         </li>
                                         <!-- <li class="nav-item">
