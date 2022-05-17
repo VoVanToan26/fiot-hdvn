@@ -73,7 +73,7 @@
                                     <div class="row" style="border-style: ridge; border-width: 1px; border-color: #808080;">
                                         <div class="col-3">
                                             <div class="custom-file symbol-class" style="width: 100%;">
-                                                <input type="file" id="draw_edit" name="draw_edit" accept=".jpg,.jpeg,.png">
+                                                <input type="file" id="draw_edit" name="draw_edit" accept=".jpg,.jpeg,.png" disabled='true'>
                                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                                                 <label for="draw_edit" class="col-form-label custom-label" style="border: none; cursor:pointer;padding-left:0;">
                                                     <i class="fa fa-upload"></i>

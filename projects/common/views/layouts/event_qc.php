@@ -1,5 +1,4 @@
 <?php
-
 function check_duplicate($name, $table_name)
 {
     $connect = $GLOBALS['connect'];
@@ -476,7 +475,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     }
 } else if (isset($_POST["edit_measurement_items_function"])) {
 
-    // ;die();
+ 
     $id_edit = trim($_POST['id_edit']);
 
     $product_family_edit = trim($_POST['product_family_edit']);
@@ -610,7 +609,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
         , `process`                 ='$process_edit' 
         , `measurement_items`       ='$measurement_items_edit' 
         , `management_level_one`    ='$list_management_level' 
-        , `draw`                    ='$destination_draw'
+        -- , `draw`                    ='$destination_draw'
         , `chart`                   ='$chart_edit' 
         , `measuring_department`    ='$measuring_department_edit' 
         , `no_measurement_items`    ='$no_measurement_items_edit' 
