@@ -175,6 +175,14 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         z-index: 10;
         background-color: #343a40;
     }
+    #measurement_item_table tr th{
+        padding: 2px;
+        word-wrap: break-word;
+       
+    }
+    #measurement_item_table tr td{
+        padding: 2px !important;
+    }
 </style>
 
 <div class="content-header">
@@ -205,7 +213,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                         </div>
                         <!-- danh sach san pham -->
                         <div class="card-body table-responsive p-0 ">
-                            <table id="measurement_item_table" class="table table-hover text-nowrap text-center ">
+                            <table id="measurement_item_table" class="table table-hover text-nowrap text-center table-bordered ">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%">STT</th>
@@ -743,32 +751,49 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 <script type="text/javascript">
     //ON CHANGE 
     var data_measurement_items = <?php echo json_encode($data_measurement_items); ?>;
-    console.log(data_measurement_items)
-    // var data_frequency = <?php echo json_encode($data_frequency); ?>;
-    // var data_management_level= <?php echo json_encode($data_management_level); ?>;
-    // var data_measuring_tools= <?php echo json_encode($data_measuring_tools); ?>;
 
     // console.log(data_measurement_items)
     var data_measurement_items_array = [];
+    var data_measurement_items_array_edit = [];
     var select_measurement_items_input = document.getElementById('measurement_items_input');
 
-    function create_check_array() {
-        var lineElement = document.getElementById('line_input');
-        var lineValue = lineElement.value;
-        var part_noElement = document.getElementById('part_no_input');
-        var part_noValue = part_noElement.value;
-        var chartValue = document.getElementById('chart_input').value;
-        // console.log(chartValue,data_measurement_items[i][24])
-        data_measurement_items_array = [];
-        for (let i = 0; i < data_measurement_items.length; i++) {
-            // console.log(data_measurement_items[i][4], lineValue, data_measurement_items[i][2], part_noValue)
-            if (chartValue != "") {
-                if (data_measurement_items[i][4] == lineValue && data_measurement_items[i][2] == part_noValue && data_measurement_items[i][24] == chartValue) {
-                    data_measurement_items_array.push(data_measurement_items[i][5])
+    function create_check_array(action) {
+        if (action == "register") {
+            var lineElement = document.getElementById('line_input');
+            var lineValue = lineElement.value;
+            var part_noElement = document.getElementById('part_no_input');
+            var part_noValue = part_noElement.value;
+            var chartValue = document.getElementById('chart_input').value;
+
+            data_measurement_items_array = [];
+            for (let i = 0; i < data_measurement_items.length; i++) {
+                // console.log(data_measurement_items[i][4], lineValue, data_measurement_items[i][2], part_noValue)
+                if (chartValue != "") {
+                    if (data_measurement_items[i][4] == lineValue && data_measurement_items[i][2] == part_noValue && data_measurement_items[i][24] == chartValue) {
+                        data_measurement_items_array.push(data_measurement_items[i][5])
+                    }
+                }
+
+            }
+        } else if (action == "edit") {
+            var lineElement = document.getElementById('line_edit');
+            var lineValue = lineElement.value;
+            var part_noElement = document.getElementById('part_no_edit');
+            var part_noValue = part_noElement.value;
+            var chartValue = document.getElementById('chart_edit').value;
+
+            data_measurement_items_array_edit = [];
+            for (let i = 0; i < data_measurement_items_edit.length; i++) {
+                // console.log(data_measurement_items[i][4], lineValue, data_measurement_items[i][2], part_noValue)
+                if (chartValue != "") {
+                    if (data_measurement_items_edit[i][4] == lineValue && data_measurement_items_edit[i][2] == part_noValue && data_measurement_items_edit[i][24] == chartValue) {
+                        data_measurement_items_array_edit.push(data_measurement_items[i][5])
+                    }
                 }
             }
-
         }
+        // console.log(chartValue,data_measurement_items[i][24])
+
     }
 </script>
 <script type="text/javascript">
@@ -779,13 +804,15 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $('#formula_input_err').html("Vui lòng nhập đủ thông tin");
             $('#formula_input').addClass("is-valid");
             $('#formula_input').removeClass("is-invalid");
-            create_check_array();
+            create_check_array('register');
             check = formValidation('form_MIN_info')
 
             // console.log(check,checkMIN)
             if (check) {
-                checkMIN = check_resultMIN()
+                checkMIN = check_resultMIN('register')
+                // console.log('checkmin', checkMIN)
                 if (checkMIN) {
+
                     $('#form_MIN_info').submit();
                 }
 
@@ -797,6 +824,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $('#formula_input').removeClass("is-valid");
         }
     }
+
     function edit_measurement_btn() {
         disableBtn('measurement_btn_edit');
         var MIN_value = document.getElementById('measurement_items_edit').value.trim()
@@ -804,12 +832,13 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $('#formula_edit_err').html("Vui lòng nhập đủ thông tin");
             $('#formula_edit').addClass("is-valid");
             $('#formula_edit').removeClass("is-invalid");
-            create_check_array();
+            create_check_array('edit');
             check = formValidation('form_MIN_info_edit')
 
             // console.log(check,checkMIN)
             if (check) {
-                checkMIN = check_resultMIN()
+
+                checkMIN = check_resultMIN('edit')
                 if (checkMIN) {
                     $('#form_MIN_info_edit').submit();
                 }
@@ -822,12 +851,22 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $('#formula_edit').removeClass("is-valid");
         }
     }
-    function check_resultMIN() {
-        checkMIN = checkInputValue(data_measurement_items_array, 'measurement_items_input', 'measurement_items_input_err', true)
-        if (checkMIN) {
-            document.getElementById('measurement_items_input_err').classList.add('is-valid');
-            return true;
-        };
+
+    function check_resultMIN(action) {
+        if (action == "register") {
+            checkMIN = checkInputValue(data_measurement_items_array, 'measurement_items_input', 'measurement_items_input_err', true)
+            if (checkMIN) {
+                document.getElementById('measurement_items_input_err').classList.add('is-valid');
+                return true;
+            };
+
+        } else if (action == "edit") {
+            checkMIN = checkInputValue(data_measurement_items_array_edit, 'measurement_items_edit', 'measurement_items_edit_err', true)
+            if (checkMIN) {
+                document.getElementById('measurement_items_edit_err').classList.add('is-valid');
+                return true;
+            };
+        }
         return false
     }
 
@@ -867,12 +906,11 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 
         }
         var unDNoneForm = document.querySelectorAll(".form_formula_edit  .change-required")
-        // console.log("on", unDNoneForm)
         addRequired(unDNoneForm)
-        var dNoneForm = document.querySelectorAll(".form_formula_edit .d-none .change-required")
+        var dNoneForm = document.querySelectorAll(".form_formula_edit.d-none .change-required")
         removeRequired(dNoneForm);
         addValueNull(dNoneForm);
-        // console.log("remove", dNoneForm)
+
     }
     // functionf for draw
     $(function() {
@@ -1027,6 +1065,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var upper_input_form = document.querySelector('.upper_input_form');
             var lower_input_form = document.querySelector('.lower_input_form');
             var unit_input_form = document.querySelector('.unit_input_form');
+
             var unDNoneForm = document.querySelectorAll(".tolerance_form  input.change-required")
             var dNoneForm = document.querySelectorAll(".tolerance_form .d-none input.change-required")
         } else if (action == 'edit') {
@@ -1036,6 +1075,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var upper_input_form = document.querySelector('.upper_edit_form');
             var lower_input_form = document.querySelector('.lower_edit_form');
             var unit_input_form = document.querySelector('.unit_edit_form');
+
             var unDNoneForm = document.querySelectorAll(".tolerance_form_edit  input.change-required")
             var dNoneForm = document.querySelectorAll(".tolerance_form_edit .d-none input.change-required")
         }
@@ -1062,10 +1102,15 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             unit_input_form.classList.remove('d-none');
 
         }
+        if (action == 'register') {
+            var unDNoneForm = document.querySelectorAll(".tolerance_form  input.change-required")
+            var dNoneForm = document.querySelectorAll(".tolerance_form .d-none input.change-required")
+        } else if (action == 'edit') {
+            var unDNoneForm = document.querySelectorAll(".tolerance_form_edit  input.change-required")
+            var dNoneForm = document.querySelectorAll(".tolerance_form_edit .d-none input.change-required")
+        }
 
-        // console.log("on",unDNoneForm)
         addRequired(unDNoneForm)
-
         removeRequired(dNoneForm);
         addValueNull(dNoneForm);
         //  console.log("",dNoneForm)
@@ -1095,16 +1140,14 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             document.querySelector('.number_element_input_form').classList.remove('d-none');
             document.querySelector('.formula_input_form').classList.remove('d-none');
             document.querySelector('.formula_info_form').classList.remove('d-none');
-           
+
         }
 
         var unDNoneForm = document.querySelectorAll(".form_formula  input.change-required")
-        // console.log("ON",unDNoneForm)
         addRequired(unDNoneForm)
         var dNoneForm = document.querySelectorAll(".form_formula .d-none input.change-required")
         removeRequired(dNoneForm);
         addValueNull(dNoneForm);
-        // console.log("dNoneForm",dNoneForm)
     }
 
     function type_formula_change_edit() {
@@ -1127,16 +1170,14 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             document.querySelector('.number_element_edit_form').classList.remove('d-none');
             document.querySelector('.formula_edit_form').classList.remove('d-none');
             document.querySelector('.formula_info_form_edit').classList.remove('d-none');
-            // $('#number_element_edit').val(1);
         }
 
         var unDNoneForm = document.querySelectorAll(".form_formula_edit  input.change-required")
-        // console.log("ON",unDNoneForm)
         addRequired(unDNoneForm)
         var dNoneForm = document.querySelectorAll(".form_formula_edit .d-none input.change-required")
         removeRequired(dNoneForm);
         addValueNull(dNoneForm);
-        // console.log("dNoneForm",dNoneForm)
+        // console.log("ON", unDNoneForm, "dNoneForm", dNoneForm)
     }
 
     function number_element_change(action) {
@@ -1166,7 +1207,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         } else if (action == "edit") {
             var unDNoneForm = document.querySelectorAll(".form_formula_edit  input.change-required")
             addRequired(unDNoneForm)
-            // console.log("ON",unDNoneForm)
+
             var dNoneForm = document.querySelectorAll(".form_formula_edit .d-none input.change-required")
             removeRequired(dNoneForm);
             addValueNull(dNoneForm);
@@ -1401,7 +1442,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                         opt.innerHTML = "Chọn line";
 
                         selectLine.appendChild(opt);
-                        console.log(selectLine)
+                        // console.log(selectLine)
                         for (i = 0; i < myArr.length; i++) {
                             opt = document.createElement('option');
                             opt.value = myArr[i];
@@ -1692,12 +1733,12 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 
     function editmeasurementItemsName(index) {
 
+
         $('#id_edit').val(data_measurement_items[index][0])
         $('#product_family_edit').val(data_measurement_items[index][1])
         $('#frequency_edit').val(data_measurement_items[index][6])
         $('#measuring_tools_edit').val(data_measurement_items[index][7])
-       
-       
+
         $('#formula_edit').val(data_measurement_items[index][23])
         $('#no_measurement_items_edit').val(data_measurement_items[index][25])
         $('#measuring_department_edit').val(data_measurement_items[index][26])
@@ -1735,41 +1776,43 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 
         // Có sử dụng công thức
         if (data_measurement_items[index][19] == 'Yes') {
+
             document.getElementById("use_formula_edit").checked = true;
+            FormulaCb_function_edit()
+            $('#type_formula_edit').val(data_measurement_items[index][20])
+            type_formula_change_edit();
+            // number_element_change('edit');
+
+            $('#number_element_edit').val(data_measurement_items[index][21])
+            number_element_change('edit');
+            // Ghi chú thích vào từ ô B C D...
+            function getStringsBetweenTwoCharactor(str) {
+                var str1 = str.split(";")
+                var result = [];
+                str1.forEach(function(value) {
+                    if (value != '') {
+                        result.push(value.slice(
+                            str.indexOf(' ') + 1,
+                            str.lenght,
+                        ))
+                    }
+                })
+                return result
+            }
+            //  Load data into commnent
+            if (data_measurement_items[index][22] != null) {
+                strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22]);
+                InputformulaElement = document.querySelectorAll('.table_formula_edit tr input')
+                for (var i = 0; i < strs.length; i++) {
+                    InputformulaElement[i].value = strs[i]
+                }
+            }
+
         } else {
             document.getElementById("use_formula_edit").checked = false;
+            FormulaCb_function_edit()
         }
-        FormulaCb_function_edit()
 
-        $('#type_formula_edit').val(data_measurement_items[index][20])
-        type_formula_change(); number_element_change('edit');
-       
-
-
-        $('#number_element_edit').val(data_measurement_items[index][21])
-        number_element_change('edit');
-        // Ghi chú thích vào từ ô B C D...
-        function getStringsBetweenTwoCharactor(str) {
-            var str1 = str.split(";")
-            var result = [];
-            str1.forEach(function(value) {
-                if (value != '') {
-                    result.push(value.slice(
-                        str.indexOf(' ') + 1,
-                        str.lenght,
-                    ))
-                }
-            })
-            return result
-        }
-        //  Load data into commnent
-        if (data_measurement_items[index][22] != null) {
-            strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22]);
-            InputformulaElement = document.querySelectorAll('.table_formula_edit tr input')
-            for (var i = 0; i < strs.length; i++) {
-                InputformulaElement[i].value = strs[i]
-            }
-        }
 
 
         // $('#management_level_edit').val(data_measurement_items[index][28])
@@ -1792,6 +1835,24 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
 
 
         $("#edit_measurement_items_modal").modal('toggle');
+        // create array e
+        for (let i = 0; i < data_measurement_items.length; i++) {
+            if (data_measurement_items[i][1] == data_measurement_items[index][1] // product family
+                &&
+                data_measurement_items[i][2] == data_measurement_items[index][2] //part_no
+                &&
+                data_measurement_items[i][3] == data_measurement_items[index][3] // process
+                &&
+                data_measurement_items[i][4] == data_measurement_items[index][4] // line
+                &&
+                data_measurement_items[i][5] == data_measurement_items[index][5] // measurement_item
+                &&
+                data_measurement_items[i][24]==data_measurement_items[index][24] 
+            ) {
+                data_measurement_items_edit = arrayRemove(data_measurement_items, i)
+            }
+        }
+        // console.log(data_measurement_items,data_measurement_items_edit)
     }
 
     function checkFormula(action) {
@@ -1835,7 +1896,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         var $state = $(
             '<span><img src="' + baseUrl + '/' + state.element.value + '" style=" height: 38px; max-width:60px" /> ' + '</span>'
         );
-        console.log($state)
+        // console.log($state)
         return $state;
     };
 

@@ -333,8 +333,7 @@ else if (isset($_POST["register_frequency_function"])) {
 }
 
 //register_measurement_items
-else if (isset($_POST["register_measurement_items_function"]))
-{
+else if (isset($_POST["register_measurement_items_function"])) {
 
     $product_family_input = trim($_POST['product_family_input']);
     $line_input = trim($_POST['line_input']);
@@ -407,14 +406,16 @@ else if (isset($_POST["register_measurement_items_function"]))
         }
     }
 
-    // echo "<script>alert(" . $list_management_level . ")</script>";
-    $draw = $_FILES['draw_input']['name'];
-    $file_name_draw = $no_measurement_items_input . '-' . '3' . '-' . $draw;
-    $extension_draw = pathinfo($draw, PATHINFO_EXTENSION);
 
 
 
+    // name of the uploaded file
+    $name_draw = $_FILES['draw_input']['name'];
     $file_draw = $_FILES['draw_input']['tmp_name'];
+
+    $file_name_draw = $no_measurement_items_input . $name_draw;
+    $destination_draw = 'projects/qc/views/default/qc_imgs/' . $file_name_draw;
+    $extension_draw = pathinfo($draw, PATHINFO_EXTENSION);
     $size_draw = $_FILES['draw_input']['size'] / 1024;
     $size_show_draw = $size_draw / 1024;
 
@@ -477,8 +478,11 @@ else if (isset($_POST["register_measurement_items_function"]))
             echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
         }
     }
-} 
-else if(isset($_POST["register_measurement_items_function"])){
+} else if (isset($_POST["edit_measurement_items_function"])) {
+
+    // ;die();
+    $id_edit = trim($_POST['id_edit']);
+
     $product_family_edit = trim($_POST['product_family_edit']);
     $line_edit = trim($_POST['line_edit']);
     $part_no_edit = trim($_POST['part_no_edit']);
@@ -494,9 +498,7 @@ else if(isset($_POST["register_measurement_items_function"])){
     $measuring_tools_edit = trim($_POST['measuring_tools_edit']);
     $allowance_display_edit = trim($_POST['allowance_display_edit']);
 
-    // $x_ucl_edit = $_POST['x_ucl_edit'];
 
-    // echo "<script>alert($x_ucl_edit,typeof $x_ucl_edit)</script>";
     $x_ucl_edit = trim($_POST['x_ucl_edit']);
     $x_cl_edit = trim($_POST['x_cl_edit']);
     $x_lcl_edit = trim($_POST['x_lcl_edit']);
@@ -530,7 +532,7 @@ else if(isset($_POST["register_measurement_items_function"])){
     $definition_formula_edit[7] = $_POST['definition_formula_edit_eight'];
     $definition_formula_edit[8] = $_POST['definition_formula_edit_nine'];
     $definition_formula_edit[9] = $_POST['definition_formula_edit_ten'];
-
+    $definition_formula_edit_result = '';
     // Xử lý công thức 
     for ($i = 0; $i < 10; $i++) {
         if ($definition_formula_edit[$i] != '') {
@@ -551,13 +553,13 @@ else if(isset($_POST["register_measurement_items_function"])){
     }
 
     // echo "<script>alert(" . $list_management_level . ")</script>";
-    $draw = $_FILES['draw_edit']['name'];
-    $file_name_draw = $no_measurement_items_edit . '-' . '3' . '-' . $draw;
-    $extension_draw = pathinfo($draw, PATHINFO_EXTENSION);
-
-
-
+    // name of the uploaded file
+    $name_draw = $_FILES['draw_edit']['name'];
     $file_draw = $_FILES['draw_edit']['tmp_name'];
+
+    $file_name_draw = $no_measurement_items_edit . $name_draw;
+    $destination_draw = 'projects/qc/views/default/qc_imgs/' . $file_name_draw;
+    $extension_draw = pathinfo($name_draw, PATHINFO_EXTENSION);
     $size_draw = $_FILES['draw_edit']['size'] / 1024;
     $size_show_draw = $size_draw / 1024;
 
@@ -588,7 +590,7 @@ else if(isset($_POST["register_measurement_items_function"])){
     // print("23 formula: " . $formula_edit . "<br>");
     // print("24 allowance_display: " . $allowance_display_edit . "<br>");
     // print("25 chart: " . $chart_edit . "<br>");
-    // print("26 management_level_one: " . $file_name_management_level_one . "<br>");
+    // print("26 management_level_one: " . $list_management_level . "<br>");
     // print("27 no_measurement_items: " . $no_measurement_items_edit . "<br>");
     // print("28 measuring_department: " . $measuring_department_edit . "<br>");
     // print("29 status: " . "/" . "<br>");
@@ -605,44 +607,51 @@ else if(isset($_POST["register_measurement_items_function"])){
     } else {
 
         $sqlregister_measurement_items = "UPDATE`qc_tb_measurement_items`
-        SET  `product_family`       ='$product_family_edit';
-        , `part_no`                 ='$part_no_edit';
-        , `process`                 ='$process_edit';
-        , `line`                    ='$line_edit';
-        , `measurement_items`       ='$measurement_items_edit';
-        , `frequency`               ='$frequency_edit';;
-        ,`measuring_tools`          ='$measuring_tools_edit';
-        , `standard_dimension`      ='$standard_dimension_edit';
-        , `upper`                   ='$upper_edit';
-        , `lower`                   ='$lower_edit';
-        , `unit`                    ='$unit_edit';
-        , `type_allowance`          ='$type_allowance_edit';
-        , `form`                    ='$form_edit';
-        , `x_ucl`                   ='$x_ucl_edit';
-        , `x_cl`                    ='$x_cl_edit';
-        , `x_lcl`                   ='$r_ucl_edit';
-        , `r_ucl`                   ='$x_lcl_edit';
-        , `r_cl`                    ='$r_cl_edit';
-        , `use_formula`             ='$use_formula_edit';
-        ,`type_formula`             ='$type_formula_edit',;
-        , `number_element`          ='$number_element_edit';
-        , `definition_formula`      ='$definition_formula_edit_result';
-        , `formula`                 ='$formula_edit';
-        , `allowance_display`       ='$allowance_display_edit';
-        , `chart`                   ='$chart_edit';
-        , `management_level_one`    ='$no_measurement_items_edit';
-        , `no_measurement_items`    = '$no_measurement_items_edit';
-        , `measuring_department`    ='$measuring_department_edit';
+        SET  `product_family`       ='$product_family_edit' 
+        , `line`                    ='$line_edit' 
+        , `part_no`                 ='$part_no_edit' 
+        , `process`                 ='$process_edit' 
+        , `measurement_items`       ='$measurement_items_edit' 
+        , `management_level_one`    ='$list_management_level' 
         , `draw`                    ='$destination_draw'
-        , `sig`                     ='$sig';
-        WHERE
+        , `chart`                   ='$chart_edit' 
+        , `measuring_department`    ='$measuring_department_edit' 
+        , `no_measurement_items`    ='$no_measurement_items_edit' 
+        , `form`                    ='$form_edit' 
+        , `frequency`               ='$frequency_edit'  
+        ,`measuring_tools`          ='$measuring_tools_edit' 
+        , `allowance_display`       ='$allowance_display_edit' 
+ 
+      
+     
+   
+        , `x_ucl`                   ='$x_ucl_edit' 
+        , `x_cl`                    ='$x_cl_edit' 
+        , `x_lcl`                   ='$r_ucl_edit' 
+        , `r_ucl`                   ='$x_lcl_edit' 
+        , `r_cl`                    ='$r_cl_edit' 
+
+        , `type_allowance`          ='$type_allowance_edit' 
+        , `standard_dimension`      ='$standard_dimension_edit' 
+        , `upper`                   ='$upper_edit' 
+        , `lower`                   ='$lower_edit' 
+        , `unit`                    ='$unit_edit' 
+
+        , `use_formula`             ='$use_formula_edit' 
+        ,`type_formula`             ='$type_formula_edit' 
+        , `number_element`          ='$number_element_edit' 
+        , `definition_formula`      ='$definition_formula_edit_result' 
+        , `formula`                 ='$formula_edit' 
+         
+        , `sig`                     ='$sig' 
+        WHERE `id`='$id_edit'";
+        // var_dump($sqlregister_measurement_items );die;
         if (mysqli_query($connect, $sqlregister_measurement_items)) {
             mysqli_close($connect);
             echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
         }
     }
-}
-else if (isset($_POST["delete_measurement_items_function"])) {
+} else if (isset($_POST["delete_measurement_items_function"])) {
 
     $del_id = trim($_POST['del_id']);
     $sqldelete = "DELETE FROM `qc_tb_measurement_items` WHERE `id` = '$del_id'";
@@ -716,7 +725,6 @@ else if (isset($_POST["register_management_level_function"])) {
                 $insert  = "INSERT INTO `qc_tb_management_level`(`management_level_img`, `management_level_name`, `sig`) VALUES ('$path', '$filename', '$sig')";
                 if (mysqli_query($connect, $insert)) {
                     echo 'Đăng ký thành công';
-                
                 } else {
                     // echo 'Error: ' . mysqli_error($connect);
                 }
@@ -724,7 +732,6 @@ else if (isset($_POST["register_management_level_function"])) {
                 echo "<script>alert('Error in uploading file - ' .  $file . '<br/>');</script>";;
             }
         }
-            
     }
     mysqli_close($connect);
     echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_management_level'</script>";

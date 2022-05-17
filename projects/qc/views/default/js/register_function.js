@@ -36,7 +36,6 @@ function createDataTable(tableID, pagelength, searching) {
 function disableBtn(btId) {
   $("#" + btId).attr("disabled", true);
   setTimeout(function () {
-    console.log(true);
     $("#" + btId).removeAttr("disabled");
   }, 1000);
 }

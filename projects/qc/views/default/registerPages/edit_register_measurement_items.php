@@ -2,6 +2,7 @@
     <div class="modal fade" id="edit_measurement_items_modal" tabindex="-1" role="dialog" aria-labelledby="exadd_measurement_items" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
+                <input type="hidden" id="id_edit" name="id_edit" value="true">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exadd_measurement_items">Sửa thông tin đăng ký hạng mục đo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,6 +13,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-3">
+
                             <label for="product_family_edit" class="col-form-label">Dòng Sản Phẩm</label>
                             <select required class="form-control" id="product_family_edit" name="product_family_edit" onchange="auto_popup_line('edit');">
                                 <option value="">Chọn dòng sản phẩm</option>
@@ -412,4 +414,3 @@
     </div>
 
 </form>
-
