@@ -175,13 +175,24 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         z-index: 10;
         background-color: #343a40;
     }
-    #measurement_item_table tr th{
-        padding: 2px;
+
+    #measurement_item_table tr th {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
         word-wrap: break-word;
-       
+        font-size: 15px;
+
     }
-    #measurement_item_table tr td{
-        padding: 2px !important;
+
+    #measurement_item_table tr td {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+        font-size: 15px;
+    }
+
+    #measurement_item_table {
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 </style>
 
@@ -769,11 +780,12 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             for (let i = 0; i < data_measurement_items.length; i++) {
                 // console.log(data_measurement_items[i][4], lineValue, data_measurement_items[i][2], part_noValue)
                 if (chartValue != "") {
-                    if (data_measurement_items[i][4] == lineValue && data_measurement_items[i][2] == part_noValue && data_measurement_items[i][24] == chartValue) {
+                    if (data_measurement_items[i][4] == lineValue &&
+                        data_measurement_items[i][2] == part_noValue &&
+                        data_measurement_items[i][24] == chartValue) {
                         data_measurement_items_array.push(data_measurement_items[i][5])
                     }
                 }
-
             }
         } else if (action == "edit") {
             var lineElement = document.getElementById('line_edit');
@@ -786,13 +798,15 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             for (let i = 0; i < data_measurement_items_edit.length; i++) {
                 // console.log(data_measurement_items[i][4], lineValue, data_measurement_items[i][2], part_noValue)
                 if (chartValue != "") {
-                    if (data_measurement_items_edit[i][4] == lineValue && data_measurement_items_edit[i][2] == part_noValue && data_measurement_items_edit[i][24] == chartValue) {
-                        data_measurement_items_array_edit.push(data_measurement_items[i][5])
+                    if (data_measurement_items_edit[i][4] == lineValue &&
+                        data_measurement_items_edit[i][2] == part_noValue &&
+                        data_measurement_items_edit[i][24] == chartValue) {
+                        data_measurement_items_array_edit.push(data_measurement_items_edit[i][5])
                     }
                 }
             }
         }
-        // console.log(chartValue,data_measurement_items[i][24])
+        console.log( data_measurement_items_array_edit)
 
     }
 </script>
@@ -1847,7 +1861,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                 &&
                 data_measurement_items[i][5] == data_measurement_items[index][5] // measurement_item
                 &&
-                data_measurement_items[i][24]==data_measurement_items[index][24] 
+                data_measurement_items[i][24] == data_measurement_items[index][24]
             ) {
                 data_measurement_items_edit = arrayRemove(data_measurement_items, i)
             }
