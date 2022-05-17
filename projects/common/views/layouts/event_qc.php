@@ -648,7 +648,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
         // var_dump($sqlregister_measurement_items );die;
         if (mysqli_query($connect, $sqlregister_measurement_items)) {
             mysqli_close($connect);
-            echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
+            // echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
         }
     }
 } else if (isset($_POST["delete_measurement_items_function"])) {
