@@ -129,3 +129,4 @@ function validateSize(input, max_value) {
 //       setTimeout('$("button").removeAttr("disabled")', 1500);
 //   });
 // });
+

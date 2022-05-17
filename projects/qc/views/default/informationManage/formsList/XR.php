@@ -1,21 +1,9 @@
 <!-- <pre> -->
-<?php 
+<?php
 //connfig db cloud
-define('DB_SERVER', 'ifsmvp.com');
-define('DB_USERNAME', 'ifsmvp_tech');
-define('DB_PASSWORD', 'ifsmvp@2021');
-define('DB_NAME', 'ifsmvp_hdvn_database');
+require_once "../dbFunction/config_db.php";
 
-// define('DB_SERVER', 'localhost');
-// define('DB_USERNAME', 'root');
-// define('DB_PASSWORD', '');
-// define('DB_NAME', 'ifsmvp_hdvn_database');
-
-date_default_timezone_set("Asia/Ho_Chi_Minh");
-$connect = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-mysqli_set_charset($connect, 'UTF8');
-
-if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET['measurement_items'] && $_GET['chart'])  {
+if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET['measurement_items'] && $_GET['chart']) {
     $product_family = isset($_GET['product_family']) ? $_GET['product_family'] : NULL;
     $line = isset($_GET['line']) ? $_GET['line'] : NULL;
     $part_no = isset($_GET['part_no']) ? $_GET['part_no'] : NULL;
@@ -24,83 +12,94 @@ if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET
 
     // lọc  form 
     $sqlsearch_chart = "SELECT * FROM `qc_tb_measurement_items` WHERE `product_family` = '$product_family' AND `line` = '$line' AND `part_no` = '$part_no' AND `measurement_items` = '$measurement_items' AND `chart` = '$chart'";
-	$resultsearch_chart = mysqli_query( $connect, $sqlsearch_chart );
-	if ($resultsearch_chart && $resultsearch_chart->num_rows > 0) {
-		$row = $resultsearch_chart->fetch_assoc();
-		$data_product_family =$row['product_family'];
-		$data_part_no =$row['part_no'];
-		$data_process =$row['process'];
-		$data_line =$row['line'];
-		$data_measurement_items =$row['measurement_items'];
-		$data_frequency =$row['frequency'];
-		$data_measuring_tools =$row['measuring_tools'];
-		$data_standard_dimension =$row['standard_dimension'];
-		$data_upper =$row['upper'];
-		$data_lower =$row['lower'];
-		$data_unit =$row['unit'];
-        $data_type_allowance =$row['type_allowance'];
-		$data_form =$row['form'];
-		$data_x_ucl =$row['x_ucl'];
-		$data_x_cl =$row['x_cl'];
-		$data_x_lcl =$row['x_lcl'];
-		$data_r_ucl =$row['r_ucl'];
-		$data_r_cl =$row['r_cl'];
-		$data_use_formula =$row['use_formula'];
-		$data_type_formula =$row['type_formula'];
-		$data_number_element =$row['number_element'];
-		$data_definition_formula =$row['definition_formula'];
-		$data_formula =$row['formula'];
-		$data_allowance_display =$row['allowance_display'];
-		$data_chart =$row['chart'];
-		$data_management_level_one =$row['management_level_one'];
-		$data_no_measurement_items =$row['no_measurement_items'];
-		$data_measuring_department =$row['measuring_department'];
-		$data_status =$row['status'];
-		$data_management_level_two =$row['management_level_two'];
-		$data_draw =$row['draw'];
-	}
-	else{
-		$data_product_family ='';
-		$data_part_no ='';
-		$data_process ='';
-		$data_line ='';
-		$data_measurement_items ='';
-		$data_frequency ='';
-		$data_measuring_tools ='';
-		$data_standard_dimension ='';
-		$data_upper ='';
-		$data_lower ='';
-		$data_unit ='';
-		$data_form ='';
-		$data_x_ucl ='';
-		$data_x_cl ='';
-		$data_x_lcl ='';
-		$data_r_ucl ='';
-		$data_r_cl ='';
-		$data_use_formula ='';
-		$data_type_formula ='';
-		$data_number_element ='';
-		$data_definition_formula ='';
-		$data_formula ='';
-		$data_allowance_display ='';
-		$data_chart ='';
-		$data_management_level_one ='';
-		$data_no_measurement_items ='';
-		$data_measuring_department ='';
-		$data_status ='';
-		$data_management_level_two ='';
-		$data_draw ='';
-	}
+    $resultsearch_chart = mysqli_query($connect, $sqlsearch_chart);
+    if ($resultsearch_chart && $resultsearch_chart->num_rows > 0) {
+        $row = $resultsearch_chart->fetch_assoc();
+        $data_product_family = $row['product_family'];
+        $data_part_no = $row['part_no'];
+        $data_process = $row['process'];
+        $data_line = $row['line'];
+        $data_measurement_items = $row['measurement_items'];
+        $data_frequency = $row['frequency'];
+        $data_measuring_tools = $row['measuring_tools'];
+        $data_standard_dimension = $row['standard_dimension'];
+        $data_upper = $row['upper'];
+        $data_lower = $row['lower'];
+        $data_unit = $row['unit'];
+        $data_type_allowance = $row['type_allowance'];
+        $data_form = $row['form'];
+        $data_x_ucl = $row['x_ucl'];
+        $data_x_cl = $row['x_cl'];
+        $data_x_lcl = $row['x_lcl'];
+        $data_r_ucl = $row['r_ucl'];
+        $data_r_cl = $row['r_cl'];
+        $data_use_formula = $row['use_formula'];
+        $data_type_formula = $row['type_formula'];
+        $data_number_element = $row['number_element'];
+        $data_definition_formula = $row['definition_formula'];
+        $data_formula = $row['formula'];
+        $data_allowance_display = $row['allowance_display'];
+        $data_chart = $row['chart'];
+        $data_management_level_one = $row['management_level_one'];
+        $data_no_measurement_items = $row['no_measurement_items'];
+        $data_measuring_department = $row['measuring_department'];
+        $data_status = $row['status'];
+        $data_management_level_two = $row['management_level_two'];
+        $data_draw = $row['draw'];
+
+        $data_sign_create_form =$row['sign_create_form'];
+    } else {
+        $data_product_family = '';
+        $data_part_no = '';
+        $data_process = '';
+        $data_line = '';
+        $data_measurement_items = '';
+        $data_frequency = '';
+        $data_measuring_tools = '';
+        $data_standard_dimension = '';
+        $data_upper = '';
+        $data_lower = '';
+        $data_unit = '';
+        $data_form = '';
+        $data_x_ucl = '';
+        $data_x_cl = '';
+        $data_x_lcl = '';
+        $data_r_ucl = '';
+        $data_r_cl = '';
+        $data_use_formula = '';
+        $data_type_formula = '';
+        $data_number_element = '';
+        $data_definition_formula = '';
+        $data_formula = '';
+        $data_allowance_display = '';
+        $data_chart = '';
+        $data_management_level_one = '';
+        $data_no_measurement_items = '';
+        $data_measuring_department = '';
+        $data_status = '';
+        $data_management_level_two = '';
+        $data_draw = '';
+        $data_sign_create_form ='';
+    }
 }
+// Lọc account người lập form 
+$sqlsearch_create_form = "SELECT * FROM `tb_account` WHERE `username` = '$data_sign_create_form'";
+$resultsearch_create_form = mysqli_query($connect, $sqlsearch_create_form);
+if ($sqlsearch_create_form && $resultsearch_create_form->num_rows > 0) {
+    $row = $resultsearch_create_form->fetch_assoc();
+    $data_create_form = write_name($row['full_name']);
+} else {
+    $data_create_form = '';
+}
+
 // Lọc tần suất thống kê form
 $sqlsearch_frequency = "SELECT * FROM `qc_tb_frequency` WHERE `frequency_name` = '$data_frequency'";
-$resultsearch_frequency = mysqli_query( $connect, $sqlsearch_frequency );
+$resultsearch_frequency = mysqli_query($connect, $sqlsearch_frequency);
 if ($resultsearch_frequency && $resultsearch_frequency->num_rows > 0) {
     $row = $resultsearch_frequency->fetch_assoc();
     $data_quantity = $row['quantity'];
     $data_unit_time = $row['unit_time'];
-}
-else{
+} else {
     $data_quantity = 0;
     $data_unit_time = '';
 }
@@ -108,22 +107,20 @@ else{
 
 // lọc tên máy
 $sqlsearch_machine_number = "SELECT * FROM `qc_tb_machine_number` WHERE `line` = '$data_line' AND `process` = '$data_process'";
-$resultsearch_machine_number = mysqli_query( $connect, $sqlsearch_machine_number );
+$resultsearch_machine_number = mysqli_query($connect, $sqlsearch_machine_number);
 if ($resultsearch_machine_number && $resultsearch_machine_number->num_rows > 0) {
     $row = $resultsearch_machine_number->fetch_assoc();
     $data_number_machine = $row['number_machine'];
-}
-else{
+} else {
     $data_number_machine = '';
 }
 // lọc part name
 $sqlsearch_part_name = "SELECT * FROM `qc_tb_part_no` WHERE `product_family` = '$data_product_family' AND `part_no` = '$data_part_no'";
-$resultsearch_part_name = mysqli_query( $connect, $sqlsearch_part_name );
+$resultsearch_part_name = mysqli_query($connect, $sqlsearch_part_name);
 if ($resultsearch_part_name && $resultsearch_part_name->num_rows > 0) {
     $row = $resultsearch_part_name->fetch_assoc();
     $data_part_name = $row['part_name'];
-}
-else{
+} else {
     $data_part_name = '';
 }
 
@@ -139,8 +136,7 @@ if ($resultmanulot && $resultmanulot->num_rows > 0) {
         $data_manulot[$i] = $row['manu_lot'];
         $i++;
     }
-}
-else{
+} else {
     $data_manulot[0] = '';
 }
 // lọc data dữ liệu
@@ -248,10 +244,10 @@ if ($resultcheck_tb_sign && $resultcheck_tb_sign->num_rows > 0) {
     $data_tb_sign[0][8] = '';
     $data_tb_sign[0][9] = '';
 }
-
+$count_sig= count($data_tb_sign) ;
 // lọc thiết bị đo
 $sqlsearch_measuring_tools = "SELECT * FROM `tb_measuring_tools` WHERE `measuring_tools` = '$data_measuring_tools'";
-$resultsearch_measuring_tools = mysqli_query( $connect, $sqlsearch_measuring_tools );
+$resultsearch_measuring_tools = mysqli_query($connect, $sqlsearch_measuring_tools);
 if ($resultsearch_measuring_tools && $resultsearch_measuring_tools->num_rows > 0) {
     // tiến hành lặp dữ liệu
     $i = 0;
@@ -278,9 +274,9 @@ if ($resultsearch_measuring_tools && $resultsearch_measuring_tools->num_rows > 0
 // lọc accuracy
 $data_nick_name_tools = $data_tb[count($data_tb) - 1][9];
 
-for ($i=0; $i < count($data_measuring_tools_arr); $i++) { 
+for ($i = 0; $i < count($data_measuring_tools_arr); $i++) {
     # code...
-    if($data_nick_name_tools == $data_measuring_tools_arr[$i][2]){
+    if ($data_nick_name_tools == $data_measuring_tools_arr[$i][2]) {
         $data_accuracy = $data_measuring_tools_arr[$i][5];
         $data_management_number = $data_measuring_tools_arr[$i][6];
     }
@@ -329,47 +325,45 @@ $d4_arr = [0, 3.27, 3.27, 2.58, 2.25, 2.12, 2.00];
 $arr_x_top_left = array();
 $arr_average_x_top_left = array();
 //TH tần suất thông kê theo ca/ ngày / tuần/ tháng ...
-if($data_unit_time == 'Ca'){
- echo '<script>alert("Thống Kê Tần Suất Theo Ca Chưa Khả Dụng. Xin Vui Lòng Test Tính Năng Tần Suất Theo Ngày/Tuần/Tháng. Thông Cảm Vì Sự Bất Tiện Này.")</script>';
-}
-else{
+if ($data_unit_time == 'Ca') {
+    echo '<script>alert("Thống Kê Tần Suất Theo Ca Chưa Khả Dụng. Xin Vui Lòng Test Tính Năng Tần Suất Theo Ngày/Tuần/Tháng. Thông Cảm Vì Sự Bất Tiện Này.")</script>';
+} else {
     // for($i = 0; $i < (int)$data_quantity; $i++){
     //     $arr_data[] = array();
     // }
     //thống kê theo ngày / tuần / tháng
-    for ($i=0; $i < count($data_manulot); $i++) { 
+    for ($i = 0; $i < count($data_manulot); $i++) {
         $tmp = 0; //khai báo mảng theo ngày
         $average_day = 0;
-        for ($x=0; $x < count($data_tb); $x++) { 
-            if($data_manulot[$i] == $data_tb[$x][4]){
-                if($tmp < $data_quantity){
+        for ($x = 0; $x < count($data_tb); $x++) {
+            if ($data_manulot[$i] == $data_tb[$x][4]) {
+                if ($tmp < $data_quantity) {
                     $arr_x_top_left[$i][$tmp] = $data_tb[$x][17];
-                    $average_day+=$data_tb[$x][17];
+                    $average_day += $data_tb[$x][17];
                     $tmp++;
                 }
             }
         }
-        if($tmp != 0){
-            array_push($arr_average_x_top_left, (round($average_day/$tmp,3)));
-        }
-        else{
+        if ($tmp != 0) {
+            array_push($arr_average_x_top_left, (round($average_day / $tmp, 3)));
+        } else {
             array_push($arr_average_x_top_left, null);
         }
-    } 
-
+    }
 }
 
 
 // echo $d2_arr[2];
-$data_upper_chart = $data_x_cl + 2*($data_x_ucl - $data_x_cl);
+$data_upper_chart = $data_x_cl + 2 * ($data_x_ucl - $data_x_cl);
 // echo $data_upper_chart ;
-$data_lower_chart = $data_x_cl - 2*($data_x_cl - $data_x_lcl);
-$data_step_chart = ($data_upper_chart - $data_lower_chart)/16;
+$data_lower_chart = $data_x_cl - 2 * ($data_x_cl - $data_x_lcl);
+$data_step_chart = ($data_upper_chart - $data_lower_chart) / 16;
 
 // $sign_name = $_COOKIE['full_name'];
 // echo($sign_name);
 
-function write_name($username){
+function write_name($username)
+{
     $sign_name_arr = preg_split("/\s+/", $username);
     // print($sign_name_arr[count($sign_name_arr) - 1]);
     return $sign_name_arr[count($sign_name_arr) - 1];
@@ -378,236 +372,236 @@ function write_name($username){
 
 // //Tính toán công thức form
 //X trung bình
-$xAverage = round(array_sum($arr_average_x_top_left) / count($data_manulot),3);
+$xAverage = round(array_sum($arr_average_x_top_left) / count($data_manulot), 3);
 $r_value = array();
-for ($i=0; $i < count($arr_x_top_left); $i++) {
-    $r_value[$i] = max($arr_x_top_left[$i])- min($arr_x_top_left[$i]);
+for ($i = 0; $i < count($arr_x_top_left); $i++) {
+    $r_value[$i] = max($arr_x_top_left[$i]) - min($arr_x_top_left[$i]);
 }
 //R trung bình
-$rAverage = round(array_sum($r_value) / count($data_manulot),3); 
+$rAverage = round(array_sum($r_value) / count($data_manulot), 3);
 // print("X trung bình: " . $xAverage . "<br>");
 // print("R trung bình: " . $rAverage . "<br>");
 // print("A2 4: " . $a2_arr[$data_quantity] . "<br>");
 // print("UCL: " . round($xAverage + $a2_arr[$data_quantity]*$rAverage,3) . "<br>");
 //𝜎 trung bình
-$𝜎 = round($rAverage / $d2_arr[2],3);
+$𝜎 = round($rAverage / $d2_arr[2], 3);
 //CP và CPK
 // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
-if($𝜎 != 0){
-    if($data_type_allowance == "±"){ // 2 cận
-        $cp = round(($data_x_ucl-$data_x_lcl)/(6*$𝜎),3);
-        $cpk1 = round(($xAverage - $data_x_lcl)/(3*$𝜎),3);
-        $cpk2 = round(($data_x_ucl - $xAverage)/(3*$𝜎),3);
-        $cpk = min($cpk1,$cpk2);
-    }
-    else if($data_type_allowance == "Min"){
+if ($𝜎 != 0) {
+    if ($data_type_allowance == "±") { // 2 cận
+        $cp = round(($data_x_ucl - $data_x_lcl) / (6 * $𝜎), 3);
+        $cpk1 = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
+        $cpk2 = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+        $cpk = min($cpk1, $cpk2);
+    } else if ($data_type_allowance == "Min") {
         $cp = null;
-        $cpk = round(($xAverage - $data_x_lcl)/(3*$𝜎),3);
-    }
-    else if($data_type_allowance == "Max"){
+        $cpk = round(($xAverage - $data_x_lcl) / (3 * $𝜎), 3);
+    } else if ($data_type_allowance == "Max") {
         $cp = null;
-        $cpk = round(($data_x_ucl - $xAverage)/(3*$𝜎),3);
-    }
-    else{
+        $cpk = round(($data_x_ucl - $xAverage) / (3 * $𝜎), 3);
+    } else {
         $cp = null;
         $cpk = null;
     }
-}
-else{
+} else {
     $cp = null;
     $cpk = null;
 }
 
 ?>
 <style type="text/css">
-.form-body-item {
-    display: block;
-}
+    .form-body-item {
+        display: block;
+    }
 
-.fbi-right {
-    margin-left: -1px;
-}
+    .fbi-right {
+        margin-left: -1px;
+    }
 
-.heading-box-item__name {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 5px;
-    justify-content: left;
-}
+    .heading-box-item__name {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 5px;
+        justify-content: left;
+    }
 
-.chart-top-right-container {
-    margin-left: -1px;
-}
+    .chart-top-right-container {
+        margin-left: -1px;
+    }
 
-.td-name {
-    text-align: left;
-    padding-left: 3px;
-}
+    .td-name {
+        text-align: left;
+        padding-left: 3px;
+    }
 
-.td-value {
-    text-align: center;
-}
+    .td-value {
+        text-align: center;
+    }
 
-#table-tr-xr tr td {
-    padding: 0;
-    text-align: right;
-}
+    #table-tr-xr tr td {
+        padding: 0;
+        text-align: right;
+    }
 
-.summary-container {
-    width: 80%;
-    margin: auto;
-}
+    .summary-container {
+        width: 80%;
+        margin: auto;
+    }
 
-.summary-table {
-    /* margin: auto; */
-    width: 100%;
-}
+    .summary-table {
+        /* margin: auto; */
+        width: 100%;
+    }
 
-.summary-table td {
+    .summary-table td {
 
-    line-height: 24px;
-    border-bottom: 1px solid black;
-    text-align: center;
-}
+        line-height: 24px;
+        border-bottom: 1px solid black;
+        text-align: center;
+    }
 
-.td-evaluate {
-    border: 2px solid black !important;
-    height: 35px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-weight: bold;
-}
+    .td-evaluate {
+        border: 2px solid black !important;
+        height: 35px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        font-weight: bold;
+    }
 
-.fb-item {
-    border: 1px solid black;
-    border-left: none;
-    margin-top: -1px;
-    z-index: 100;
-    position: relative;
-}
+    .fb-item {
+        border: 1px solid black;
+        border-left: none;
+        margin-top: -1px;
+        z-index: 100;
+        position: relative;
+    }
 
-/* Style of table bot -left */
+    /* Style of table bot -left */
 
-.table-footer-right {
-    margin-top: 19px;
-    height: 130px;
-    width: 20%;
-}
+    .table-footer-right {
+        margin-top: 19px;
+        height: 130px;
+        width: 20%;
+    }
 
-.table-footer-right td {
-    text-align: left;
-    font-size: 14px;
-}
+    .table-footer-right td {
+        text-align: left;
+        font-size: 14px;
+    }
 
-.xr-tb-footer-left td {
-    text-align: center;
-}
+    .xr-tb-footer-left td {
+        text-align: center;
+    }
 
-.highcharts-figure {
-    margin: 3 !important;
-    padding: 0 !important;
-}
+    .highcharts-figure {
+        margin: 3 !important;
+        padding: 0 !important;
+    }
 </style>
 
 <style type="text/css">
-#img-logo-e {
-    position: absolute;
-    top: 20px;
-    right: 0px;
-}
+    #img-logo-e {
+        position: absolute;
+        top: 20px;
+        right: 0px;
+    }
 
-/* top right */
-.xr-picture-right {
-    position: absolute;
-    right: 0px;
-    top: 100px;
-    width: 80%;
-}
+    /* top right */
+    .xr-picture-right {
+        position: absolute;
+        right: 0px;
+        top: 100px;
+        width: 80%;
+    }
 
-.xr-picture-left {
-    position: absolute;
-    right: 0px;
-    top: 234px;
-    width: 100%;
+    .xr-picture-left {
+        position: absolute;
+        right: 0px;
+        top: 234px;
+        width: 100%;
 
-    /* height: 105%; */
-    /* border-right: 1px solid black; */
-}
+        /* height: 105%; */
+        /* border-right: 1px solid black; */
+    }
 
-.sb-left {
-    margin-right: -1px;
-}
+    .sb-left {
+        margin-right: -1px;
+    }
 
-.xr-tb-footer-left {
-    margin-top: 1px;
-}
+    .xr-tb-footer-left {
+        margin-top: 1px;
+    }
 
-#tb-top-right-xr2 {
-    margin-top: -1px;
-}
+    #tb-top-right-xr2 {
+        margin-top: -1px;
+    }
 
-#xr-tb-bot-chart {
-    line-height: 14px;
-    text-align: center;
-}
+    #xr-tb-bot-chart {
+        line-height: 14px;
+        text-align: center;
+    }
 
-/* Css right */
+    /* Css right */
 
-#xr-result-table {
-    margin-top: 2%;
-    margin-left: 10%;
-    border: 1px solid black;
-    font-size: 18px;
-    text-align: center;
-    width: 50%;
+    #xr-result-table {
+        margin-top: 2%;
+        margin-left: 10%;
+        border: 1px solid black;
+        font-size: 18px;
+        text-align: center;
+        width: 50%;
 
-}
+    }
 
-#xr-result-table tr {
-    white-space: nowrap;
-}
+    #xr-result-table tr {
+        white-space: nowrap;
+    }
 
-#xr-result-table td {
-    padding: 4px;
-}
+    #xr-result-table td {
+        padding: 4px;
+    }
 
-#xr-result-table-2 {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-}
+    #xr-result-table-2 {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-.add-dashed-border,
-#xr-result-table-2 tr td:nth-child(1),
-#xr-result-table-2 tr td:nth-child(2),
-#xr-result-table-2 tr td:nth-child(3) {
-    border-bottom: 1px dashed black;
-    padding: 2px;
-}
+    .add-dashed-border,
+    #xr-result-table-2 tr td:nth-child(1),
+    #xr-result-table-2 tr td:nth-child(2),
+    #xr-result-table-2 tr td:nth-child(3) {
+        border-bottom: 1px dashed black;
+        padding: 2px;
+    }
 
-#xr-table-footer tr td {
-    font-size: 14px;
-    border-bottom: 1px solid #ccc;
-}
+    #xr-table-footer tr td {
+        font-size: 14px;
+        border-bottom: 1px solid #ccc;
+    }
 
-p.footer {
-    position: absolute;
-    right: 10%;
-    bottom: 0px;
-    font-size: 24px;
-}
+    p.footer {
+        position: absolute;
+        right: 10%;
+        bottom: 0px;
+        font-size: 24px;
+    }
 </style>
-
+<script>
+    data_management_level = "<?php echo $data_management_level_one ?>"
+    filenames = data_management_level.split(';');
+    filenames.forEach(value => $('#management_img_box').append(`<img src='/fiot-hdvn/${value}' alt=""  style="display:flex; height: 38px; max-width:60px;">`))
+</script>
 <div id="xr-box" class="sub-box   w-100 row p-0 m-0">
     <div class="sb-item sb-left col position-relative">
         <img src="../../projects/qc/img-qc/form-XR-left.png" alt="" class="xr-picture-left">
     </div>
     <div class="sb-item sb-center col-11 p-0">
-        <div class="form-head d-flex flex-row w-100 mb--1 mt--1" height="115">
+        <div class=" form-head d-flex flex-row w-100 mb--1 mt--1" height="115">
             <div class="head-left w-15 ">
                 <table class="table-head-left table-bordered w-100  text-center">
                     <tr>
@@ -646,33 +640,23 @@ p.footer {
             </div>
             <!-- center -->
             <div class="head-center col row d-flex justify-content-center position-relative m-0 w-50">
-                <div class="heading-box row w-100">
-                    <div class="heading-box row w-100">
-                        <!-- HD logo -->
-                        <div class="col-1 flex-mid-cen">
-                            <img src="../../projects/qc/img-qc/HD-logo.png" alt="HD-logo"
-                                style="width:50px;height:30px">
-                        </div>
-                        <!-- Loại biểu đồ -->
-                        <div class="heading-box-content flex-mid-cen flex-column col-8 text-center">
-                            <p class="content-name "><?php echo $data_chart ?></p>
-                            <p class="form-name">(<?php echo $data_form ?>,HISTOGRAM)</p>
-                        </div>
-                        <!-- Form name -->
-
-                        <!-- img1 -->
-                        <div class="row col-3 ">
-                            <div class="col-6 flex-mid-cen">
-                                <img src="../../projects/qc/img-qc/inportance_control_sr_C.png" alt="C-logo"
-                                    class="pt-2">
-                            </div>
-                            <div class="col-6 flex-mid-cen">
-                                <img src="../../projects/qc/img-qc/inportance_control_sr_C.png" alt="C-logo"
-                                    class="pt-2">
-                            </div>
-                        </div>
-                        <!-- img2 -->
+                <div class="heading-box row w-100 ">
+                    <!-- HD logo -->
+                    <div class="col-1 flex-mid-cen">
+                        <img src="../../projects/qc/img-qc/HD-logo.png" alt="HD-logo" style="width:50px;height:30px">
                     </div>
+                    <!-- Loại biểu đồ -->
+                    <div class="col-11 d-flex flex-column">
+                        <div class="heading-box-content flex-mid-cen flex-row text-center w-100 h-75">
+                            <h2 style="font-size: 33px" class="content-name "><?php echo $data_chart ?> </h2>
+                            <p class="form-name pl-3">(<?php echo $data_form ?>, HISTOGRAM)</p>
+                        </div>
+
+                        <div id="management_img_box" class="w-100 flex-mid-cen  p-1">
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -686,8 +670,7 @@ p.footer {
                             <td class="no-border-bot">Mgr</td>
                         </tr>
                         <tr class="h-60 ">
-                            <td id="xr-confirm-mgr" class="no-border-top text-center"
-                                onclick="show_confirm_modal('xr-confirm-mgr','ToanMgr')"></td>
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
                         </tr>
                     </table>
                 </div>
@@ -703,13 +686,37 @@ p.footer {
                             <td class="col-4 no-border-bot">Sup</td>
                             <td class="col-4 no-border-bot">TL</td>
                         </tr>
+
                         <tr class="h-60 ">
-                            <td id="xr-confirm2-mgr" class="no-border-top text-center"
-                                onclick="show_confirm_modal('xr-confirm2-mgr','ToanMgr')"></td>
-                            <td id="dxr-confirm-sup" class="no-border-top text-center"
-                                onclick="show_confirm_modal('dxr-confirm-sup','ToanMgr')"></td>
-                            <td id="xr-confirm-tl" class="no-border-top text-center"
-                                onclick="show_confirm_modal('xr-confirm-tl','ToanMgr')"></td>
+                            <td id="cs-confirm-production-mgr" class="no-border-top text-center">
+                                <?php  $count_sig= count($data_tb_sign) ;
+                                 if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null && $data_tb_sign[$count_sig - 1][6] == null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_mgr\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][6] != null)
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][6]);
+                                else
+                                    echo null;
+                                ?></td>
+                            <td id="cs-confirm-production-sup" class="no-border-top text-center">
+                                <?php if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null && $data_tb_sign[$count_sig - 1][5] == null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_sup\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][5] != null)
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][5]);
+                                else
+                                    echo null;
+                                ?></td>
+                            </td>
+                            <td id="cs-confirm-production-tl" class="no-border-top text-center">
+                                <?php
+                                if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][3] != null && $data_tb_sign[$count_sig - 1][4] == null)
+                                    echo '<i style="cursor: pointer;"  class="fas fa-edit" onclick="sign_form_confirm_function(\'sign_tl\')"</i>';
+                                else if ($count_sig == 30 && $data_tb_sign[$count_sig - 1][4] != null)
+                                    echo usertoName($data_account, $data_tb_sign[$count_sig - 1][4]);
+                                else
+                                    echo null;
+                                ?></td>
+                            </td>
+
                         </tr>
                     </table>
                 </div>
@@ -752,8 +759,7 @@ p.footer {
                 </div>
                 <!-- Top-left -->
                 <div class=" fbi-body-top d-flex flex-row w-100  " style="height:290px">
-                    <div
-                        class="fb-item w-10 flex-mid-cen  no-border-bot border-left-black border-left-black border-left-black ">
+                    <div class="fb-item w-10 flex-mid-cen  no-border-bot border-left-black border-left-black border-left-black ">
                         X</div>
                     <div class="fb-item w-90 ">
                         <!-- Chart top  left -->
@@ -761,29 +767,28 @@ p.footer {
                             <div id="xr-chart-top-left"></div>
                         </figure>
                         <div class="picture-quy-cach-top row">
-                            <?php 
-                                // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
-                                if($data_type_allowance == "±" || $data_type_allowance == "Max"){ // 2 cận
-                                    echo '<p class="m-0">' . ($data_standard_dimension + $data_upper) . 'N</p>';
-                                    echo '<img src="../../projects/qc/img-qc/quycach-form-picture-top.png " alt="quy cach">';
-                                }
+                            <?php
+                            // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
+                            if ($data_type_allowance == "±" || $data_type_allowance == "Max") { // 2 cận
+                                echo '<p class="m-0">' . ($data_standard_dimension + $data_upper) . 'N</p>';
+                                echo '<img src="../../projects/qc/img-qc/quycach-form-picture-top.png " alt="quy cach">';
+                            }
                             ?>
                         </div>
                         <div class="picture-quy-cach-bot row">
-                            <?php 
-                                // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
-                                if($data_type_allowance == "±" || $data_type_allowance == "Min"){ // 2 cận
-                                    echo '<p class="m-0">' . ($data_standard_dimension + $data_lower) . 'N</p>';
-                                    echo '<img src="../../projects/qc/img-qc/quycach-form-picture-bot.png " alt="quy cach">';
-                                }
+                            <?php
+                            // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
+                            if ($data_type_allowance == "±" || $data_type_allowance == "Min") { // 2 cận
+                                echo '<p class="m-0">' . ($data_standard_dimension + $data_lower) . 'N</p>';
+                                echo '<img src="../../projects/qc/img-qc/quycach-form-picture-bot.png " alt="quy cach">';
+                            }
                             ?>
                         </div>
                     </div>
                 </div>
                 <!-- Bot-left -->
                 <div class=" fbi-body-mid d-flex flex-row w-100 " style="height:235px">
-                    <div
-                        class="fb-item w-10 flex-mid-cen  no-border-bot border-left-black border-left-black border-left-black">
+                    <div class="fb-item w-10 flex-mid-cen  no-border-bot border-left-black border-left-black border-left-black">
                         R</div>
                     <div class="fb-item w-90               no-border-bot">
                         <!-- Chart-bot-left "-->
@@ -799,35 +804,32 @@ p.footer {
                             <td colspan="2" class="w-10">Đo</td>
                             <td style="width:6.2%;">Tháng</td>
                             <?php
-                                for ($i = 0; $i < 30; $i++) {
-                                    if($i < count($data_manulot)){
-                                        echo '<td style="width:auto">'. substr($data_manulot[$i],5,2) .'</td>';
-                                    }
-                                    else{
-                                        echo '<td style="width:auto">00</td>';
-                                    }
+                            for ($i = 0; $i < 30; $i++) {
+                                if ($i < count($data_manulot)) {
+                                    echo '<td style="width:auto">' . substr($data_manulot[$i], 5, 2) . '</td>';
+                                } else {
+                                    echo '<td style="width:auto">00</td>';
                                 }
+                            }
                             ?>
                         </tr>
                         <tr>
                             <td class="no-border-right">Năm</td>
                             <td class="no-border-left">
-                                <?php 
-                                    if(substr($data_tb[0][4],0,4) != substr($data_tb[count($data_tb)-1][4],0,4)){
-                                        echo (substr($data_tb[0][4],0,4) . " - " . substr($data_tb[count($data_tb)-1][4],0,4));
-                                    }
-                                    else{
-                                        echo (substr($data_tb[count($data_tb)-1][4],0,4));
-                                    }
+                                <?php
+                                if (substr($data_tb[0][4], 0, 4) != substr($data_tb[count($data_tb) - 1][4], 0, 4)) {
+                                    echo (substr($data_tb[0][4], 0, 4) . " - " . substr($data_tb[count($data_tb) - 1][4], 0, 4));
+                                } else {
+                                    echo (substr($data_tb[count($data_tb) - 1][4], 0, 4));
+                                }
                                 ?>
                             </td>
                             <td>Ngày</td>
                             <?php
                             for ($i = 0; $i < 30; $i++) {
-                                if($i < count($data_manulot)){
-                                    echo '<td style="width:auto">'. substr($data_manulot[$i],8,2) .'</td>';
-                                }
-                                else{
+                                if ($i < count($data_manulot)) {
+                                    echo '<td style="width:auto">' . substr($data_manulot[$i], 8, 2) . '</td>';
+                                } else {
                                     echo '<td style="width:auto"></td>';
                                 }
                             }
@@ -837,8 +839,7 @@ p.footer {
                             <td colspan="3">Ca</td>
                             <?php
                             for ($i = 0; $i < 30; $i++) {
-                                    echo '<td style="width:auto"></td>';
-                                
+                                echo '<td style="width:auto"></td>';
                             }
                             ?>
                         </tr> -->
@@ -846,15 +847,14 @@ p.footer {
                             <td colspan="3">Cavity</td>
                             <?php
                             for ($i = 0; $i < 30; $i++) {
-                                if($i < count($data_manulot)){
-                                    for ($x=0; $x < count($data_tb); $x++) { 
-                                        if($data_manulot[$i] == $data_tb[$x][4] && $data_tb[$x][22]!= ''){
-                                            echo '<td style="width:auto">'. $data_tb[$x][22].'</td>';
+                                if ($i < count($data_manulot)) {
+                                    for ($x = 0; $x < count($data_tb); $x++) {
+                                        if ($data_manulot[$i] == $data_tb[$x][4] && $data_tb[$x][22] != '') {
+                                            echo '<td style="width:auto">' . $data_tb[$x][22] . '</td>';
                                             break;
                                         }
                                     }
-                                }
-                                else{
+                                } else {
                                     echo '<td style="width:auto"></td>';
                                 }
                             }
@@ -864,28 +864,27 @@ p.footer {
                             <td colspan="3">Sổ quản lý dụng cụ đo</td>
                             <?php
                             for ($i = 0; $i < 30; $i++) {
-                                if($i < count($data_manulot)){
-                                    for ($x=0; $x < count($data_tb); $x++) {
-                                        $data_measuring_tools_arr_flag = false; 
-                                        if($data_manulot[$i] == $data_tb[$x][4] && $data_tb[$x][9] != ''){
-                                            for ($y=0; $y < count($data_measuring_tools_arr); $y++) { 
+                                if ($i < count($data_manulot)) {
+                                    for ($x = 0; $x < count($data_tb); $x++) {
+                                        $data_measuring_tools_arr_flag = false;
+                                        if ($data_manulot[$i] == $data_tb[$x][4] && $data_tb[$x][9] != '') {
+                                            for ($y = 0; $y < count($data_measuring_tools_arr); $y++) {
                                                 # code...
-                                                if($data_tb[$x][9] == $data_measuring_tools_arr[$y][2]){
+                                                if ($data_tb[$x][9] == $data_measuring_tools_arr[$y][2]) {
                                                     echo '<td style="max-width: 15px; font-size: 50%;overflow: hidden;
                                                         text-overflow: ellipsis; ">' . $data_measuring_tools_arr[$y][6] . '</td>';
-                                                        $data_measuring_tools_arr_flag = true;
-                                                        break;
+                                                    $data_measuring_tools_arr_flag = true;
+                                                    break;
                                                 }
                                             }
-                                            if($data_measuring_tools_arr_flag == false){
+                                            if ($data_measuring_tools_arr_flag == false) {
                                                 echo '<td style="max-width: 15px; font-size: 55%;overflow: hidden;
                                                 text-overflow: ellipsis; "></td>';
                                             }
                                             break;
                                         }
                                     }
-                                }
-                                else{
+                                } else {
                                     echo '<td style="max-width: 15px; font-size: 55%;overflow: hidden;
                                             text-overflow: ellipsis; "></td>';
                                 }
@@ -896,16 +895,15 @@ p.footer {
                             <td colspan="3">Người thực hiện</td>
                             <?php
                             for ($i = 0; $i < 30; $i++) {
-                                if($i < count($data_manulot)){
-                                    for ($x=0; $x < count($data_tb); $x++) {
-                                        if($data_manulot[$i] == $data_tb[$x][4] && $data_tb[$x][12] != ''){
+                                if ($i < count($data_manulot)) {
+                                    for ($x = 0; $x < count($data_tb); $x++) {
+                                        if ($data_manulot[$i] == $data_tb[$x][4] && $data_tb[$x][12] != '') {
                                             echo '<td style="max-width: 15px; font-size: 70%;overflow: hidden;
                                                     text-overflow: ellipsis; ">' . $data_tb[$x][12] . '</td>';
-                                                    break;
+                                            break;
                                         }
                                     }
-                                }
-                                else{
+                                } else {
                                     echo '<td style="max-width: 15px; font-size: 55%;overflow: hidden;
                                             text-overflow: ellipsis; "></td>';
                                 }
@@ -970,9 +968,9 @@ p.footer {
                             <div class="l-2" style="height:26px">Khoảng</div>
                             <table id="table-tr-xr" class=" axes-label-tr-chart w-100">
                                 <script>
-                                // 291 chieu dai tong cua do thi ben canh
-                                table_add("table-tr-xr", 16, 1,
-                                    <?php echo $data_upper_chart . ',' . $data_step_chart ?>, 290)
+                                    // 291 chieu dai tong cua do thi ben canh
+                                    table_add("table-tr-xr", 16, 1,
+                                        <?php echo $data_upper_chart . ',' . $data_step_chart ?>, 290)
                                 </script>
                             </table>
                         </div>
@@ -1059,16 +1057,16 @@ p.footer {
                                 </tr>
                                 <tr>
                                     <td>3σ=</td>
-                                    <td><?php echo 3*$𝜎 ?></td>
+                                    <td><?php echo 3 * $𝜎 ?></td>
                                     <td>6σ=</td>
-                                    <td class="add-dashed-border"><?php echo 6*$𝜎 ?></td>
+                                    <td class="add-dashed-border"><?php echo 6 * $𝜎 ?></td>
                                     <td colspan="2">Ａ ＝ 第 0 番目のセルの中心</td>
                                 </tr>
                                 <tr class="align-top">
                                     <td>X + 3σ=</td>
-                                    <td><?php echo ($xAverage + 3*$𝜎) ?></td>
+                                    <td><?php echo ($xAverage + 3 * $𝜎) ?></td>
                                     <td>X̅̅-3σ=</td>
-                                    <td class="add-dashed-border"><?php echo ($xAverage - 3*$𝜎) ?></td>
+                                    <td class="add-dashed-border"><?php echo ($xAverage - 3 * $𝜎) ?></td>
                                     <td colspan="2">値 ＝<br>u = A からのセルの偏差</td>
                                 </tr>
                                 <tr>
@@ -1091,7 +1089,7 @@ p.footer {
                             <table class="table-footer-right p-0 pl-1 ">
                                 <tr>
                                     <td>X-UCL=</td>
-                                    <td><?php echo round($xAverage + $a2_arr[$data_quantity]*$rAverage,3) ?></td>
+                                    <td><?php echo round($xAverage + $a2_arr[$data_quantity] * $rAverage, 3) ?></td>
                                 </tr>
                                 <tr>
                                     <td>X-CL=</td>
@@ -1099,11 +1097,11 @@ p.footer {
                                 </tr>
                                 <tr>
                                     <td>X-LCL=</td>
-                                    <td><?php echo round($xAverage - $a2_arr[$data_quantity]*$rAverage,3) ?></td>
+                                    <td><?php echo round($xAverage - $a2_arr[$data_quantity] * $rAverage, 3) ?></td>
                                 </tr>
                                 <tr>
                                     <td>R-UCL=</td>
-                                    <td><?php echo round($d4_arr[$data_quantity]*$rAverage,3) ?></td>
+                                    <td><?php echo round($d4_arr[$data_quantity] * $rAverage, 3) ?></td>
                                 </tr>
                                 <tr>
                                     <td>R-CL=</td>
@@ -1112,8 +1110,7 @@ p.footer {
                             </table>
                         </div>
                         <div class="col-9 h-100 p-0 flex-mid-cen">
-                            <img src="../../projects/qc/img-qc/form_CheckSheet.png" alt="Form check sheet"
-                                style="max-height:140px;max-width:400px">
+                            <img src="../../projects/qc/img-qc/form_CheckSheet.png" alt="Form check sheet" style="max-height:140px;max-width:400px">
                         </div>
                     </div>
                 </div>
@@ -1159,346 +1156,376 @@ p.footer {
 
 </div>
 
+<!-- Modal approval full form-->
+<div class="modal fade" id="form_confirm_modal">
+    <div class="modal-dialog">
+        <div class="modal-content bg-secondary">
+            <div class="modal-header">
+                <h4 class="modal-title">Xác nhận duyệt form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <input id="show_sub_id" hidden></input> -->
+                <p> Xác nhận duyệt form với tên là: <span id="show_data_confirm">
+                        <p><?php echo $_COOKIE['full_name'] . '<br> MSNV:' . $_COOKIE['username']  ?></p>
+                    </span></p>
+
+                <form id="sign_confirm_approval" action="<?php echo   "/fiot-hdvn/qc/sign"; ?>" method="post">
+                    <input hidden id="sub_id_search_input" name="sub_id_search_input">
+                    <input hidden id="sign_form" name="sign_form">
+                    <input hidden id="current_url" name="current_url">
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Đóng</button>
+                <button type="submit" form="sign_confirm_approval" class="btn btn-outline-light">Duyệt</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <!-- Chart top-left -->
 <script>
-var tick_pos_xr_top_left_y = cac_tick_pos(
-    <?php echo $data_lower_chart . ',' . $data_upper_chart . ',' . $data_step_chart ?>)
-var tick_pos_xr_top_left_x = cac_tick_pos(0, 31, 1)
-var xr_tl_pl = [<?php echo $data_x_ucl . ',' . $data_x_cl . ',' . $data_x_lcl ?>]
-var y_value_top_left = [
-    <?php 
-        for ($i=0; $i < count($arr_x_top_left); $i++) { 
+    var tick_pos_xr_top_left_y = cac_tick_pos(
+        <?php echo $data_lower_chart . ',' . $data_upper_chart . ',' . $data_step_chart ?>)
+    var tick_pos_xr_top_left_x = cac_tick_pos(0, 31, 1)
+    var xr_tl_pl = [<?php echo $data_x_ucl . ',' . $data_x_cl . ',' . $data_x_lcl ?>]
+    var y_value_top_left = [
+        <?php
+        for ($i = 0; $i < count($arr_x_top_left); $i++) {
             # code...
-            for ($x=0; $x < count($arr_x_top_left[$i]); $x++) { 
+            for ($x = 0; $x < count($arr_x_top_left[$i]); $x++) {
                 # code...
-                if(count($arr_x_top_left[$i]) == 1){
+                if (count($arr_x_top_left[$i]) == 1) {
                     echo '[1, ' . $arr_x_top_left[$i][$x] . ']' . ',';
-                }
-                else{
-                    echo '['  . ($i + 0.6 + ($x*0.8/(count($arr_x_top_left[$i]) - 1))) . ',' . $arr_x_top_left[$i][$x] . ']' . ',';
+                } else {
+                    echo '['  . ($i + 0.6 + ($x * 0.8 / (count($arr_x_top_left[$i]) - 1))) . ',' . $arr_x_top_left[$i][$x] . ']' . ',';
                 }
             }
         }
         ?>
-]
-// console.log(y_value_top_left)
-Highcharts.chart('xr-chart-top-left', {
-    chart: {
-        height: 290,
-        margin: [5, 0, 10, 70],
-        plotBorderColor: 'black',
-        plotBorderWidth: 1
-    },
+    ]
+    // console.log(y_value_top_left)
+    Highcharts.chart('xr-chart-top-left', {
+        chart: {
+            height: 290,
+            margin: [5, 0, 10, 70],
+            plotBorderColor: 'black',
+            plotBorderWidth: 1
+        },
 
-    title: {
-        text: ''
-    },
-    legend: {
-        enabled: false
-    },
-    // remove highchart.com
-    credits: {
-        enabled: false
-    },
-    xAxis: {
-        title: '',
-        // label:categories,
-        tickPositions: tick_pos_xr_top_left_x[0],
-        minorTickInterval: tick_pos_xr_top_left_x[1] / 2,
-        min: 0.5,
-        max: 30.5,
-        step: 1,
-        tickInterval: 1,
-        gridLineWidth: 1,
-        labels: {
+        title: {
+            text: ''
+        },
+        legend: {
             enabled: false
         },
-        tickWidth: 0,
-    },
-    yAxis: {
-        title: '',
-        min: <?php echo $data_lower_chart ?>,
-        max: <?php echo $data_upper_chart ?>,
-        step: <?php echo $data_step_chart ?>,
-        startOnTick: false,
-        endOnTick: false,
-
-        labels: {
-            format: '{value:.3f}',
+        // remove highchart.com
+        credits: {
+            enabled: false
         },
-        tickPositions: tick_pos_xr_top_left_y[0],
-        minorTickInterval: tick_pos_xr_top_left_y[1] / 2.5,
+        xAxis: {
+            title: '',
+            // label:categories,
+            tickPositions: tick_pos_xr_top_left_x[0],
+            minorTickInterval: tick_pos_xr_top_left_x[1] / 2,
+            min: 0.5,
+            max: 30.5,
+            step: 1,
+            tickInterval: 1,
+            gridLineWidth: 1,
+            labels: {
+                enabled: false
+            },
+            tickWidth: 0,
+        },
+        yAxis: {
+            title: '',
+            min: <?php echo $data_lower_chart ?>,
+            max: <?php echo $data_upper_chart ?>,
+            step: <?php echo $data_step_chart ?>,
+            startOnTick: false,
+            endOnTick: false,
 
-        gridLineWidth: 1,
+            labels: {
+                format: '{value:.3f}',
+            },
+            tickPositions: tick_pos_xr_top_left_y[0],
+            minorTickInterval: tick_pos_xr_top_left_y[1] / 2.5,
 
-        plotLines: [{
-            color: 'red',
-            width: 1.5,
-            zIndex: 5,
-            value: xr_tl_pl[0],
-            dashStyle: 'longdash'
-        }, {
-            color: 'red',
-            width: 1.5,
-            zIndex: 5,
-            value: xr_tl_pl[2],
-            dashStyle: 'longdash'
-        }, {
-            color: 'blue',
-            width: 1.5,
-            zIndex: 5,
-            value: xr_tl_pl[1],
-            dashStyle: 'line'
-        }],
+            gridLineWidth: 1,
 
-    },
-    plotOptions: {
-        series: {
-            pointStart: 1
-        }
-    },
-    series: [{
-        type: 'line',
-        name: '',
-        data: y_value_top_left, //
-        marker: {
-            enabled: true,
-            symbol: 'circle',
-            radius: 2.5,
-            fillColor: '#ffffff',
-            lineWidth: 1.5,
-            lineColor: '#000000',
-        }
-    }]
-});
+            plotLines: [{
+                color: 'red',
+                width: 1.5,
+                zIndex: 5,
+                value: xr_tl_pl[0],
+                dashStyle: 'longdash'
+            }, {
+                color: 'red',
+                width: 1.5,
+                zIndex: 5,
+                value: xr_tl_pl[2],
+                dashStyle: 'longdash'
+            }, {
+                color: 'blue',
+                width: 1.5,
+                zIndex: 5,
+                value: xr_tl_pl[1],
+                dashStyle: 'line'
+            }],
+
+        },
+        plotOptions: {
+            series: {
+                pointStart: 1
+            }
+        },
+        series: [{
+            type: 'line',
+            name: '',
+            data: y_value_top_left, //
+            marker: {
+                enabled: true,
+                symbol: 'circle',
+                radius: 2.5,
+                fillColor: '#ffffff',
+                lineWidth: 1.5,
+                lineColor: '#000000',
+            }
+        }]
+    });
 </script>
 
 <!-- Chart bot-left -->
 <script>
-<?php 
-$data_xbar_upper_chart = $data_r_cl + 1.5*($data_r_ucl - $data_r_cl);
-$data_xbar_lower_chart = $data_r_cl - 1.5*($data_r_ucl - $data_r_cl);
-$data_xbar_step_chart  = ($data_xbar_upper_chart - $data_xbar_lower_chart)/16;
-?>
-var tick_pos_xr_top_left = cac_tick_pos(
-    <?php echo $data_xbar_lower_chart . ',' . $data_xbar_upper_chart . ',' . $data_xbar_step_chart ?>)
-var y_value = [
-    <?php 
-        for ($i=0; $i < count($arr_x_top_left); $i++) { 
-            echo round(max($arr_x_top_left[$i]) - min($arr_x_top_left[$i]),3) . ',';
+    <?php
+    $data_xbar_upper_chart = $data_r_cl + 1.5 * ($data_r_ucl - $data_r_cl);
+    $data_xbar_lower_chart = $data_r_cl - 1.5 * ($data_r_ucl - $data_r_cl);
+    $data_xbar_step_chart  = ($data_xbar_upper_chart - $data_xbar_lower_chart) / 16;
+    ?>
+    var tick_pos_xr_top_left = cac_tick_pos(
+        <?php echo $data_xbar_lower_chart . ',' . $data_xbar_upper_chart . ',' . $data_xbar_step_chart ?>)
+    var y_value = [
+        <?php
+        for ($i = 0; $i < count($arr_x_top_left); $i++) {
+            echo round(max($arr_x_top_left[$i]) - min($arr_x_top_left[$i]), 3) . ',';
         }
         ?>
-]
-// [R-CL,R_UCL]
-var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-    29, 30
-]
-var xr_bl_pl = [<?php echo $data_r_cl . ',' . $data_r_ucl ?>]
-Highcharts.chart('xr-chart-bot-left', {
-    chart: {
-        height: 235,
-        margin: [5, 0, 10, 70],
-        plotBorderColor: 'black',
-        plotBorderWidth: 1
-    },
-
-    title: {
-        text: ''
-    },
-    legend: {
-        enabled: false
-    },
-    // remove highchart.com
-    credits: {
-        enabled: false
-    },
-    xAxis: {
-        title: '',
-        data: x_value,
-        min: 0.5,
-        max: 30.5,
-        step: 1,
-        tickPositions: tick_pos_xr_top_left_x[0],
-        minorTickInterval: tick_pos_xr_top_left_x[1] / 2,
-        tickInterval: 1,
-        gridLineWidth: 1,
-        labels: {
-            enabled: false,
+    ]
+    // [R-CL,R_UCL]
+    var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+        29, 30
+    ]
+    var xr_bl_pl = [<?php echo $data_r_cl . ',' . $data_r_ucl ?>]
+    Highcharts.chart('xr-chart-bot-left', {
+        chart: {
+            height: 235,
+            margin: [5, 0, 10, 70],
+            plotBorderColor: 'black',
+            plotBorderWidth: 1
         },
-        tickWidth: 0,
-    },
-    yAxis: {
-        title: '',
-        // categories: ["23.00","23.188","23.375","23.563","23.750","23.938","24.125","24.313","24.500","24.688","24.875","25.063","25.250","25.438","25.625","25.813","26.00"],
-        min: <?php echo $data_xbar_lower_chart ?>,
-        max: <?php echo $data_xbar_upper_chart ?>,
-        startOnTick: false,
-        endOnTick: false,
 
-        labels: {
-            format: '{value:.3f}',
+        title: {
+            text: ''
         },
-        minorTickInterval: tick_pos_xr_top_left[1] / 2.5, // Khoảng cách ko
-        tickPositions: tick_pos_xr_top_left[0],
+        legend: {
+            enabled: false
+        },
+        // remove highchart.com
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            title: '',
+            data: x_value,
+            min: 0.5,
+            max: 30.5,
+            step: 1,
+            tickPositions: tick_pos_xr_top_left_x[0],
+            minorTickInterval: tick_pos_xr_top_left_x[1] / 2,
+            tickInterval: 1,
+            gridLineWidth: 1,
+            labels: {
+                enabled: false,
+            },
+            tickWidth: 0,
+        },
+        yAxis: {
+            title: '',
+            // categories: ["23.00","23.188","23.375","23.563","23.750","23.938","24.125","24.313","24.500","24.688","24.875","25.063","25.250","25.438","25.625","25.813","26.00"],
+            min: <?php echo $data_xbar_lower_chart ?>,
+            max: <?php echo $data_xbar_upper_chart ?>,
+            startOnTick: false,
+            endOnTick: false,
 
-        gridLineWidth: 1,
-        plotLines: [{
-            color: 'blue',
-            width: 1.5,
-            zIndex: 5,
-            value: xr_bl_pl[0],
-            dashStyle: 'line'
-        }, {
-            color: 'red',
-            width: 1.5,
-            zIndex: 5,
-            value: xr_bl_pl[1],
-            dashStyle: 'longdash'
+            labels: {
+                format: '{value:.3f}',
+            },
+            minorTickInterval: tick_pos_xr_top_left[1] / 2.5, // Khoảng cách ko
+            tickPositions: tick_pos_xr_top_left[0],
+
+            gridLineWidth: 1,
+            plotLines: [{
+                color: 'blue',
+                width: 1.5,
+                zIndex: 5,
+                value: xr_bl_pl[0],
+                dashStyle: 'line'
+            }, {
+                color: 'red',
+                width: 1.5,
+                zIndex: 5,
+                value: xr_bl_pl[1],
+                dashStyle: 'longdash'
+            }],
+        },
+        plotOptions: {
+            series: {
+                pointStart: 1
+            }
+        },
+        series: [{
+            type: 'line',
+            name: 'time-1',
+            data: y_value,
+            marker: {
+                symbol: 'circle',
+                fillColor: '#000000',
+                lineWidth: 1.5,
+                lineColor: '#000000',
+
+            }
         }],
-    },
-    plotOptions: {
-        series: {
-            pointStart: 1
-        }
-    },
-    series: [{
-        type: 'line',
-        name: 'time-1',
-        data: y_value,
-        marker: {
-            symbol: 'circle',
-            fillColor: '#000000',
-            lineWidth: 1.5,
-            lineColor: '#000000',
-
-        }
-    }],
-});
+    });
 </script>
 <!-- Chart top-right-->
 <script>
-var tick_pos_xr_top_right_x = tick_pos_xr_top_left_y
-var data_array = []
-var x_value = tick_pos_xr_top_right_x[0]
+    var tick_pos_xr_top_right_x = tick_pos_xr_top_left_y
+    var data_array = []
+    var x_value = tick_pos_xr_top_right_x[0]
 
-// khai báo giá trị histogram 
-var count_y_1 = 0;
-var count_y_2 = 0;
-var count_y_3 = 0;
-var count_y_4 = 0;
-var count_y_5 = 0;
-var count_y_6 = 0;
-var count_y_7 = 0;
-var count_y_8 = 0;
-var count_y_9 = 0;
-var count_y_10 = 0;
-var count_y_11 = 0;
-var count_y_12 = 0;
-var count_y_13 = 0;
-var count_y_14 = 0;
-var count_y_15 = 0;
-var count_y_16 = 0;
-var count_y_17 = 0;
+    // khai báo giá trị histogram 
+    var count_y_1 = 0;
+    var count_y_2 = 0;
+    var count_y_3 = 0;
+    var count_y_4 = 0;
+    var count_y_5 = 0;
+    var count_y_6 = 0;
+    var count_y_7 = 0;
+    var count_y_8 = 0;
+    var count_y_9 = 0;
+    var count_y_10 = 0;
+    var count_y_11 = 0;
+    var count_y_12 = 0;
+    var count_y_13 = 0;
+    var count_y_14 = 0;
+    var count_y_15 = 0;
+    var count_y_16 = 0;
+    var count_y_17 = 0;
 
-var y_value_topright = [
-    <?php 
-        for ($i=0; $i < count($data_tb); $i++) { 
+    var y_value_topright = [
+        <?php
+        for ($i = 0; $i < count($data_tb); $i++) {
             echo $data_tb[$i][17] . ',';
         }
-    ?>
-]
-for (let index = 0; index < y_value_topright.length; index++) {
-    if (y_value_topright[index] < x_value[0]) {
-        count_y_1++;
-    } else if (y_value_topright[index] >= x_value[0] && y_value_topright[index] < x_value[1]) {
-        count_y_2++;
-    } else if (y_value_topright[index] >= x_value[1] && y_value_topright[index] < x_value[2]) {
-        count_y_3++;
-    } else if (y_value_topright[index] >= x_value[2] && y_value_topright[index] < x_value[3]) {
-        count_y_4++;
-    } else if (y_value_topright[index] >= x_value[3] && y_value_topright[index] < x_value[4]) {
-        count_y_5++;
-    } else if (y_value_topright[index] >= x_value[4] && y_value_topright[index] < x_value[5]) {
-        count_y_6++;
-    } else if (y_value_topright[index] >= x_value[5] && y_value_topright[index] < x_value[6]) {
-        count_y_7++;
-    } else if (y_value_topright[index] >= x_value[6] && y_value_topright[index] < x_value[7]) {
-        count_y_8++;
-    } else if (y_value_topright[index] >= x_value[7] && y_value_topright[index] < x_value[8]) {
-        count_y_9++;
-    } else if (y_value_topright[index] >= x_value[8] && y_value_topright[index] < x_value[9]) {
-        count_y_10++;
-    } else if (y_value_topright[index] >= x_value[9] && y_value_topright[index] < x_value[10]) {
-        count_y_11++;
-    } else if (y_value_topright[index] >= x_value[10] && y_value_topright[index] < x_value[11]) {
-        count_y_12++;
-    } else if (y_value_topright[index] >= x_value[11] && y_value_topright[index] < x_value[12]) {
-        count_y_13++;
-    } else if (y_value_topright[index] >= x_value[12] && y_value_topright[index] < x_value[13]) {
-        count_y_14++;
-    } else if (y_value_topright[index] >= x_value[13] && y_value_topright[index] < x_value[14]) {
-        count_y_15++;
-    } else if (y_value_topright[index] >= x_value[14] && y_value_topright[index] < x_value[15]) {
-        count_y_16++;
-    } else if (y_value_topright[index] >= x_value[15] && y_value_topright[index] < x_value[16]) {
-        count_y_17++;
-    }
-}
-var y_value = [count_y_17, count_y_16, count_y_15, count_y_14, count_y_13, count_y_12, count_y_11, count_y_10,
-    count_y_9, count_y_8, count_y_7, count_y_6, count_y_5, count_y_4, count_y_3, count_y_2, count_y_1
-]
-// console.log(y_value)
-for (let i = 0; i < x_value.length; i++) {
-    data_array.push([x_value[i], y_value[i]])
-    // console.log(x_value[i]);
-}
-
-// console.log(x_value)
-// console.log(data_array)
-
-// console.log(tick_pos_xr_top_right_x)
-Highcharts.chart('chart-top-right-xr', {
-    chart: {
-        height: 321,
-        type: 'bar',
-        margin: [26, 0, 5, 0],
-        plotBorderColor: 'black',
-        plotBorderWidth: 1,
-    },
-
-    xAxis: {
-        min: x_value[0],
-        max: x_value[x_value.length - 1],
-        tickLength: 0,
-        title: '',
-    },
-    yAxis: {
-        min: 0,
-        max: 25,
-        tickInterval: 5,
-        opposite: true,
-        lineWidth: 1,
-        title: '',
-    },
-    plotOptions: {
-        bar: {
-            dataLabels: {
-                enabled: true
-            }
+        ?>
+    ]
+    for (let index = 0; index < y_value_topright.length; index++) {
+        if (y_value_topright[index] < x_value[0]) {
+            count_y_1++;
+        } else if (y_value_topright[index] >= x_value[0] && y_value_topright[index] < x_value[1]) {
+            count_y_2++;
+        } else if (y_value_topright[index] >= x_value[1] && y_value_topright[index] < x_value[2]) {
+            count_y_3++;
+        } else if (y_value_topright[index] >= x_value[2] && y_value_topright[index] < x_value[3]) {
+            count_y_4++;
+        } else if (y_value_topright[index] >= x_value[3] && y_value_topright[index] < x_value[4]) {
+            count_y_5++;
+        } else if (y_value_topright[index] >= x_value[4] && y_value_topright[index] < x_value[5]) {
+            count_y_6++;
+        } else if (y_value_topright[index] >= x_value[5] && y_value_topright[index] < x_value[6]) {
+            count_y_7++;
+        } else if (y_value_topright[index] >= x_value[6] && y_value_topright[index] < x_value[7]) {
+            count_y_8++;
+        } else if (y_value_topright[index] >= x_value[7] && y_value_topright[index] < x_value[8]) {
+            count_y_9++;
+        } else if (y_value_topright[index] >= x_value[8] && y_value_topright[index] < x_value[9]) {
+            count_y_10++;
+        } else if (y_value_topright[index] >= x_value[9] && y_value_topright[index] < x_value[10]) {
+            count_y_11++;
+        } else if (y_value_topright[index] >= x_value[10] && y_value_topright[index] < x_value[11]) {
+            count_y_12++;
+        } else if (y_value_topright[index] >= x_value[11] && y_value_topright[index] < x_value[12]) {
+            count_y_13++;
+        } else if (y_value_topright[index] >= x_value[12] && y_value_topright[index] < x_value[13]) {
+            count_y_14++;
+        } else if (y_value_topright[index] >= x_value[13] && y_value_topright[index] < x_value[14]) {
+            count_y_15++;
+        } else if (y_value_topright[index] >= x_value[14] && y_value_topright[index] < x_value[15]) {
+            count_y_16++;
+        } else if (y_value_topright[index] >= x_value[15] && y_value_topright[index] < x_value[16]) {
+            count_y_17++;
         }
-    },
-    title: {
-        text: ''
-    },
-    legend: {
-        enabled: false
-    },
-    credits: {
-        enabled: false
-    },
-    series: [{
-        data: data_array,
-        pointWidth: 16, // Chua edit so thich hop
-    }]
-});
+    }
+    var y_value = [count_y_17, count_y_16, count_y_15, count_y_14, count_y_13, count_y_12, count_y_11, count_y_10,
+        count_y_9, count_y_8, count_y_7, count_y_6, count_y_5, count_y_4, count_y_3, count_y_2, count_y_1
+    ]
+    // console.log(y_value)
+    for (let i = 0; i < x_value.length; i++) {
+        data_array.push([x_value[i], y_value[i]])
+        // console.log(x_value[i]);
+    }
+
+    // console.log(x_value)
+    // console.log(data_array)
+
+    // console.log(tick_pos_xr_top_right_x)
+    Highcharts.chart('chart-top-right-xr', {
+        chart: {
+            height: 321,
+            type: 'bar',
+            margin: [26, 0, 5, 0],
+            plotBorderColor: 'black',
+            plotBorderWidth: 1,
+        },
+
+        xAxis: {
+            min: x_value[0],
+            max: x_value[x_value.length - 1],
+            tickLength: 0,
+            title: '',
+        },
+        yAxis: {
+            min: 0,
+            max: 25,
+            tickInterval: 5,
+            opposite: true,
+            lineWidth: 1,
+            title: '',
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        title: {
+            text: ''
+        },
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            data: data_array,
+            pointWidth: 16, // Chua edit so thich hop
+        }]
+    });
 </script>

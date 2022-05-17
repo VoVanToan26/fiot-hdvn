@@ -1,9 +1,5 @@
 <?php
-// if(isset($_POST)){
-//     var_dump($_POST);
-//     var_dump($_POST);
-//     die();
-// }
+
 function check_duplicate($name, $table_name)
 {
     $connect = $GLOBALS['connect'];
@@ -461,7 +457,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
         echo "<script>alert('Thiếu dữ liệu! Vui lòng nhập lại ');</script>";
         die();
     } else {
-
+        move_uploaded_file( $file_draw, $destination_draw );
         $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
                 `measuring_tools`, `standard_dimension`, `upper`, `lower`, `unit`, `type_allowance`, `form`, `x_ucl`, `x_cl`, `x_lcl`, `r_ucl`, `r_cl`, `use_formula`, 
                 `type_formula`, `number_element`, `definition_formula`, `formula`, `allowance_display`, `chart`, `management_level_one`, `no_measurement_items`, 
@@ -556,7 +552,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     // name of the uploaded file
     $name_draw = $_FILES['draw_edit']['name'];
     $file_draw = $_FILES['draw_edit']['tmp_name'];
-
+  
     $file_name_draw = $no_measurement_items_edit . $name_draw;
     $destination_draw = 'projects/qc/views/default/qc_imgs/' . $file_name_draw;
     $extension_draw = pathinfo($name_draw, PATHINFO_EXTENSION);
@@ -564,7 +560,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $size_show_draw = $size_draw / 1024;
 
     $sig = $_COOKIE['username'];
-
+   
     // print("1 product_family: " . $product_family_edit . "<br>");
     // print("2 part_no: " . $part_no_edit . "<br>");
     // print("3 process: " . $process_edit . "<br>");
@@ -605,7 +601,8 @@ else if (isset($_POST["register_measurement_items_function"])) {
         echo "<script>alert('Thiếu dữ liệu! Vui lòng nhập lại ');</script>";
         die();
     } else {
-
+   
+        move_uploaded_file( $file_draw, $destination_draw );
         $sqlregister_measurement_items = "UPDATE`qc_tb_measurement_items`
         SET  `product_family`       ='$product_family_edit' 
         , `line`                    ='$line_edit' 
@@ -622,9 +619,6 @@ else if (isset($_POST["register_measurement_items_function"])) {
         ,`measuring_tools`          ='$measuring_tools_edit' 
         , `allowance_display`       ='$allowance_display_edit' 
  
-      
-     
-   
         , `x_ucl`                   ='$x_ucl_edit' 
         , `x_cl`                    ='$x_cl_edit' 
         , `x_lcl`                   ='$r_ucl_edit' 
