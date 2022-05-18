@@ -635,7 +635,7 @@ else if(isset($_POST["register_measurement_items_function"])){
         , `measuring_department`    ='$measuring_department_edit';
         , `draw`                    ='$destination_draw'
         , `sig`                     ='$sig';
-        WHERE
+        WHERE `id`='$id'";
         if (mysqli_query($connect, $sqlregister_measurement_items)) {
             mysqli_close($connect);
             echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
