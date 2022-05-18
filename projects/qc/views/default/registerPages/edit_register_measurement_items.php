@@ -2,6 +2,7 @@
     <div class="modal fade" id="edit_measurement_items_modal" tabindex="-1" role="dialog" aria-labelledby="exadd_measurement_items" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
+                <input type="hidden" id="id_edit" name="id_edit" value="true">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exadd_measurement_items">Sửa thông tin đăng ký hạng mục đo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,6 +13,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-3">
+
                             <label for="product_family_edit" class="col-form-label">Dòng Sản Phẩm</label>
                             <select required class="form-control" id="product_family_edit" name="product_family_edit" onchange="auto_popup_line('edit');">
                                 <option value="">Chọn dòng sản phẩm</option>
@@ -71,7 +73,8 @@
                                     <div class="row" style="border-style: ridge; border-width: 1px; border-color: #808080;">
                                         <div class="col-3">
                                             <div class="custom-file symbol-class" style="width: 100%;">
-                                                <input type="file" id="draw_edit" name="draw_edit" accept=".jpg,.jpeg,.png">
+                                                <input type="file" id="draw_edit" name="draw_edit" accept=".jpg,.jpeg,.png" >
+                                                <input type="hidden" id="draw_edit_check" name="draw_edit_check" value='none'>
                                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                                                 <label for="draw_edit" class="col-form-label custom-label" style="border: none; cursor:pointer;padding-left:0;">
                                                     <i class="fa fa-upload"></i>
@@ -284,10 +287,9 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-6 form-group">
-                                    <label for="type_formula_edit" class="col-form-label">Chọn Dạng Công
-                                        Thức</label>
+                                    <label for="type_formula_edit" class="col-form-label">Chọn Dạng Công Thức</label>
                                     <select class="form-control change-required" id="type_formula_edit" name="type_formula_edit" onchange="type_formula_change_edit(); number_element_change('edit')">
-                                        <option value="">Chọn dạng công thức</option>
+                                        <option value='' selected="selected">Chọn dạng công thức</option>
                                         <option value="Normal">Normal</option>
                                         <option value="Max-Min">Max-Min</option>
                                         <option value="Average">Average</option>
@@ -295,7 +297,6 @@
                                         <option value="Min">Min</option>
                                     </select>
                                     <small class="invalid-feedback " id="_err" name="">Vui lòng nhập đủ thông tin</small>
-
                                 </div>
                                 <div class="col-6 form-group number_element_edit_form">
                                     <label for="number_element_edit" class="col-form-label">Nhập Số Phần Tử</label>
@@ -412,4 +413,3 @@
     </div>
 
 </form>
-

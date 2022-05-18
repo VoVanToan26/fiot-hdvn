@@ -60,6 +60,7 @@ if (isset($_GET['product_family']) && $_GET['line'] && $_GET['part_no'] && $_GET
 		$data_status =$row['status'];
 		// $data_management_level_two =$row['management_level_two'];
 		$data_draw =$row['draw'];
+        
         $data_sign_create_form =$row['sign_create_form'];
 	}
 	else{

@@ -153,7 +153,7 @@ if ($resultcheck_tb_data && $resultcheck_tb_data->num_rows > 0) {
         $i++;
     }
 } else {
-    $data_tb[0][0] = '';
+    $data_tb[0][0] =null;
     $data_tb[0][1] = '';
     $data_tb[0][2] = '';
     $data_tb[0][3] = '';
@@ -169,7 +169,7 @@ if ($resultcheck_tb_data && $resultcheck_tb_data->num_rows > 0) {
     $data_tb[0][14] = '';
     $data_tb[0][15] = '';
     $data_tb[0][16] = '';
-    $data_tb[0][17] = '';
+    $data_tb[0][17] = null;
     $data_tb[0][18] = '';
     $data_tb[0][19] = '';
     $data_tb[0][20] = '';
@@ -244,9 +244,11 @@ if ($resultsearch_measuring_tools && $resultsearch_measuring_tools->num_rows > 0
 // lọc accuracy
 $data_nick_name_tools = $data_tb[count($data_tb) - 1][9];
 
-for ($i = 0; $i < count($data_measuring_tools_arr); $i++) {
+$flag_data_accuracy = false;
+for ($i=0; $i < count($data_measuring_tools_arr); $i++) { 
     # code...
-    if ($data_nick_name_tools == $data_measuring_tools_arr[$i][2]) {
+    if($data_nick_name_tools == $data_measuring_tools_arr[$i][2]){
+        $flag_data_accuracy = true;
         $data_accuracy = $data_measuring_tools_arr[$i][5];
         $data_management_number = $data_measuring_tools_arr[$i][6];
     }
@@ -254,6 +256,10 @@ for ($i = 0; $i < count($data_measuring_tools_arr); $i++) {
     //     $data_accuracy = '';
     //     $data_management_number = '';
     // }
+}
+if($flag_data_accuracy == false){
+    $data_accuracy = '';
+    $data_management_number = '';
 }
 
 $sqlcheck_account = "SELECT * FROM `tb_account` ORDER BY `username` ASC";
@@ -287,9 +293,10 @@ if ($resultcheck_account && $resultcheck_account->num_rows > 0) {
     $data_account[0][8] = '';
 }
 // khai báo thông tin
-$d2_arr = [0, 0, 1.13, 1.69, 2.06, 2.33, 2.53];
-$a2_arr = [0, 0, 1.88, 1.02, 0.73, 0.58, 0.48];
-$d4_arr = [00, 0, 3.27, 2.58, 2.25, 2.12, 2.00];
+$d2_arr = [0, 1.13];
+$a2_arr = [0, 2.66];
+$e2_arr = [0, 2.66];
+$d4_arr = [0, 2.66];
 
 
 
@@ -334,7 +341,7 @@ if (count($data_tb) == 1) {
     $rAverage = round($sum_x_bot_left / (count($data_tb) - 1), 3);
 }
 
-$𝜎 = round($rAverage / $d2_arr[2], 3);
+$𝜎 = round($rAverage / $d2_arr[1], 3);
 
 // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
 if ($𝜎 != 0) {
@@ -399,204 +406,205 @@ if ($resultcheck_tb_sign && $resultcheck_tb_sign->num_rows > 0) {
 $count_sig = count($data_tb_sign);
 ?>
 <style type="text/css">
-    .box-shadow {
-        box-shadow: 0 0 0 1px #000;
-    }
+.box-shadow {
+    box-shadow: 0 0 0 1px #000;
+}
 
-    td.no-border {
-        border: none !important;
-    }
-
-
-
-    .table-body .h-30 {
-        height: 30%;
-    }
-
-    .form-body-item {
-        width: 100%;
-        display: block;
-    }
-
-    .fbi-right {
-        margin-left: -1px;
-    }
-
-    .heading-box-item__name {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding-left: 5px;
-        justify-content: left;
-    }
+td.no-border {
+    border: none !important;
+}
 
 
-    .chart-top-right-container {
-        margin-left: -1px;
-    }
 
-    .td-name {
-        text-align: left;
-        padding-left: 3px;
-    }
+.table-body .h-30 {
+    height: 30%;
+}
 
-    .td-value {
-        text-align: center;
-    }
+.form-body-item {
+    width: 100%;
+    display: block;
+}
 
-    #table-tr-xrs tr td {
-        padding: 0;
-        text-align: right;
-    }
+.fbi-right {
+    margin-left: -1px;
+}
 
-    .summary-container {
-        width: 80%;
-        margin: auto;
-    }
+.heading-box-item__name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5px;
+    justify-content: left;
+}
 
-    .summary-table {
-        /* margin: auto; */
-        width: 100%;
-    }
 
-    .summary-table td {
+.chart-top-right-container {
+    margin-left: -1px;
+}
 
-        line-height: 24px;
-        border-bottom: 1px solid black;
-        text-align: center;
-    }
+.td-name {
+    text-align: left;
+    padding-left: 3px;
+}
 
-    .td-evaluate {
-        border: 2px solid black !important;
-        height: 35px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        font-weight: bold;
-    }
+.td-value {
+    text-align: center;
+}
 
-    .fb-item {
-        border: 1px solid black;
-        border-left: none;
-        margin-top: -1px;
-        z-index: 100;
-        position: relative;
-    }
+#table-tr-xrs tr td {
+    padding: 0;
+    text-align: right;
+}
 
-    /* Style of table bot -left */
+.summary-container {
+    width: 80%;
+    margin: auto;
+}
 
-    .table-footer-right {
-        margin-top: 19px;
-        height: 130px;
-        width: 20%;
-    }
+.summary-table {
+    /* margin: auto; */
+    width: 100%;
+}
 
-    .table-footer-right td {
-        text-align: left;
-        font-size: 14px;
-    }
+.summary-table td {
 
-    .xrs-tb-footer-left td {
-        text-align: center;
-    }
+    line-height: 24px;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
 
-    .highcharts-figure {
-        margin: 3 !important;
-        padding: 0 !important;
-    }
+.td-evaluate {
+    border: 2px solid black !important;
+    height: 35px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: bold;
+}
 
-    .xrs-tb-footer-left {}
+.fb-item {
+    border: 1px solid black;
+    border-left: none;
+    margin-top: -1px;
+    z-index: 100;
+    position: relative;
+}
+
+/* Style of table bot -left */
+
+.table-footer-right {
+    margin-top: 19px;
+    height: 130px;
+    width: 20%;
+}
+
+.table-footer-right td {
+    text-align: left;
+    font-size: 14px;
+}
+
+.xrs-tb-footer-left td {
+    text-align: center;
+}
+
+.highcharts-figure {
+    margin: 3 !important;
+    padding: 0 !important;
+}
+
+.xrs-tb-footer-left {}
 </style>
 <!-- style hight chart -->
 <style type="text/css">
-    #img-logo-e {
-        position: absolute;
-        top: 20px;
-        right: 0px;
-    }
+#img-logo-e {
+    position: absolute;
+    top: 20px;
+    right: 0px;
+}
 
-    /* top right */
-    .xrs-picture-right {
-        position: absolute;
-        right: 0px;
-        top: 100px;
-        width: 80%;
-    }
+/* top right */
+.xrs-picture-right {
+    position: absolute;
+    right: 0px;
+    top: 100px;
+    width: 80%;
+}
 
-    .xrs-picture-left {
-        position: absolute;
-        right: 0px;
-        top: 234px;
-        width: 100%;
+.xrs-picture-left {
+    position: absolute;
+    right: 0px;
+    top: 234px;
+    width: 100%;
 
-        /* height: 105%; */
-        /* border-right: 1px solid black; */
-    }
+    /* height: 105%; */
+    /* border-right: 1px solid black; */
+}
 
-    .sb-left {
-        margin-right: -1px;
-    }
+.sb-left {
+    margin-right: -1px;
+}
 
-    .xrs-tb-footer-left {
-        margin-top: 1px;
-    }
+.xrs-tb-footer-left {
+    margin-top: 1px;
+}
 
-    #tb-top-right-xrs2 {
-        margin-top: -1px;
-    }
+#tb-top-right-xrs2 {
+    margin-top: -1px;
+}
 
-    #xrs-tb-bot-chart {
-        line-height: 14px;
-        text-align: center;
-    }
+#xrs-tb-bot-chart {
+    line-height: 14px;
+    text-align: center;
+}
 
-    /* Css right */
+/* Css right */
 
-    #xrs-result-table {
-        margin-top: 2%;
-        margin-left: 10%;
-        border: 1px solid black;
-        font-size: 18px;
-        text-align: center;
-        width: 50%;
-    }
+#xrs-result-table {
+    margin-top: 2%;
+    margin-left: 10%;
+    border: 1px solid black;
+    font-size: 18px;
+    text-align: center;
+    width: 50%;
+}
 
-    #xrs-result-table tr td {
-        padding: 4px;
-    }
+#xrs-result-table tr td {
+    padding: 4px;
+}
 
-    #xrs-result-table-2 {
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-    }
+#xrs-result-table-2 {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .add-dashed-border,
-    #xrs-result-table-2 tr td:nth-child(1),
-    #xrs-result-table-2 tr td:nth-child(2),
-    #xrs-result-table-2 tr td:nth-child(3) {
-        border-bottom: 1px dashed black;
-        padding: 2px;
-    }
+.add-dashed-border,
+#xrs-result-table-2 tr td:nth-child(1),
+#xrs-result-table-2 tr td:nth-child(2),
+#xrs-result-table-2 tr td:nth-child(3) {
+    border-bottom: 1px dashed black;
+    padding: 2px;
+}
 
-    #xrs-table-footer tr td {
-        font-size: 14px;
-        border-bottom: 1px solid #ccc;
-    }
+#xrs-table-footer tr td {
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+}
 
-    p.footer {
-        position: absolute;
-        right: 10%;
-        bottom: 0px;
-        font-size: 24px;
-    }
+p.footer {
+    position: absolute;
+    right: 10%;
+    bottom: 0px;
+    font-size: 24px;
+}
 </style>
 <script>
-    data_management_level = "<?php echo $data_management_level_one ?>"
-    filenames = data_management_level.split(';');
-    filenames.forEach(value => $('#management_img_box').append(`<img src='/fiot-hdvn/${value}' alt=""  style="display:flex; height: 38px; max-width:60px;">`))
+data_management_level = "<?php echo $data_management_level_one ?>"
+filenames = data_management_level.split(';');
+filenames.forEach(value => $('#management_img_box').append(
+    `<img src='/fiot-hdvn/${value}' alt=""  style="display:flex; height: 38px; max-width:60px;">`))
 </script>
 <!-- new-form style -->
 <div id="sub-box-xrs-form" class="sub-box   w-100 row p-0 m-0">
@@ -674,7 +682,8 @@ $count_sig = count($data_tb_sign);
                             <td class="no-border-bot">Mgr</td>
                         </tr>
                         <tr class="h-60 ">
-                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?></td>
+                            <td id="xrs-confirm-mgr" class="no-border-top text-center"><?php echo $data_create_form ?>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -781,7 +790,7 @@ $count_sig = count($data_tb_sign);
                             <?php
                             // xét điều kiện ± / Min / Max để tính toán cận trên cận dưới
                             if ($data_type_allowance == "±" || $data_type_allowance == "Min") { // 2 cận
-                                echo '<p class="m-0">' . ($data_standard_dimension + $data_lower) . 'N</p>';
+                                echo '<p class="m-0">' . ((float)$data_standard_dimension + (float)$data_lower) . 'N</p>';
                                 echo '<img src="../../projects/qc/img-qc/quycach-form-picture-bot.png " alt="quy cach">';
                             }
                             ?>
@@ -923,7 +932,7 @@ $count_sig = count($data_tb_sign);
                                             }
                                         }
                                     }
-                                    if ($data_sign_day_flag == false) {
+                                    if ($data_sign_day_flag == false && $data_tb[$i][1] != null) {
                                         echo '<td style="max-width: 15px; font-size: 80%;overflow: hidden;
                                         text-overflow: ellipsis; "><i style="cursor: pointer;" class="fas fa-edit" onclick="sign_day_confirm_function(' . '\'' . $data_tb[$i][1] . '\'' . ',' . '\'' . $data_tb[$i][17] . '\'' . ')"></i></td>';
                                         $button_sign_day++; // tính giá trị vị trí ghi fx comfirm sign day
@@ -1054,8 +1063,8 @@ $count_sig = count($data_tb_sign);
                             <div class="" style="height:26px">Khoảng</div>
                             <table id="table-tr-xrs" class=" axes-label-tr-chart w-100">
                                 <script>
-                                    table_add("table-tr-xrs", 17, 1,
-                                        <?php echo $data_upper_chart . ',' . $data_step_chart ?>, 290)
+                                table_add("table-tr-xrs", 17, 1,
+                                    <?php echo $data_upper_chart . ',' . $data_step_chart ?>, 290)
                                 </script>
                             </table>
                         </div>
@@ -1173,23 +1182,23 @@ $count_sig = count($data_tb_sign);
                             <table class="table-footer-right p-0 pl-1 ">
                                 <tr>
                                     <td>X-UCL=</td>
-                                    <td><?php echo round($data_x_ucl, 3) ?></td>
+                                    <td><?php echo round($xAverage + $a2_arr[1]*$rAverage,3) ?></td>
                                 </tr>
                                 <tr>
                                     <td>X-CL=</td>
-                                    <td><?php echo round($data_x_cl, 3) ?></td>
+                                    <td><?php echo $xAverage ?></td>
                                 </tr>
                                 <tr>
                                     <td>X-LCL=</td>
-                                    <td><?php echo round($data_x_lcl, 3) ?></td>
+                                    <td><?php echo round($xAverage - $a2_arr[1]*$rAverage,3) ?></td>
                                 </tr>
                                 <tr>
                                     <td>R-UCL=</td>
-                                    <td><?php echo round($data_r_ucl, 3) ?></td>
+                                    <td><?php echo round($d4_arr[1]*$rAverage,3) ?></td>
                                 </tr>
                                 <tr>
                                     <td>R-CL=</td>
-                                    <td><?php echo round($data_r_cl, 3) ?></td>
+                                    <td><?php echo $rAverage; ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -1198,7 +1207,7 @@ $count_sig = count($data_tb_sign);
                                 style="max-height:140px;max-width:400px"> -->
                             <?php
                             if ($data_draw != '') {
-                                echo '<img src="../../' . $data_draw . '" alt="Form check sheet"
+                                echo '<img src="/fiot-hdvn/' . $data_draw . '" alt="Form check sheet"
                                     style="max-height:140px;max-width:400px">';
                             }
                             ?>
@@ -1297,122 +1306,122 @@ $count_sig = count($data_tb_sign);
 </div>
 <!-- Chart top-left -->
 <script>
-    var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-        29, 30
-    ]
-    // var y_value = [0.603, 0.605, 0.614, 0.603, 0.605, 0.614, 0.603, 0.605, 0.614, 0.603, 0.605, 0.604]
-    var y_value_topleft = [<?php
+var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    29, 30
+]
+// var y_value = [0.603, 0.605, 0.614, 0.603, 0.605, 0.614, 0.603, 0.605, 0.614, 0.603, 0.605, 0.604]
+var y_value_topleft = [<?php
                             for ($i = 0; $i < count($arr_x_top_left); $i++) {
                                 echo ($arr_x_top_left[$i] . ',');
                             }
 
                             ?>]
 
-    // tick_pos1 = cac_tick_pos(3.639, 4.759, 0.07)
-    tick_pos1 = cac_tick_pos(<?php echo $data_lower_chart . ',' . $data_upper_chart . ',' . $data_step_chart ?>)
-    var xrs_tl_pl = [<?php echo $data_x_lcl . ',' . $data_x_cl . ',' . $data_x_ucl ?>]
-    Highcharts.chart('xrs-chart-top-left', {
-        chart: {
-            height: 290,
-            margin: [5, 0, 10, 70],
-            plotBorderColor: 'black',
-            plotBorderWidth: 1
-        },
+// tick_pos1 = cac_tick_pos(3.639, 4.759, 0.07)
+tick_pos1 = cac_tick_pos(<?php echo $data_lower_chart . ',' . $data_upper_chart . ',' . $data_step_chart ?>)
+var xrs_tl_pl = [<?php echo $data_x_lcl . ',' . $data_x_cl . ',' . $data_x_ucl ?>]
+Highcharts.chart('xrs-chart-top-left', {
+    chart: {
+        height: 290,
+        margin: [5, 0, 10, 70],
+        plotBorderColor: 'black',
+        plotBorderWidth: 1
+    },
 
-        title: {
-            text: ''
-        },
-        legend: {
+    title: {
+        text: ''
+    },
+    legend: {
+        enabled: false
+    },
+    // remove highchart.com
+    credits: {
+        enabled: false
+    },
+    xAxis: {
+        title: '',
+        // label:categories,
+        data: x_value,
+        min: 0.5,
+        max: 30.5,
+        step: 1,
+        tickInterval: 1,
+        gridLineWidth: 1,
+        labels: {
             enabled: false
         },
-        // remove highchart.com
-        credits: {
-            enabled: false
+        tickWidth: 0,
+    },
+    yAxis: {
+        title: '',
+        // categories: ["23.00","23.188","23.375","23.563","23.750","23.938","24.125","24.313","24.500","24.688","24.875","25.063","25.250","25.438","25.625","25.813","26.00"],
+        min: <?php echo $data_lower_chart ?>,
+        max: <?php echo $data_upper_chart ?>,
+        step: <?php echo $data_step_chart ?>,
+        startOnTick: false,
+        endOnTick: false,
+        labels: {
+            format: '{value:.3f}',
         },
-        xAxis: {
-            title: '',
-            // label:categories,
-            data: x_value,
-            min: 0.5,
-            max: 30.5,
-            step: 1,
-            tickInterval: 1,
-            gridLineWidth: 1,
-            labels: {
-                enabled: false
-            },
-            tickWidth: 0,
-        },
-        yAxis: {
-            title: '',
-            // categories: ["23.00","23.188","23.375","23.563","23.750","23.938","24.125","24.313","24.500","24.688","24.875","25.063","25.250","25.438","25.625","25.813","26.00"],
-            min: <?php echo $data_lower_chart ?>,
-            max: <?php echo $data_upper_chart ?>,
-            step: <?php echo $data_step_chart ?>,
-            startOnTick: false,
-            endOnTick: false,
-            labels: {
-                format: '{value:.3f}',
-            },
-            tickPositions: tick_pos1[0],
-            // tickInterval: 20, // Chia bước cho axes
-            minorTickInterval: tick_pos1[1], // Khoảng cách ko
-            tickPosition: 'outside',
-            gridLineWidth: 1,
+        tickPositions: tick_pos1[0],
+        // tickInterval: 20, // Chia bước cho axes
+        minorTickInterval: tick_pos1[1], // Khoảng cách ko
+        tickPosition: 'outside',
+        gridLineWidth: 1,
 
-            plotLines: [{
-                color: 'red',
-                width: 1.5,
-                zIndex: 5,
-                value: xrs_tl_pl[0],
-                dashStyle: 'longdash'
-            }, {
-                color: 'red',
-                width: 1.5,
-                zIndex: 5,
-                value: xrs_tl_pl[2],
-                dashStyle: 'longdash'
-            }, {
-                color: 'blue',
-                width: 1.5,
-                zIndex: 5,
-                value: xrs_tl_pl[1],
-                dashStyle: 'line'
-            }],
+        plotLines: [{
+            color: 'red',
+            width: 1.5,
+            zIndex: 5,
+            value: xrs_tl_pl[0],
+            dashStyle: 'longdash'
+        }, {
+            color: 'red',
+            width: 1.5,
+            zIndex: 5,
+            value: xrs_tl_pl[2],
+            dashStyle: 'longdash'
+        }, {
+            color: 'blue',
+            width: 1.5,
+            zIndex: 5,
+            value: xrs_tl_pl[1],
+            dashStyle: 'line'
+        }],
 
+    },
+    plotOptions: {
+        series: {
+            pointStart: 1
+        }
+    },
+    series: [{
+        type: 'line',
+        name: '',
+        marker: {
+            symbol: 'circle',
+            fillColor: '#000000',
+            lineWidth: 1.5,
+            lineColor: '#000000',
         },
-        plotOptions: {
-            series: {
-                pointStart: 1
-            }
-        },
-        series: [{
-            type: 'line',
-            name: '',
-            marker: {
-                symbol: 'circle',
-                fillColor: '#000000',
-                lineWidth: 1.5,
-                lineColor: '#000000',
-            },
-            data: y_value_topleft,
+        data: y_value_topleft,
 
-        }]
-    });
+    }]
+});
 </script>
 
 <!-- Chart bot-left -->
 <script>
-    var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-        29, 30
-    ]
-    <?php
+var x_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    29, 30
+]
+<?php
     $data_rs_upper_chart = $data_r_cl + 1.5 * ($data_r_ucl - $data_r_cl);
     $data_rs_lower_chart = 0;
     $data_rs_step_chart  = ($data_rs_upper_chart - $data_rs_lower_chart) / 16;
     ?>
-    var y_value = [
-        <?php
+var y_value = [
+    <?php
         if (count($data_tb) > 1) {
             echo 'null' . ',';
             for ($i = 0; $i < count($arr_x_bot_left); $i++) {
@@ -1424,282 +1433,282 @@ $count_sig = count($data_tb_sign);
         }
 
         ?>
-    ]
-    tick_pos_bl = cac_tick_pos(<?php echo $data_rs_lower_chart . ',' . $data_rs_upper_chart . ',' . $data_rs_step_chart ?>)
-    var xrs_bl_pl = [<?php echo $data_r_cl . ',' . $data_r_ucl ?>]
-    Highcharts.chart('xrs-chart-bot-left', {
-        chart: {
-            height: 235,
-            margin: [5, 0, 10, 70],
-            plotBorderColor: 'black',
-            plotBorderWidth: 1
-        },
+]
+tick_pos_bl = cac_tick_pos(<?php echo $data_rs_lower_chart . ',' . $data_rs_upper_chart . ',' . $data_rs_step_chart ?>)
+var xrs_bl_pl = [<?php echo $data_r_cl . ',' . $data_r_ucl ?>]
+Highcharts.chart('xrs-chart-bot-left', {
+    chart: {
+        height: 235,
+        margin: [5, 0, 10, 70],
+        plotBorderColor: 'black',
+        plotBorderWidth: 1
+    },
 
-        title: {
-            text: ''
+    title: {
+        text: ''
+    },
+    legend: {
+        enabled: false
+    },
+    // remove highchart.com
+    credits: {
+        enabled: false
+    },
+    xAxis: {
+        title: '',
+        data: x_value,
+        min: 0.5,
+        max: 30.5,
+        step: 1,
+        tickInterval: 1,
+        gridLineWidth: 1,
+        labels: {
+            enabled: false,
         },
-        legend: {
-            enabled: false
+        tickWidth: 0,
+    },
+    yAxis: {
+        title: '',
+        min: 0,
+        max: <?php echo $data_rs_upper_chart ?>,
+        startOnTick: false,
+        endOnTick: false,
+        // tickInterval: 1, // Chia bước cho axes
+        minorTickInterval: tick_pos_bl[1] / 2.5,
+        tickPositions: tick_pos_bl[0],
+        labels: {
+            format: '{value:.3f}',
         },
-        // remove highchart.com
-        credits: {
-            enabled: false
-        },
-        xAxis: {
-            title: '',
-            data: x_value,
-            min: 0.5,
-            max: 30.5,
-            step: 1,
-            tickInterval: 1,
-            gridLineWidth: 1,
-            labels: {
-                enabled: false,
-            },
-            tickWidth: 0,
-        },
-        yAxis: {
-            title: '',
-            min: 0,
-            max: <?php echo $data_rs_upper_chart ?>,
-            startOnTick: false,
-            endOnTick: false,
-            // tickInterval: 1, // Chia bước cho axes
-            minorTickInterval: tick_pos_bl[1] / 2.5,
-            tickPositions: tick_pos_bl[0],
-            labels: {
-                format: '{value:.3f}',
-            },
-            gridLineWidth: 1,
-            plotLines: [{
-                color: 'blue',
-                width: 1.5,
-                zIndex: 5,
-                value: xrs_bl_pl[0],
-                dashStyle: 'line'
-            }, {
-                color: 'red',
-                width: 1.5,
-                zIndex: 5,
-                value: xrs_bl_pl[1],
-                dashStyle: 'longdash'
-            }],
-        },
-        plotOptions: {
-            series: {
-                pointStart: 1
-            }
-        },
-        series: [{
-            type: 'line',
-            name: '',
-            data: y_value,
-            marker: {
-                symbol: 'circle',
-                fillColor: '#000000',
-                lineWidth: 1,
-                lineColor: '#000000',
-
-            }
+        gridLineWidth: 1,
+        plotLines: [{
+            color: 'blue',
+            width: 1.5,
+            zIndex: 5,
+            value: xrs_bl_pl[0],
+            dashStyle: 'line'
+        }, {
+            color: 'red',
+            width: 1.5,
+            zIndex: 5,
+            value: xrs_bl_pl[1],
+            dashStyle: 'longdash'
         }],
-    });
+    },
+    plotOptions: {
+        series: {
+            pointStart: 1
+        }
+    },
+    series: [{
+        type: 'line',
+        name: '',
+        data: y_value,
+        marker: {
+            symbol: 'circle',
+            fillColor: '#000000',
+            lineWidth: 1,
+            lineColor: '#000000',
+
+        }
+    }],
+});
 </script>
 <!-- Chart top-right-->
 <script>
-    var tick_pos_xrs_top_right_x = cac_tick_pos(
-        <?php echo $data_lower_chart . ',' . $data_upper_chart . ',' . $data_step_chart ?>)
-    var data_array = []
-    // var y_value_tmp = []
-    // var y_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20]
-    var x_value = tick_pos_xrs_top_right_x[0]
+var tick_pos_xrs_top_right_x = cac_tick_pos(
+    <?php echo $data_lower_chart . ',' . $data_upper_chart . ',' . $data_step_chart ?>)
+var data_array = []
+// var y_value_tmp = []
+// var y_value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20]
+var x_value = tick_pos_xrs_top_right_x[0]
 
-    var count_y_1 = 0;
-    var count_y_2 = 0;
-    var count_y_3 = 0;
-    var count_y_4 = 0;
-    var count_y_5 = 0;
-    var count_y_6 = 0;
-    var count_y_7 = 0;
-    var count_y_8 = 0;
-    var count_y_9 = 0;
-    var count_y_10 = 0;
-    var count_y_11 = 0;
-    var count_y_12 = 0;
-    var count_y_13 = 0;
-    var count_y_14 = 0;
-    var count_y_15 = 0;
-    var count_y_16 = 0;
-    var count_y_17 = 0;
-    for (let index = 0; index < y_value_topleft.length; index++) {
-        if (y_value_topleft[index] < x_value[0]) {
-            count_y_1++;
-        } else if (y_value_topleft[index] >= x_value[0] && y_value_topleft[index] < x_value[1]) {
-            count_y_2++;
-        } else if (y_value_topleft[index] >= x_value[1] && y_value_topleft[index] < x_value[2]) {
-            count_y_3++;
-        } else if (y_value_topleft[index] >= x_value[2] && y_value_topleft[index] < x_value[3]) {
-            count_y_4++;
-        } else if (y_value_topleft[index] >= x_value[3] && y_value_topleft[index] < x_value[4]) {
-            count_y_5++;
-        } else if (y_value_topleft[index] >= x_value[4] && y_value_topleft[index] < x_value[5]) {
-            count_y_6++;
-        } else if (y_value_topleft[index] >= x_value[5] && y_value_topleft[index] < x_value[6]) {
-            count_y_7++;
-        } else if (y_value_topleft[index] >= x_value[6] && y_value_topleft[index] < x_value[7]) {
-            count_y_8++;
-        } else if (y_value_topleft[index] >= x_value[7] && y_value_topleft[index] < x_value[8]) {
-            count_y_9++;
-        } else if (y_value_topleft[index] >= x_value[8] && y_value_topleft[index] < x_value[9]) {
-            count_y_10++;
-        } else if (y_value_topleft[index] >= x_value[9] && y_value_topleft[index] < x_value[10]) {
-            count_y_11++;
-        } else if (y_value_topleft[index] >= x_value[10] && y_value_topleft[index] < x_value[11]) {
-            count_y_12++;
-        } else if (y_value_topleft[index] >= x_value[11] && y_value_topleft[index] < x_value[12]) {
-            count_y_13++;
-        } else if (y_value_topleft[index] >= x_value[12] && y_value_topleft[index] < x_value[13]) {
-            count_y_14++;
-        } else if (y_value_topleft[index] >= x_value[13] && y_value_topleft[index] < x_value[14]) {
-            count_y_15++;
-        } else if (y_value_topleft[index] >= x_value[14] && y_value_topleft[index] < x_value[15]) {
-            count_y_16++;
-        } else if (y_value_topleft[index] >= x_value[15] && y_value_topleft[index] < x_value[16]) {
-            count_y_17++;
-        }
+var count_y_1 = 0;
+var count_y_2 = 0;
+var count_y_3 = 0;
+var count_y_4 = 0;
+var count_y_5 = 0;
+var count_y_6 = 0;
+var count_y_7 = 0;
+var count_y_8 = 0;
+var count_y_9 = 0;
+var count_y_10 = 0;
+var count_y_11 = 0;
+var count_y_12 = 0;
+var count_y_13 = 0;
+var count_y_14 = 0;
+var count_y_15 = 0;
+var count_y_16 = 0;
+var count_y_17 = 0;
+for (let index = 0; index < y_value_topleft.length; index++) {
+    if (y_value_topleft[index] < x_value[0]) {
+        count_y_1++;
+    } else if (y_value_topleft[index] >= x_value[0] && y_value_topleft[index] < x_value[1]) {
+        count_y_2++;
+    } else if (y_value_topleft[index] >= x_value[1] && y_value_topleft[index] < x_value[2]) {
+        count_y_3++;
+    } else if (y_value_topleft[index] >= x_value[2] && y_value_topleft[index] < x_value[3]) {
+        count_y_4++;
+    } else if (y_value_topleft[index] >= x_value[3] && y_value_topleft[index] < x_value[4]) {
+        count_y_5++;
+    } else if (y_value_topleft[index] >= x_value[4] && y_value_topleft[index] < x_value[5]) {
+        count_y_6++;
+    } else if (y_value_topleft[index] >= x_value[5] && y_value_topleft[index] < x_value[6]) {
+        count_y_7++;
+    } else if (y_value_topleft[index] >= x_value[6] && y_value_topleft[index] < x_value[7]) {
+        count_y_8++;
+    } else if (y_value_topleft[index] >= x_value[7] && y_value_topleft[index] < x_value[8]) {
+        count_y_9++;
+    } else if (y_value_topleft[index] >= x_value[8] && y_value_topleft[index] < x_value[9]) {
+        count_y_10++;
+    } else if (y_value_topleft[index] >= x_value[9] && y_value_topleft[index] < x_value[10]) {
+        count_y_11++;
+    } else if (y_value_topleft[index] >= x_value[10] && y_value_topleft[index] < x_value[11]) {
+        count_y_12++;
+    } else if (y_value_topleft[index] >= x_value[11] && y_value_topleft[index] < x_value[12]) {
+        count_y_13++;
+    } else if (y_value_topleft[index] >= x_value[12] && y_value_topleft[index] < x_value[13]) {
+        count_y_14++;
+    } else if (y_value_topleft[index] >= x_value[13] && y_value_topleft[index] < x_value[14]) {
+        count_y_15++;
+    } else if (y_value_topleft[index] >= x_value[14] && y_value_topleft[index] < x_value[15]) {
+        count_y_16++;
+    } else if (y_value_topleft[index] >= x_value[15] && y_value_topleft[index] < x_value[16]) {
+        count_y_17++;
     }
-    var y_value = [count_y_17, count_y_16, count_y_15, count_y_14, count_y_13, count_y_12, count_y_11, count_y_10,
-        count_y_9, count_y_8, count_y_7, count_y_6, count_y_5, count_y_4, count_y_3, count_y_2, count_y_1
-    ]
-    // console.log(y_value)
-    for (let i = 0; i < x_value.length; i++) {
-        data_array.push([x_value[i], y_value[i]])
-        // console.log(x_value[i]);
-    }
+}
+var y_value = [count_y_17, count_y_16, count_y_15, count_y_14, count_y_13, count_y_12, count_y_11, count_y_10,
+    count_y_9, count_y_8, count_y_7, count_y_6, count_y_5, count_y_4, count_y_3, count_y_2, count_y_1
+]
+// console.log(y_value)
+for (let i = 0; i < x_value.length; i++) {
+    data_array.push([x_value[i], y_value[i]])
+    // console.log(x_value[i]);
+}
 
-    // console.log(y_value_topleft)
-    // console.log(data_array)
-    // console.log(y_value)
-    // console.log(x_value)
-    // console.log(tick_pos_xrs_top_right_x)
-    Highcharts.chart('chart-top-right-xrs', {
-        chart: {
-            height: 321,
-            type: 'bar',
-            margin: [26, 5, 5, 5],
-            plotBorderColor: 'black',
-            plotBorderWidth: 1,
-        },
-        xAxis: {
-            min: x_value[0],
-            max: x_value[x_value.length - 1],
-            tickLength: 0,
-            title: '',
-        },
-        yAxis: {
-            min: 0,
-            max: 25,
-            tickInterval: 5,
-            opposite: true,
-            lineWidth: 1,
-            title: '',
-        },
-        plotOptions: {
-            bar: {
-                dataLabels: {
-                    enabled: true
-                }
+// console.log(y_value_topleft)
+// console.log(data_array)
+// console.log(y_value)
+// console.log(x_value)
+// console.log(tick_pos_xrs_top_right_x)
+Highcharts.chart('chart-top-right-xrs', {
+    chart: {
+        height: 321,
+        type: 'bar',
+        margin: [26, 5, 5, 5],
+        plotBorderColor: 'black',
+        plotBorderWidth: 1,
+    },
+    xAxis: {
+        min: x_value[0],
+        max: x_value[x_value.length - 1],
+        tickLength: 0,
+        title: '',
+    },
+    yAxis: {
+        min: 0,
+        max: 25,
+        tickInterval: 5,
+        opposite: true,
+        lineWidth: 1,
+        title: '',
+    },
+    plotOptions: {
+        bar: {
+            dataLabels: {
+                enabled: true
             }
-        },
-        title: {
-            text: ''
-        },
-        legend: {
-            enabled: false
-        },
-        credits: {
-            enabled: false
-        },
-        series: [{
-            data: data_array,
-            pointWidth: 15, // Chua edit so thich hop
-        }]
-    });
+        }
+    },
+    title: {
+        text: ''
+    },
+    legend: {
+        enabled: false
+    },
+    credits: {
+        enabled: false
+    },
+    series: [{
+        data: data_array,
+        pointWidth: 15, // Chua edit so thich hop
+    }]
+});
 </script>
 
 <script>
-    // duyệt ngày
-    function sign_day_confirm_function(sub_id, measuring_data) {
-        document.getElementById("show_sub_id").value = sub_id;
-        document.getElementById("show_data_measuring").innerHTML = measuring_data;
-        $("#confirm-modal").modal('toggle');
+// duyệt ngày
+function sign_day_confirm_function(sub_id, measuring_data) {
+    document.getElementById("show_sub_id").value = sub_id;
+    document.getElementById("show_data_measuring").innerHTML = measuring_data;
+    $("#confirm-modal").modal('toggle');
+}
+// duyệt tuần
+function sign_week_confirm_function() {
+    // document.getElementById("show_sub_id").value = sub_id;
+    // document.getElementById("show_data_measuring").innerHTML = measuring_data;
+    var fx_send_sub_id_week = "";
+    for (i = 0; i < arguments.length; i++) {
+        // console.log(arguments[i]);
+        fx_send_sub_id_week += arguments[i] + ",";
     }
-    // duyệt tuần
-    function sign_week_confirm_function() {
-        // document.getElementById("show_sub_id").value = sub_id;
-        // document.getElementById("show_data_measuring").innerHTML = measuring_data;
-        var fx_send_sub_id_week = "";
-        for (i = 0; i < arguments.length; i++) {
-            // console.log(arguments[i]);
-            fx_send_sub_id_week += arguments[i] + ",";
+    // console.log(fx_send_sub_id_week);
+    document.getElementById("show_sub_id_week").value = fx_send_sub_id_week;
+    $("#confirm-modal-week").modal('toggle');
+}
+
+
+function sign_day_function() {
+    var sub_id = document.getElementById("show_sub_id").value;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            if (myArr[0] != false) {
+                // alert(myArr[0]);
+                // document.location = SCRIPT_NAME + '/qc/informationManage/approval?load_link=yes';
+                location.reload();
+            } else {
+                alert("ERR");
+            }
         }
-        console.log(fx_send_sub_id_week);
-        document.getElementById("show_sub_id_week").value = fx_send_sub_id_week;
-        $("#confirm-modal-week").modal('toggle');
-    }
+    };
+    var link_get_data = SCRIPT_NAME + "/qc/sign";
+    xmlhttp.open(
+        "GET",
+        `${link_get_data}?sign_day=yes&sub_id=${sub_id}`,
+        true
+    );
+    xmlhttp.send();
+}
 
-
-    function sign_day_function() {
-        var sub_id = document.getElementById("show_sub_id").value;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var myArr = JSON.parse(this.responseText);
-                if (myArr[0] != false) {
-                    // alert(myArr[0]);
-                    // document.location = SCRIPT_NAME + '/qc/informationManage/approval?load_link=yes';
-                    location.reload();
-                } else {
-                    alert("ERR");
-                }
+function sign_week_function() {
+    var sub_id_week = document.getElementById("show_sub_id_week").value;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            if (myArr[0] != false) {
+                // alert(myArr[0]);
+                // document.location = SCRIPT_NAME + '/qc/informationManage/approval?load_link=yes';
+                location.reload();
+            } else {
+                alert("ERR");
             }
-        };
-        var link_get_data = SCRIPT_NAME + "/qc/sign";
-        xmlhttp.open(
-            "GET",
-            `${link_get_data}?sign_day=yes&sub_id=${sub_id}`,
-            true
-        );
-        xmlhttp.send();
-    }
+        }
+    };
+    var link_get_data = SCRIPT_NAME + "/qc/sign";
+    xmlhttp.open(
+        "GET",
+        `${link_get_data}?sign_week=yes&sub_id_week=${sub_id_week}`,
+        true
+    );
+    xmlhttp.send();
+}
 
-    function sign_week_function() {
-        var sub_id_week = document.getElementById("show_sub_id_week").value;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var myArr = JSON.parse(this.responseText);
-                if (myArr[0] != false) {
-                    // alert(myArr[0]);
-                    // document.location = SCRIPT_NAME + '/qc/informationManage/approval?load_link=yes';
-                    location.reload();
-                } else {
-                    alert("ERR");
-                }
-            }
-        };
-        var link_get_data = SCRIPT_NAME + "/qc/sign";
-        xmlhttp.open(
-            "GET",
-            `${link_get_data}?sign_week=yes&sub_id_week=${sub_id_week}`,
-            true
-        );
-        xmlhttp.send();
-    }
-
-    function sign_form_confirm_function(name) {
-        $("#sign_form").val(name);
-        $("#sub_id_search_input").val('<?php echo $sub_id_search ?>');
-        $("#current_url").val(document.URL);
-        $("#form_confirm_modal").modal('toggle');
-    }
+function sign_form_confirm_function(name) {
+    $("#sign_form").val(name);
+    $("#sub_id_search_input").val('<?php echo $sub_id_search ?>');
+    $("#current_url").val(document.URL);
+    $("#form_confirm_modal").modal('toggle');
+}
 </script>

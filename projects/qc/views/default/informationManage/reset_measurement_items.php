@@ -73,7 +73,7 @@ if ($resultcheck_RSI && $resultcheck_RSI->num_rows > 0) {
                                         <th style="width: 15%">Hạng mục</th>
                                         <th style="width: 10%">Line</th>
                                         <th style="width: 20%">Biểu đồ</th>
-                                        <th style="width: 10%">Lot</th>
+                                        <!-- <th style="width: 10%">Lot</th> -->
                                         <th style="width: 15%">Trạng thái</th>
                                         <!-- <th style="width: 5%">Xóa</th> -->
                                     </tr>
@@ -90,8 +90,8 @@ if ($resultcheck_RSI && $resultcheck_RSI->num_rows > 0) {
                                             <td>' . $data_RSI[$i][1] . '</td>
                                             <td>' . $data_RSI[$i][2] . '</td>
                                             <td>' . $data_RSI[$i][3] . '</td>
-                                            <td>' . $data_RSI[$i][4] . '</td>
-                                            <td>' . $data_RSI[$i][5] . '</td>';
+                                            <td>' . $data_RSI[$i][4] . '</td>';
+                                            // <td>' . $data_RSI[$i][5] . '</td>';
                                         echo '<td class="pt-0 pb-0 px-3  align-middle">
                                         <select required class="form-control " id="RSI' . $i . '" name="" onchange=changeStatusRSI(' . $data_RSI[$i][0] . ',`' . $data_RSI[$i][6] . '`,' . $i . ')>
                                         <option value="' . $data_RSI[$i][6] . '">' . $data_RSI[$i][6] . '</option> ';
@@ -166,10 +166,5 @@ if ($resultcheck_RSI && $resultcheck_RSI->num_rows > 0) {
         $('#RSI_new_status').html($new_status);
     }
 
-    // function deleteLine(id_del, status_del) {
-    //    $('#del_id').val(id_del);
-    //    $('#delete_status_input').val(status_del);
-    //     $("#myDelete").modal('toggle');
-    // }
 </script>
 <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']) . "/projects/qc/views/default/js/function_for_form.js" ?>"></script>

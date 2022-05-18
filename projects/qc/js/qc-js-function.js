@@ -144,3 +144,11 @@ function show_confirm_modal(divID, text) {
   };
 }
 //  export pdf file
+
+//  Duyệt ngày
+function sign_form_confirm_function(name) {
+  $("#sign_form").val(name);
+  $("#sub_id_search_input").val('<?php echo $sub_id_search ?>');
+  $("#current_url").val(document.URL);
+  $("#form_confirm_modal").modal('toggle');
+}
