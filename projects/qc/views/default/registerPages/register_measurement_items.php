@@ -2012,7 +2012,6 @@ if ($resultcheck_plc_program && $resultcheck_plc_program->num_rows > 0) {
         set_select_measurement_items_edit('product_family_edit', 'line_edit', 'part_no_edit', 'process_edit', 'measurement_items_edit', data_measurement_items[index][5])
         // $('#measurement_items_edit').val(data_measurement_items[index][5])
 
-
         $('#chart_edit').val(data_measurement_items[index][24])
         chart_input_change('edit')
 

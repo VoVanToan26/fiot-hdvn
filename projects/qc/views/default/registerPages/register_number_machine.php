@@ -127,7 +127,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                         <div class="form-group">
                             <label for="product_family_input" class="col-form-label">Dòng sản phẩm</label>
                             <!-- <input type="text" maxlength="20" class="form-control" id="line" name="line" placeholder="Nhập line"> -->
-                            <select required class="form-control" id="product_family_input" name="product_family_input" onchange="auto_popup_line('register')">
+                            <select  class="form-control" id="product_family_input" name="product_family_input" onchange="auto_popup_line('register')">
                                 <option value="">Chọn dòng sản phẩm</option>
                                 <option value="Coil">Coil</option>
                                 <option value="Valve">Valve</option>
@@ -326,9 +326,8 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                 // data_number_machine_array.push(data_check_process[i][4]);
             }
         }
-        // console.log(data_process_array);
-        // console.log(data_number_machine_array);
-        checkProductFamily = checkInputValue([], 'line_input', 'line_input_err', false);
+
+        checkProductFamily = checkInputValue([], 'product_family_input', 'product_family_input_err', false);
         checkLine = checkInputValue([], 'line_input', 'line_input_err', false);
         
         checkProcess = checkInputValue(data_process_array, 'process_input', 'process_input_err', true);
@@ -359,7 +358,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                 data_number_machine_array_edit.push(data_check_process_edit[i][4]);
             }
         }
-        checkProductFamily = checkInputValue([], 'line_edit', 'line_edit_err', false);
+        checkProductFamily = checkInputValue([], 'product_family_edit', 'product_family_edit_err', false);
         checkLine = checkInputValue([], 'line_edit', 'line_edit_err', false);
         
         checkProcess = checkInputValue(data_process_array_edit, 'process_edit', 'process_edit_err', true);
