@@ -127,7 +127,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                         <div class="form-group">
                             <label for="product_family_input" class="col-form-label">Dòng sản phẩm</label>
                             <!-- <input type="text" maxlength="20" class="form-control" id="line" name="line" placeholder="Nhập line"> -->
-                            <select class="form-control" id="product_family_input" name="product_family_input" onchange="auto_popup_line('register')">
+                            <select required class="form-control" id="product_family_input" name="product_family_input" onchange="auto_popup_line('register')">
                                 <option value="">Chọn dòng sản phẩm</option>
                                 <option value="Coil">Coil</option>
                                 <option value="Valve">Valve</option>
@@ -136,7 +136,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                             </select>
                             <small id="product_family_input_err" class="invalid-feedback">Không để trống</small>
                         </div>
-                        <div class="form-group">
+                        <div required class="form-group">
                             <label for="line_input" class="col-form-label">Line</label>
                             <!-- <input type="text" maxlength="20" class="form-control" id="line" name="line" placeholder="Nhập line"> -->
                             <select class="form-control" id="line_input" name="line_input">
@@ -149,7 +149,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                             </select>
                             <small id="line_input_err" class="invalid-feedback">Không để trống</small>
                         </div>
-                        <div class="form-group">
+                        <div required class="form-group">
                             <label for="process_input" class="col-form-label">Công Đoạn</label>
                             <input type="text" maxlength="200" class="form-control" id="process_input" name="process_input" placeholder="Nhập công đoạn">
                             <small id="process_input_err" class="invalid-feedback">Không để trống</small>
@@ -183,7 +183,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div required class="form-group">
                             <label for="product_family_edit" class="col-form-label">Dòng sản phẩm</label>
                             <!-- <input type="text" maxlength="20" class="form-control" id="line" name="line" placeholder="Nhập line"> -->
                             <select class="form-control" id="product_family_edit" name="product_family_edit" onchange="auto_popup_line('edit')">
@@ -194,7 +194,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                             </select>
                             <small id="product_family_edit_err" class="invalid-feedback">Không để trống</small>
                         </div>
-                        <div class="form-group">
+                        <div required class="form-group">
                             <label for="line_edit" class="col-form-label">Line</label>
                             <!-- <input type="text" maxlength="20" class="form-control" id="line" name="line" placeholder="Nhập line"> -->
                             <select class="form-control" id="line_edit" name="line_edit">
@@ -207,12 +207,12 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
                             </select>
                             <small id="line_edit_err" class="invalid-feedback">Không để trống</small>
                         </div>
-                        <div class="form-group">
+                        <div required class="form-group">
                             <label for="process_edit" class="col-form-label">Công Đoạn</label>
                             <input type="text" maxlength="200" class="form-control" id="process_edit" name="process_edit" placeholder="Nhập công đoạn">
                             <small id="process_edit_err" class="invalid-feedback">Không để trống</small>
                         </div>
-                        <div class="form-group">
+                        <div required class="form-group">
                             <label for="number_machine_edit" class="col-form-label">Mã Máy</label>
                             <input type="text" maxlength="200" class="form-control" id="number_machine_edit" name="number_machine_edit" placeholder="Nhập mã máy">
                             <small id="number_machine_edit_err" class="invalid-feedback">Không để trống</small>
@@ -323,7 +323,7 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
         for (var i = 0; i < data_check_process.length; i++) {
             if (product_family == data_check_process[i][1]&&line == data_check_process[i][2]) {
                 data_process_array.push(data_check_process[i][3]);
-                data_number_machine_array.push(data_check_process[i][4]);
+                // data_number_machine_array.push(data_check_process[i][4]);
             }
         }
         // console.log(data_process_array);
@@ -332,9 +332,9 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
         checkLine = checkInputValue([], 'line_input', 'line_input_err', false);
         
         checkProcess = checkInputValue(data_process_array, 'process_input', 'process_input_err', true);
-        checkNumberMachine = checkInputValue( data_number_machine_array, 'number_machine_input', 'number_machine_input_err', true);
+        // checkNumberMachine = checkInputValue( data_number_machine_array, 'number_machine_input', 'number_machine_input_err', true);
 
-        if (checkProcess && checkLine && checkNumberMachine&&checkProductFamily) {
+        if (checkProcess && checkLine &&checkProductFamily) {
             document.getElementById('register_number_machine_form_input').submit();
         }
     }
@@ -363,8 +363,8 @@ if ($resultcheck_line && $resultcheck_line->num_rows > 0) {
         checkLine = checkInputValue([], 'line_edit', 'line_edit_err', false);
         
         checkProcess = checkInputValue(data_process_array_edit, 'process_edit', 'process_edit_err', true);
-        checkNumberMachine = checkInputValue( data_number_machine_array_edit, 'number_machine_edit', 'number_machine_edit_err', true);
-        if (checkProductFamily && checkLine &&checkProcess&& checkNumberMachine) {
+        // checkNumberMachine = checkInputValue( data_number_machine_array_edit, 'number_machine_edit', 'number_machine_edit_err', true);
+        if (checkProductFamily && checkLine &&checkProcess) {
             document.getElementById('register_number_machine_form_edit').submit()
         }
     }
