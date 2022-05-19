@@ -227,30 +227,42 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                             <table id="measurement_item_table" class="table table-hover text-nowrap text-center table-bordered ">
                                 <thead>
                                     <tr>
-                                        <th style="width: 5%">STT</th>
-                                        <th style="width: 5%">Dòng Sản Phẩm</th>
-                                        <th style="width: 5%">Mã Sản Phẩm</th>
-                                        <th style="width: 5%">Line</th>
-                                        <th style="width: 5%">Công Đoạn</th>
+                                        <th style="">STT</th>
+                                        <th style="">Dòng Sản Phẩm</th>
+                                        <th style="">Line</th>
+                                        <th style="">Mã Sản Phẩm</th>
+                                        <th style="">Công Đoạn</th>
 
-                                        <th style="width: 5%">Hạng Mục Đo</th>
-                                        <th style="width: 5%">Tần Suất</th>
-                                        <th style="width: 5%">Dụng Cụ Đo</th>
-                                        <th style="width: 5%">Kích Thước</th>
-                                        <th style="width: 5%">Cận Trên</th>
-                                        <th style="width: 5%">Cận Dưới</th>
-                                        <th style="width: 5%">Đơn Vị </th>
-                                        <th style="width: 5%">Loại Quy Cách</th>
-                                        <th style="width: 5%">Loại Biểu Đồ</th>
+                                        <th style="">Loại Biểu Đồ</th>
+                                        <th style="">Bộ Phận Đo</th>
+                                        <th style="">No Hạng Mục</th>
+                                        <th style="">Hạng Mục Đo</th>
 
-                                        <th style required="width: 5%">X-UCL</th>
-                                        <th style required="winumber 5%">X-CL</th>
-                                        <th style required="winumber 5%">X-LCL</th>
-                                        <th style required="winumber 5%">R-UCL</th>
-                                        <th style required="winumber 5%">R-CL</th>
-                                        <!-- <th style="width: 5%">Sửa</th> -->
-                                        <th style="width: 5%">Sửa</th>
-                                        <th style="width: 5%">Xóa</th>
+                                        <th style="">Form </th>
+                                        <th style="">Tần Suất</th>
+                                        <th style="">Dụng Cụ Đo</th>
+                                        <th style="">Dung Sai Hiển Thị</th>
+
+                                        <th style="">X-UCL</th>
+                                        <th style="">X-CL</th>
+                                        <th style="">X-LCL</th>
+                                        <th style="">R-UCL</th>
+                                        <th style="">R-CL</th>
+
+                                        <th style="">Kích Thước</th>
+                                        <th style="">Cận Trên</th>
+                                        <th style="">Cận Dưới</th>
+                                        <th style="">Đơn Vị </th>
+                                        <th style="">Loại Quy Cách</th>
+
+                                        <th style="">Sử dụng CT</th>
+                                        <th style="">Loại CT</th>
+                                        <th style="">Số phần tử</th>
+                                        <th style="">Công thức </th>
+                                        <th style="">Ghi chú</th>
+                                        <!-- <th style="">Sửa</th> -->
+                                        <th style="">Sửa</th>
+                                        <th style="">Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -261,23 +273,39 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                         echo '<tr>';
                                         echo '<td>' . $stt_measurement_items . '</td>
                                             <td>' . $data_measurement_items[$i][1] . '</td>
-                                            <td>' . $data_measurement_items[$i][2] . '</td>
                                             <td>' . $data_measurement_items[$i][4] . '</td>
+                                            <td>' . $data_measurement_items[$i][2] . '</td>
                                             <td>' . $data_measurement_items[$i][3] . '</td>
-                                            <td>' . $data_measurement_items[$i][5] . '</td>
+
+                                            <td>' . $data_measurement_items[$i][24] . '</td>
+                                            <td>' . $data_measurement_items[$i][26] . '</td>
+                                            <td>' . $data_measurement_items[$i][25] . '</td>
+                                            <td>' . $data_measurement_items[$i][5] . '</td> 
+
+                                            <td>' . $data_measurement_items[$i][13] . '</td>
                                             <td>' . $data_measurement_items[$i][6] . '</td>
                                             <td>' . $data_measurement_items[$i][7] . '</td>
-                                            <td>' . $data_measurement_items[$i][8] . '</td>
-                                            <td>' . $data_measurement_items[$i][9] . '</td>
-                                            <td>' . $data_measurement_items[$i][10] . '</td>
-                                            <td>' . $data_measurement_items[$i][11] . '</td>
-                                            <td>' . $data_measurement_items[$i][12] . '</td>
-                                            <td>' . $data_measurement_items[$i][13] . '</td>
+                                            <td>' . $data_measurement_items[$i][30] . '</td>
+
                                             <td>' . $data_measurement_items[$i][14] . '</td>
                                             <td>' . $data_measurement_items[$i][15] . '</td>
                                             <td>' . $data_measurement_items[$i][16] . '</td>
                                             <td>' . $data_measurement_items[$i][17] . '</td>
-                                            <td>' . $data_measurement_items[$i][18] . '</td>';
+                                            <td>' . $data_measurement_items[$i][18] . '</td>
+
+                                            <td>' . $data_measurement_items[$i][12] . '</td>
+                                            <td>' . $data_measurement_items[$i][8] . '</td>
+                                            <td>' . $data_measurement_items[$i][9] . '</td>
+                                            <td>' . $data_measurement_items[$i][10] . '</td>
+                                            <td>' . $data_measurement_items[$i][11] . '</td>
+
+                                            <td>' . $data_measurement_items[$i][19] . '</td>
+                                            <td>' . $data_measurement_items[$i][20] . '</td>
+                                            <td>' . $data_measurement_items[$i][21] . '</td>
+                                            <td>' . $data_measurement_items[$i][23] . '</td>
+                                            <td>' . $data_measurement_items[$i][22] . '</td>
+                                            
+                                            ';
                                         echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
                                             onclick ="editmeasurementItemsName(' . $i . ',' . ')">Sửa</button></td>';
                                         echo '<td><button type="button" name="delete" id="delete" class="btn btn-danger btn-xs"
@@ -934,7 +962,8 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         //     document.getElementById('img-management_level_one_input').style.display = 'flex';
         //     // console.log(event);
         // });
-        $("#draw_input").change(function(event) {draw_edit
+        $("#draw_input").change(function(event) {
+            draw_edit
             var x = URL.createObjectURL(event.target.files[0]);
             $("#img-draw_input").attr("src", x);
             document.getElementById('img-draw_input').style.display = 'flex';
@@ -949,14 +978,14 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
     })
 
     function clearSymbol(img_symbol_id_1) {
-        img_symbol=document.getElementById(img_symbol_id_1)
+        img_symbol = document.getElementById(img_symbol_id_1)
         if (img_symbol_id_1) {
             $("#" + img_symbol_id_1).attr("src", "");
             img_symbol.style.display = 'none';
         }
-        inputElements=img_symbol.parentElement.parentElement.querySelectorAll('input')
-        inputElements.forEach(function(element){
-            element.value=''
+        inputElements = img_symbol.parentElement.parentElement.querySelectorAll('input')
+        inputElements.forEach(function(element) {
+            element.value = ''
             // console.log( element.value=="")
         })
     }
@@ -1038,19 +1067,32 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var type_allowance_input = $('#type_allowance_edit');
         }
 
-        if (form_input == "Datasheet" || form_input == "Checksheet" || chart_input ==
+        if (form_input == "Checksheet" || chart_input ==
             "Biểu đồ điều tra năng lực công đoạn") {
             x_ucl_form.classList.add('d-none');
             removeRequired(inputElements);
-
             addValueNull(inputElements);
+            // inputElements.forEach(function(element) {
+            //     // console.log()
+            // })
+        } else if (form_input == "Datasheet") {
+            x_ucl_form.classList.remove('d-none');
+            addRequired(inputElements)
             inputElements.forEach(function(element) {
-                // console.log()
+                if (element.id == 'x_ucl_input' || element.id == 'x_ucl_edit') {
+                    element.parentElement.classList.add('col-3')
+                } else {
+                    console.log(element)
+                    element.parentElement.classList.add('d-none');
+                    element.removeAttribute("required");
+                }
             })
         } else {
             x_ucl_form.classList.remove('d-none');
             addRequired(inputElements)
-
+            inputElements.forEach(function(element) {
+                element.parentElement.classList.remove('d-none');
+            })
         }
 
         if (form_input == "Checksheet") {
@@ -1792,7 +1834,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         $('#upper_edit').val(data_measurement_items[index][9])
         $('#lower_edit').val(data_measurement_items[index][10])
         $('#unit_edit').val(data_measurement_items[index][11])
-    
+
         // Có sử dụng công thức use_formula_edit
         if (data_measurement_items[index][19] == 'Yes') {
 
