@@ -80,6 +80,9 @@ if ($resultcheck_measurement_items && $resultcheck_measurement_items->num_rows >
     $data_measurement_items[0][28] = '';
     $data_measurement_items[0][29] = '';
     $data_measurement_items[0][30] = '';
+    $data_measurement_items[0][31] = 0;
+    $data_measurement_items[0][32] = '';
+    $data_measurement_items[0][33] = '';
 }
 
 
@@ -116,7 +119,7 @@ if ($resultcheck_measuring_tools && $resultcheck_measuring_tools->num_rows > 0) 
 }
 
 
-//select tb_measuring_tools
+//select management_level
 $sqlcheck_management_level = "SELECT * FROM `qc_tb_management_level` ORDER BY `id` ASC";
 $resultcheck_management_level = mysqli_query($connect, $sqlcheck_management_level);
 // $check_frequency = mysqli_fetch_assoc( $resultcheck_frequency );
@@ -136,6 +139,22 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
     $data_management_level[0][2] = '';
 }
 
+
+//select qc_tb_plc_program
+$sqlcheck_plc_program = "SELECT * FROM `qc_tb_plc_program` ORDER BY `id` ASC";
+$resultcheck_plc_program = mysqli_query($connect, $sqlcheck_plc_program);
+// $check_frequency = mysqli_fetch_assoc( $resultcheck_frequency );
+if ($resultcheck_plc_program && $resultcheck_plc_program->num_rows > 0) {
+    // tiến hành lặp dữ liệu
+    $i = 0;
+    while ($row = $resultcheck_plc_program->fetch_assoc()) {
+        //thêm kết quả vào mảng
+        $data_plc_program[$i] = $row['plc_program'];
+        $i++;
+    }
+} else {
+    $data_plc_program[0] = 0;
+}
 ?>
 <style type="text/css">
     .dark-mode .select2-results__option[aria-selected=true] {
@@ -218,7 +237,8 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                             <div></div>
                             <div class=" col-6  d-flex d-flex justify-content-end row">
                                 <!-- <input class="form-control col-3" id="inputSearch" type="text" placeholder="Search.."> -->
-                                <button type="button" name="" id="" class="btn btn-primary btn-xs col-3" data-toggle="modal" data-target="#add_measurement_items">
+                                <button type="button" name="" id="" class="btn btn-primary btn-xs col-3" onclick="add_measurement_items_function(0)">
+                                <!-- data-toggle="modal" data-target="#add_measurement_items" -->
                                     <i class="fas fa-plus-square" style="margin-right: 10px;">
                                         Đăng ký hạng mục đo
                                     </i>
@@ -398,8 +418,6 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                                 for ($i = 0; $i < count($data_management_level); $i++) {
                                                     echo '<option value="' . $data_management_level[$i][1] . '">' . $data_management_level[$i][2] . '';
                                                 }
-
-
                                                 ?>
                                             </select>
                                             <small id="management_level_input_err" class="invalid-feedback">Không để trống</small>
@@ -741,33 +759,38 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                         <div class="row">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input class="custom-control-input" type="checkbox" id="orther_register" name="orther_register" value="Yes" onclick="orther_register_function()">
-                                    <label for="orther_register" class="custom-control-label" id="orther_register_label">Đăng ký khác</label>
+                                    <input class="custom-control-input" type="checkbox" id="orther_register_input" name="orther_register_input" value="Yes" onclick="orther_register_function('input')">
+                                    <label for="orther_register_input" class="custom-control-label" id="orther_register_input_label">Đăng ký khác</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="row orther_register_form d-none">
+                        <div class="row orther_register_form_input d-none">
                             <div class="form-group col-2">
                                 <label for="priority_input" class="col-form-label">Độ ưu tiên</label>
-                                <input type="number"  step="1" min="0" max="99999999999" class="form-control  change-required" id="priority_input" name="priority_input" step="0.00001" max="999999999" min="-999999999" autocomplete="off">
+                                <input type="number" step="1" min="0" max="99999999999" class="form-control  change-required" id="priority_input" name="priority_input" value="0" autocomplete="off">
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                             </div>
                             <div class="form-group col-5">
                                 <label for="plc_program_input" class="col-form-label">Chương trình PLC</label>
-                                        <select class="form-control change-required" id="plc_program_input" name="plc_program_input" >
-                                            <option value="">Chọn chương trình PLC</option>
-
-                                        </select>
+                                <select class="form-control change-required" id="plc_program_input" name="plc_program_input">
+                                    <option value="">Chọn chương trình PLC</option>
+                                    <?php
+                                    for ($i = 0; $i < count($data_plc_program); $i++) {
+                                        // code...
+                                        echo '<option value="' . $data_plc_program[$i] . '">' . $data_plc_program[$i] .  '</option>';
+                                    }
+                                    ?>
+                                </select>
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                             </div>
                             <div class="form-group col-5">
-                                <label for="data_folder" class="col-form-label">Thư mục dữ liệu</label>
-                                <input type="text" class="form-control  change-required" id="data_folder" name="data_folder" max="999999999" min="-999999999" autocomplete="off">
+                                <label for="folder_csv_input" class="col-form-label">Thư mục dữ liệu</label>
+                                <input type="text" class="form-control  change-required" id="folder_csv_input" name="folder_csv_input" max="999999999" min="-999999999" autocomplete="off">
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                             </div>
                         </div>
                         <input value="true" id="register_measurement_items_function" name="register_measurement_items_function" hidden></input>
-                        
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                             <button type="button" id="measurement_btn" class="btn btn-primary" onclick="register_measurement_btn()">Đăng ký</button>
@@ -874,11 +897,15 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                 }
             }
         }
-        console.log(data_measurement_items_array_edit)
+        // console.log(data_measurement_items_array_edit)
 
     }
 </script>
 <script type="text/javascript">
+    function add_measurement_items_function(index){
+        load_data(index);
+        $('#add_measurement_items').modal('toggle');
+    }
     function register_measurement_btn() {
         disableBtn('measurement_btn');
         var MIN_value = document.getElementById('measurement_items_input').value.trim()
@@ -994,21 +1021,22 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         addValueNull(dNoneForm);
 
     }
-    function orther_register_function() {
-        var orther_registerElement = document.getElementById("orther_register")
-        var  orther_register = orther_registerElement.checked;
-        var form_orther_register = document.querySelector('.orther_register_form')
+
+    function orther_register_function(action) {
+        var orther_registerElement = document.getElementById("orther_register_" + action)
+        var orther_register = orther_registerElement.checked;
+        var form_orther_register = document.querySelector(".orther_register_form_" + action)
+
         if (orther_register) {
-            document.getElementById("orther_register_label").style.cssText = "color: rgb(47 129 250);";
+            document.getElementById("orther_register_" + action + "_label").style.cssText = "color: rgb(47 129 250);";
             form_orther_register.classList.remove('d-none');
 
         } else {
-            document.getElementById("orther_register_label").style.cssText = "color:white";
+            document.getElementById("orther_register_" + action + "_label").style.cssText = "color:white";
             form_orther_register.classList.add('d-none');
-
         }
     }
-    
+
     // functionf for draw
     $(function() {
         // $("#management_level_one_input").change(function(event) {
@@ -1847,8 +1875,126 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         xmlhttp.send();
     }
 
-    function editmeasurementItemsName(index) {
 
+    function load_data(index) {
+
+        $('#id_input').val(data_measurement_items[index][0])
+        $('#product_family_input').val(data_measurement_items[index][1])
+        $('#frequency_input').val(data_measurement_items[index][6])
+        $('#measuring_tools_input').val(data_measurement_items[index][7])
+
+        $('#formula_input').val(data_measurement_items[index][23])
+        $('#no_measurement_items_input').val(data_measurement_items[index][25])
+        $('#measuring_department_input').val(data_measurement_items[index][26])
+        $('#allowance_display_input').val(data_measurement_items[index][30])
+
+        set_select_line_edit('product_family_input', 'line_input', data_measurement_items[index][4])
+        set_select_part_no_edit('product_family_input', 'line_input', 'part_no_input', data_measurement_items[index][2])
+        set_select_process_edit('line_input', 'process_input', data_measurement_items[index][3])
+        set_select_measurement_items_edit('product_family_input', 'line_input', 'part_no_input', 'process_input', 'measurement_items_input', data_measurement_items[index][5])
+        // $('#measurement_items_input').val(data_measurement_items[index][5])
+
+
+        $('#chart_input').val(data_measurement_items[index][24])
+        chart_input_change('register')
+
+        // chart_input_change('edit')
+        $('#form_input').val(data_measurement_items[index][13])
+        form_input_change('register')
+
+        $('#x_ucl_input').val(data_measurement_items[index][14])
+        $('#x_cl_input').val(data_measurement_items[index][15])
+        $('#x_lcl_input').val(data_measurement_items[index][16])
+        $('#r_ucl_input').val(data_measurement_items[index][17])
+        $('#r_cl_input').val(data_measurement_items[index][18])
+
+
+        $('#type_allowance_input').val(data_measurement_items[index][12])
+        type_allowance_input_change('register')
+
+
+        $('#standard_dimension_input').val(data_measurement_items[index][8])
+        $('#upper_input').val(data_measurement_items[index][9])
+        $('#lower_input').val(data_measurement_items[index][10])
+        $('#unit_input').val(data_measurement_items[index][11])
+
+        // Có sử dụng công thức use_formula_input
+        if (data_measurement_items[index][19] == 'Yes') {
+
+            document.getElementById("use_formula_input").checked = true;
+            FormulaCb_function();
+            $('#type_formula_input').val(data_measurement_items[index][20])
+            type_formula_change();
+            // number_element_change('edit');
+
+            $('#number_element_input').val(data_measurement_items[index][21])
+            number_element_change('register');
+            // Ghi chú thích vào từ ô B C D...
+            function getStringsBetweenTwoCharactor(str) {
+                var str1 = str.split(";")
+                var result = [];
+                str1.forEach(function(value) {
+                    if (value != '') {
+                        result.push(value.slice(
+                            str.indexOf(' ') + 1,
+                            str.lenght,
+                        ))
+                    }
+                })
+                return result
+            }
+            //  Load data into commnent
+            if (data_measurement_items[index][22] != null) {
+                strs = getStringsBetweenTwoCharactor(data_measurement_items[index][22]);
+                InputformulaElement = document.querySelectorAll('.table_formula_input tr input')
+                for (var i = 0; i < strs.length; i++) {
+                    InputformulaElement[i].value = strs[i]
+                }
+            }
+
+        } else {
+            document.getElementById("use_formula_input").checked = false;
+            FormulaCb_function()
+        }
+
+
+
+        // $('#management_level_input').val(data_measurement_items[index][28])
+        function loadSelectbox(id_place, val) {
+            valStrToArr = val.split(';');
+            try {
+                $("#" + id_place).val(valStrToArr).trigger("change"); //tag used select2
+            } catch (error) {
+                // console.log(error);
+            }
+        }
+        if (data_measurement_items[index][28] != '') {
+            loadSelectbox('management_level_input', data_measurement_items[index][28])
+        }
+
+        // $('#draw_input').val(+data_measurement_items[index][29])
+        url = "/fiot-hdvn/" + data_measurement_items[index][29]
+        $("#img-draw_input").attr("src", url)
+        $("#img-draw_input").css("display", "flex")
+        $("#draw_input_check").val('no_change')
+        if (data_measurement_items[index][31] == '') {
+            $('#priority_input').val('0')
+        } else {
+            $('#priority_input').val(data_measurement_items[index][31])
+        }
+
+        $('#plc_program_input').val(data_measurement_items[index][32])
+        $('#folder_csv_input').val(data_measurement_items[index][33])
+        if ($('#priority_input').val() != '0' * $('#priority_input').val() != '' * $('#priority_input').val() != '') {
+            document.getElementById('orther_register_input').checked = true;
+            orther_register_function('input');
+        }
+        $("#measurement_items_modal").modal('toggle');
+
+    }
+
+
+    function editmeasurementItemsName(index) {
 
         $('#id_edit').val(data_measurement_items[index][0])
         $('#product_family_edit').val(data_measurement_items[index][1])
@@ -1949,7 +2095,18 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         $("#img-draw_edit").attr("src", url)
         $("#img-draw_edit").css("display", "flex")
         $("#draw_edit_check").val('no_change')
+        if (data_measurement_items[index][31] == '') {
+            $('#priority_edit').val('0')
+        } else {
+            $('#priority_edit').val(data_measurement_items[index][31])
+        }
 
+        $('#plc_program_edit').val(data_measurement_items[index][32])
+        $('#folder_csv_edit').val(data_measurement_items[index][33])
+        if ($('#priority_edit').val() != '0' * $('#priority_edit').val() != '' * $('#priority_edit').val() != '') {
+            document.getElementById('orther_register_edit').checked = true;
+            orther_register_function('edit');
+        }
         $("#edit_measurement_items_modal").modal('toggle');
         // create array e
         for (let i = 0; i < data_measurement_items.length; i++) {

@@ -73,7 +73,7 @@
                                     <div class="row" style="border-style: ridge; border-width: 1px; border-color: #808080;">
                                         <div class="col-3">
                                             <div class="custom-file symbol-class" style="width: 100%;">
-                                                <input type="file" id="draw_edit" name="draw_edit" accept=".jpg,.jpeg,.png" >
+                                                <input type="file" id="draw_edit" name="draw_edit" accept=".jpg,.jpeg,.png">
                                                 <input type="hidden" id="draw_edit_check" name="draw_edit_check" value='no_change'>
                                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                                                 <label for="draw_edit" class="col-form-label custom-label" style="border: none; cursor:pointer;padding-left:0;">
@@ -398,6 +398,39 @@
                                     </td>
                                 </tr>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input class="custom-control-input" type="checkbox" id="orther_register_edit" name="orther_register_edit" value="Yes" onclick="orther_register_function('edit')">
+                                <label for="orther_register_edit" class="custom-control-label" id="orther_register_edit_label">Đăng ký khác</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row orther_register_form_edit d-none">
+                        <div class="form-group col-2">
+                            <label for="priority_edit" class="col-form-label">Độ ưu tiên</label>
+                            <input type="number" step="1" min="0" max="99999999999" class="form-control  change-required" id="priority_edit" name="priority_edit" value="0" autocomplete="off">
+                            <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
+                        </div>
+                        <div class="form-group col-5">
+                            <label for="plc_program_edit" class="col-form-label">Chương trình PLC</label>
+                            <select class="form-control change-required" id="plc_program_edit" name="plc_program_edit">
+                                <option value="">Chọn chương trình PLC</option>
+                                <?php
+                                for ($i = 0; $i < count($data_plc_program); $i++) {
+                                    // code...
+                                    echo '<option value="' . $data_plc_program[$i] . '">' . $data_plc_program[$i] .  '</option>';
+                                }
+                                ?>
+                            </select>
+                            <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
+                        </div>
+                        <div class="form-group col-5">
+                            <label for="folder_csv_edit" class="col-form-label">Thư mục dữ liệu</label>
+                            <input type="text" class="form-control  change-required" id="folder_csv_edit" name="folder_csv_edit" max="999999999" min="-999999999" autocomplete="off">
+                            <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                         </div>
                     </div>
                     <input value="true" id="edit_measurement_items_function" name="edit_measurement_items_function" hidden></input>

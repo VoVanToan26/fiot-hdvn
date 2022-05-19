@@ -427,6 +427,10 @@ else if (isset($_POST["register_measurement_items_function"])) {
         $sig = $_COOKIE['username'];
     }
 
+    $priority_input=trim($_POST['priority_input']);
+    $plc_program_input=trim($_POST['plc_program_input']);
+    $folder_csv_input=trim($_POST['folder_csv_input']);
+
     // print("1 product_family: " . $product_family_input . "<br>");
     // print("2 part_no: " . $part_no_input . "<br>");
     // print("3 process: " . $process_input . "<br>");
@@ -470,12 +474,12 @@ else if (isset($_POST["register_measurement_items_function"])) {
         $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
                     `measuring_tools`, `standard_dimension`, `upper`, `lower`, `unit`, `type_allowance`, `form`, `x_ucl`, `x_cl`, `x_lcl`, `r_ucl`, `r_cl`, `use_formula`, 
                     `type_formula`, `number_element`, `definition_formula`, `formula`, `allowance_display`, `chart`, `management_level_one`, `no_measurement_items`, 
-                    `measuring_department`, `draw`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
+                    `measuring_department`, `draw`,`priority`,`plc_program`,`folder_csv`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
                     '$measurement_items_input', '$frequency_input', '$measuring_tools_input', '$standard_dimension_input', '$upper_input', '$lower_input', '$unit_input', '$type_allowance_input', '$form_input',
                     '$x_ucl_input', '$x_cl_input', '$x_lcl_input', '$r_ucl_input', '$r_cl_input', '$use_formula_input', '$type_formula_input', '$number_element_input', '$definition_formula_input_result',
                     '$formula_input', '$allowance_display_input', '$chart_input',
                     '$list_management_level', 
-                    '$no_measurement_items_input', '$measuring_department_input', '$destination_draw',
+                    '$no_measurement_items_input', '$measuring_department_input', '$destination_draw','$priority_input','$plc_program_input','$folder_csv_input',
                     '$sig')";
         if ($file_draw != '') {
             if (move_uploaded_file($file_draw, $destination_draw)) {
@@ -593,6 +597,9 @@ else if (isset($_POST["register_measurement_items_function"])) {
 
     $sig = $_COOKIE['username'];
 
+    $priority_edit=trim($_POST['priority_edit']);
+    $plc_program_edit=trim($_POST['plc_program_edit']);
+    $folder_csv_edit=trim($_POST['folder_csv_edit']);
     // print("1 product_family: " . $product_family_edit . "<br>");
     // print("2 part_no: " . $part_no_edit . "<br>");
     // print("3 process: " . $process_edit . "<br>");
@@ -668,6 +675,9 @@ else if (isset($_POST["register_measurement_items_function"])) {
         , `definition_formula`      ='$definition_formula_edit_result' 
         , `formula`                 ='$formula_edit' 
          
+        ,`priority`                 ='$priority_edit'
+        ,`plc_program`              ='$plc_program_edit'
+        ,`folder_csv`               ='$folder_csv_edit'
         , `sig`                     ='$sig' 
         WHERE `id`='$id_edit'";
         // var_dump($sqlregister_measurement_items );die;
