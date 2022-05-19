@@ -94,9 +94,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <small class="form-text text-muted">Vui lòng chọn file có định dạng ".jpg,
-                                        .jpeg, .png".
-                                        Dung lượng không được vượt quá 5mb và không chứa các ký tự đặc biệt</small>
+                                    <small class="form-text text-muted">Vui lòng chọn file có định dạng ".jpg,.jpeg, .png".
+                                        Dung lượng không được vượt quá 5mb và không chứa các ký tự đặc biệt, và tên ảnh không có dấu cách
+                                    </small>
                                 </div>
                             </div>
                         </div>

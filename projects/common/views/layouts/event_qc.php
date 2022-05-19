@@ -389,17 +389,22 @@ else if (isset($_POST["register_measurement_items_function"])) {
             // echo "<script>alert($definition_formula_input_result)</script>";
         }
     }
-
-    $management_levels = $_POST['management_level_input'];
-    //get user_mail_approval
     $list_management_level = '';
-    foreach ($management_levels as $management_level) {
-        if ($list_management_level == '') {
-            $list_management_level = $management_level;
-        } else {
-            $list_management_level = $list_management_level . ';' . $management_level;
+    if (isset($_POST['management_level_input'])) {
+        $management_levels = $_POST['management_level_input'];
+        //get user_mail_approval
+
+        foreach ($management_levels as $management_level) {
+            if ($list_management_level == '') {
+                $list_management_level = $management_level;
+            } else {
+                $list_management_level = $list_management_level . ';' . $management_level;
+            }
         }
+    } else {
+        $list_management_level = '';
     }
+
 
     // name of the uploaded file
     $name_draw = $_FILES['draw_input']['name'];
@@ -408,10 +413,19 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $file_name_draw = $no_measurement_items_input . $name_draw;
     $destination_draw = 'projects/qc/img-qc/img_draw/' . $file_name_draw;
     $extension_draw = pathinfo($name_draw, PATHINFO_EXTENSION);
+
     $size_draw = $_FILES['draw_input']['size'] / 1024;
     $size_show_draw = $size_draw / 1024;
-
-    $sig = $_COOKIE['username'];
+    if ($name_draw != '') {
+        if (!in_array($extension_draw, ['png', 'jpg', 'jpeg'])) {
+            echo "<script>alert('Vui lòng chọn ảnh có định dạng ảnh phải ở dạng png, jpg, jpeg');</script>";
+            die;
+        } else if ($size_show_draw > 5) {
+            echo "<script>alert('Vui lòng chọn ảnh có dung lượng ảnh không vượt quá 5MB');</script>";
+            die;
+        }
+        $sig = $_COOKIE['username'];
+    }
 
     // print("1 product_family: " . $product_family_input . "<br>");
     // print("2 part_no: " . $part_no_input . "<br>");
@@ -453,8 +467,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
         echo "<script>alert('Thiếu dữ liệu! Vui lòng nhập lại ');</script>";
         die();
     } else {
-        if (move_uploaded_file($file_draw, $destination_draw)) {
-            $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
+        $sqlregister_measurement_items = "INSERT INTO `qc_tb_measurement_items`(`product_family`, `part_no`, `process`, `line`, `measurement_items`, `frequency`,
                     `measuring_tools`, `standard_dimension`, `upper`, `lower`, `unit`, `type_allowance`, `form`, `x_ucl`, `x_cl`, `x_lcl`, `r_ucl`, `r_cl`, `use_formula`, 
                     `type_formula`, `number_element`, `definition_formula`, `formula`, `allowance_display`, `chart`, `management_level_one`, `no_measurement_items`, 
                     `measuring_department`, `draw`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
@@ -464,7 +477,14 @@ else if (isset($_POST["register_measurement_items_function"])) {
                     '$list_management_level', 
                     '$no_measurement_items_input', '$measuring_department_input', '$destination_draw',
                     '$sig')";
-
+        if ($file_draw != '') {
+            if (move_uploaded_file($file_draw, $destination_draw)) {
+                if (mysqli_query($connect, $sqlregister_measurement_items)) {
+                    mysqli_close($connect);
+                    echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
+                }
+            }
+        } else {
             if (mysqli_query($connect, $sqlregister_measurement_items)) {
                 mysqli_close($connect);
                 echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
@@ -503,7 +523,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $unit_edit = trim($_POST['unit_edit']);
     $use_formula_edit = 'No';
     if (isset($_POST['use_formula_edit'])) {
-        $use_formula_edit=$_POST['use_formula_edit'];
+        $use_formula_edit = $_POST['use_formula_edit'];
         if ($use_formula_edit == 'Yes') $use_formula_edit = 'Yes';
     }
     // $use_formula_edit = $_POST['use_formula_edit'];
@@ -513,7 +533,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $type_formula_edit = '';
     if (isset($_POST['type_formula_edit'])) {
         $type_formula_edit = $_POST['type_formula_edit'];
-    } 
+    }
 
     $number_element_edit = trim($_POST['number_element_edit']);
     $formula_edit = trim($_POST['formula_edit']);
@@ -561,7 +581,14 @@ else if (isset($_POST["register_measurement_items_function"])) {
         $destination_draw = 'projects/qc/img-qc/img_draw/' . $file_name_draw;
         $extension_draw = pathinfo($name_draw, PATHINFO_EXTENSION);
         $size_draw = $_FILES['draw_edit']['size'] / 1024;
-        $size_show_draw = $size_draw / 1024;
+        // var_dump($size_show_draw );die;
+        if (!in_array($extension_draw, ['png', 'jpg', 'jpeg'])) {
+            echo "<script>alert('Vui lòng chọn ảnh có định dạng ảnh phải ở dạng png, jpg, jpeg');</script>";
+            die;
+        } else if ($size_show_draw > 5) {
+            echo "<script>alert('Vui lòng chọn ảnh có dung lượng ảnh không vượt quá 5MB');</script>";
+            die;
+        }
     }
 
     $sig = $_COOKIE['username'];
@@ -677,7 +704,6 @@ else if (isset($_POST["register_measurement_items_function"])) {
         }
     }
 } else if (isset($_POST["delete_measurement_items_function"])) {
-
     $del_id = trim($_POST['del_id']);
     $sqldelete = "DELETE FROM `qc_tb_measurement_items` WHERE `id` = '$del_id'";
     if (mysqli_query($connect, $sqldelete)) {

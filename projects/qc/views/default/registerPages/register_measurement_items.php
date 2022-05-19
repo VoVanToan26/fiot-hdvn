@@ -394,7 +394,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                     <div class="col-12">
                                         <small class="form-text text-muted">Vui lòng chọn file có định dạng ".jpg,
                                             .jpeg, .png".
-                                            Dung lượng không được vượt quá 5mb và không chứa các ký tự đặc biệt</small>
+                                            Dung lượng không được vượt quá 5mb và không chứa các ký tự đặc biệt, dấu cách</small>
                                     </div>
                                 </div>
                             </div>
