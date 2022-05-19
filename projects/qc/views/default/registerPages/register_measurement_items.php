@@ -774,12 +774,14 @@ if ($resultcheck_plc_program && $resultcheck_plc_program->num_rows > 0) {
                                 <label for="plc_program_input" class="col-form-label">Chương trình PLC</label>
                                 <select class="form-control change-required" id="plc_program_input" name="plc_program_input">
                                     <option value="">Chọn chương trình PLC</option>
+                                    <option value="">Không sử dụng chương trình PLC</option>
                                     <?php
                                     for ($i = 0; $i < count($data_plc_program); $i++) {
                                         // code...
                                         echo '<option value="' . $data_plc_program[$i] . '">' . $data_plc_program[$i] .  '</option>';
                                     }
                                     ?>
+                                    
                                 </select>
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                             </div>
