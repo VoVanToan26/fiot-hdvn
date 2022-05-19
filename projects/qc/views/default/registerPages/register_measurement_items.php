@@ -944,7 +944,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             var x = URL.createObjectURL(event.target.files[0]);
             $("#img-draw_edit").attr("src", x);
             document.getElementById('img-draw_edit').style.display = 'flex';
-            // console.log(event);
+            $("#draw_edit_check").val('changed');
         });
     })
 
@@ -954,9 +954,10 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
             $("#" + img_symbol_id_1).attr("src", "");
             img_symbol.style.display = 'none';
         }
-        inputElement=img_symbol.parentElement.parentElement.querySelectorAll('input')
-        inputElement.forEach(function(element){
+        inputElements=img_symbol.parentElement.parentElement.querySelectorAll('input')
+        inputElements.forEach(function(element){
             element.value=''
+            // console.log( element.value=="")
         })
     }
 
@@ -1850,7 +1851,7 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         url = "/fiot-hdvn/" + data_measurement_items[index][29]
         $("#img-draw_edit").attr("src", url)
         $("#img-draw_edit").css("display", "flex")
-        $("#draw_edit_check").val('dont_change')
+        $("#draw_edit_check").val('no_change')
 
         $("#edit_measurement_items_modal").modal('toggle');
         // create array e

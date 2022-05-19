@@ -503,17 +503,17 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $unit_edit = trim($_POST['unit_edit']);
     $use_formula_edit = 'No';
     if (isset($_POST['use_formula_edit'])) {
+        $use_formula_edit=$_POST['use_formula_edit'];
         if ($use_formula_edit == 'Yes') $use_formula_edit = 'Yes';
     }
     // $use_formula_edit = $_POST['use_formula_edit'];
 
     // if ($use_formula_edit == 'Yes') $use_formula_edit = 'Yes';
     // else $use_formula_edit = 'No';
+    $type_formula_edit = '';
     if (isset($_POST['type_formula_edit'])) {
         $type_formula_edit = $_POST['type_formula_edit'];
-    } else {
-        $type_formula_edit = '';
-    }
+    } 
 
     $number_element_edit = trim($_POST['number_element_edit']);
     $formula_edit = trim($_POST['formula_edit']);
@@ -552,10 +552,11 @@ else if (isset($_POST["register_measurement_items_function"])) {
     $destination_draw = '';
     // echo "<script>alert(" . $list_management_level . ")</script>";
     // name of the uploaded file
-    $draw_check = $_POST['draw_edit_check'];
+    $draw_edit_check = $_POST['draw_edit_check'];
     $name_draw = $_FILES['draw_edit']['name'];
     $file_draw = $_FILES['draw_edit']['tmp_name'];
-    if ($draw_check != 'dont_change') {
+
+    if ($draw_edit_check == 'changed') {
         $file_name_draw = $no_measurement_items_edit . $name_draw;
         $destination_draw = 'projects/qc/img-qc/img_draw/' . $file_name_draw;
         $extension_draw = pathinfo($name_draw, PATHINFO_EXTENSION);
@@ -597,7 +598,6 @@ else if (isset($_POST["register_measurement_items_function"])) {
     // print("31 draw: " . $destination_draw . "<br>");
     // print("32 sig: " . $sig . "<br>");
     // die();
-var_dump($name_draw);
     if (
         $product_family_edit == '' || $part_no_edit == '' || $process_edit == '' || $line_edit == '' || $measurement_items_edit == '' || $frequency_edit == '' || $measuring_tools_edit == '' ||
         $type_allowance_edit == '' || $form_edit == '' || $chart_edit == ''  || $no_measurement_items_edit == '' || $measuring_department_edit == ''
@@ -647,33 +647,34 @@ var_dump($name_draw);
         if (mysqli_query($connect, $sqlregister_measurement_items)) {
             // mysqli_close($connect);
             // echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
-        }
-        $sqlregister_draw = "UPDATE`qc_tb_measurement_items`SET  
-         `draw`                    ='$destination_draw'
-        WHERE  `id`='$id_edit'";
-        if ($name_draw != '') {
-            if ($draw_check != 'dont_change') {
-                if (move_uploaded_file($file_draw, $destination_draw)) {
-                    if (mysqli_query($connect, $sqlregister_draw)) {
+            $sqlregister_draw = "UPDATE`qc_tb_measurement_items`SET  
+            `draw`                    ='$destination_draw'
+           WHERE  `id`='$id_edit'";
 
-                        // echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
+            switch ($draw_edit_check) {
+                case 'changed':
+                    if (move_uploaded_file($file_draw, $destination_draw)) {
+                        if (mysqli_query($connect, $sqlregister_draw)) {
+                        } else {
+                            echo '<script> alert("Lỗi kết nối SQL")</script>';
+                        }
+                    } else {
+                        echo '<script> alert("Không update được bản vẽ")</script>';
+                    }
+                    break;
+                case 'no_change':
+                    // echo '<script> alert("Ảnh không thay đổi")</script>';
+                    break;
+                default:
+                    if (mysqli_query($connect, $sqlregister_draw)) {
                     } else {
                         echo '<script> alert("Lỗi kết nối SQL")</script>';
                     }
-                } else {
-                    echo '<script> alert("Không sửa được bản vẽ")</script>';
-                }
+                    break;;
             }
-        } else {
-            if (mysqli_query($connect, $sqlregister_draw)) {
-
-                // echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
-            } else {
-                echo '<script> alert("Lỗi kết nối SQL")</script>';
-            }
+            mysqli_close($connect);
+            echo "<script>document.location = '" . dirname($_SERVER['SCRIPT_NAME']) . "/qc/registerPages/register_measurement_items'</script>";
         }
-
-        mysqli_close($connect);
     }
 } else if (isset($_POST["delete_measurement_items_function"])) {
 
