@@ -44,6 +44,9 @@ if ($resultcheck_measurement_items && $resultcheck_measurement_items->num_rows >
         $data_measurement_items[$i][28] = $row['management_level_one'];
         $data_measurement_items[$i][29] = $row['draw'];
         $data_measurement_items[$i][30] = $row['allowance_display'];
+        $data_measurement_items[$i][31] = $row['priority'];
+        $data_measurement_items[$i][32] = $row['plc_program'];
+        $data_measurement_items[$i][33] = $row['folder_csv'];
         $i++;
     }
 } else {
@@ -260,6 +263,11 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                         <th style="">Số phần tử</th>
                                         <th style="">Công thức </th>
                                         <th style="">Ghi chú</th>
+
+                                        <th style="">Độ ưu tiên</th>
+                                        <th style="">Chương trình PLC</th>
+                                        <th style="">Thư mục CSV</th>
+
                                         <!-- <th style="">Sửa</th> -->
                                         <th style="">Sửa</th>
                                         <th style="">Xóa</th>
@@ -305,6 +313,9 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                             <td>' . $data_measurement_items[$i][23] . '</td>
                                             <td>' . $data_measurement_items[$i][22] . '</td>
                                             
+                                            <td>' . $data_measurement_items[$i][31] . '</td>
+                                            <td>' . $data_measurement_items[$i][32] . '</td>
+                                            <td>' . $data_measurement_items[$i][33] . '</td>
                                             ';
                                         echo '<td><button type="button" name="edit" id="edit" class="btn btn-warning btn-xs"
                                             onclick ="editmeasurementItemsName(' . $i . ',' . ')">Sửa</button></td>';
@@ -727,7 +738,36 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input class="custom-control-input" type="checkbox" id="orther_register" name="orther_register" value="Yes" onclick="orther_register_function()">
+                                    <label for="orther_register" class="custom-control-label" id="orther_register_label">Đăng ký khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row orther_register_form d-none">
+                            <div class="form-group col-2">
+                                <label for="priority_input" class="col-form-label">Độ ưu tiên</label>
+                                <input type="number"  step="1" min="0" max="99999999999" class="form-control  change-required" id="priority_input" name="priority_input" step="0.00001" max="999999999" min="-999999999" autocomplete="off">
+                                <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
+                            </div>
+                            <div class="form-group col-5">
+                                <label for="plc_program_input" class="col-form-label">Chương trình PLC</label>
+                                        <select class="form-control change-required" id="plc_program_input" name="plc_program_input" >
+                                            <option value="">Chọn chương trình PLC</option>
+
+                                        </select>
+                                <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
+                            </div>
+                            <div class="form-group col-5">
+                                <label for="data_folder" class="col-form-label">Thư mục dữ liệu</label>
+                                <input type="text" class="form-control  change-required" id="data_folder" name="data_folder" max="999999999" min="-999999999" autocomplete="off">
+                                <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
+                            </div>
+                        </div>
                         <input value="true" id="register_measurement_items_function" name="register_measurement_items_function" hidden></input>
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                             <button type="button" id="measurement_btn" class="btn btn-primary" onclick="register_measurement_btn()">Đăng ký</button>
@@ -954,6 +994,21 @@ if ($resultcheck_management_level && $resultcheck_management_level->num_rows > 0
         addValueNull(dNoneForm);
 
     }
+    function orther_register_function() {
+        var orther_registerElement = document.getElementById("orther_register")
+        var  orther_register = orther_registerElement.checked;
+        var form_orther_register = document.querySelector('.orther_register_form')
+        if (orther_register) {
+            document.getElementById("orther_register_label").style.cssText = "color: rgb(47 129 250);";
+            form_orther_register.classList.remove('d-none');
+
+        } else {
+            document.getElementById("orther_register_label").style.cssText = "color:white";
+            form_orther_register.classList.add('d-none');
+
+        }
+    }
+    
     // functionf for draw
     $(function() {
         // $("#management_level_one_input").change(function(event) {
