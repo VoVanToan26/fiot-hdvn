@@ -767,7 +767,7 @@ if ($resultcheck_plc_program && $resultcheck_plc_program->num_rows > 0) {
                         <div class="row orther_register_form_input d-none">
                             <div class="form-group col-2">
                                 <label for="priority_input" class="col-form-label">Độ ưu tiên</label>
-                                <input type="number" step="1" min="0" max="99999999999" class="form-control  change-required" id="priority_input" name="priority_input" value="0" autocomplete="off">
+                                <input type="number" step='1' min='0' value='0' max="99999999999" class="form-control  change-required" id="priority_input" name="priority_input" value="0" autocomplete="off">
                                 <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                             </div>
                             <div class="form-group col-5">
@@ -1886,7 +1886,7 @@ if ($resultcheck_plc_program && $resultcheck_plc_program->num_rows > 0) {
         $('#measuring_tools_input').val(data_measurement_items[index][7])
 
         $('#formula_input').val(data_measurement_items[index][23])
-        $('#no_measurement_items_input').val(data_measurement_items[index][25])
+        // $('#no_measurement_items_input').val(data_measurement_items[index][25])
         $('#measuring_department_input').val(data_measurement_items[index][26])
         $('#allowance_display_input').val(data_measurement_items[index][30])
 
@@ -1987,7 +1987,7 @@ if ($resultcheck_plc_program && $resultcheck_plc_program->num_rows > 0) {
 
         $('#plc_program_input').val(data_measurement_items[index][32])
         $('#folder_csv_input').val(data_measurement_items[index][33])
-        if ($('#priority_input').val() != '0' * $('#priority_input').val() != '' * $('#priority_input').val() != '') {
+        if ($('#priority_input').val() != '0' * $('#folder_csv_input').val() != '' * $('#folder_csv_input').val() != '') {
             document.getElementById('orther_register_input').checked = true;
             orther_register_function('input');
         }

@@ -411,7 +411,7 @@
                     <div class="row orther_register_form_edit d-none">
                         <div class="form-group col-2">
                             <label for="priority_edit" class="col-form-label">Độ ưu tiên</label>
-                            <input type="number" step="1" min="0" max="99999999999" class="form-control  change-required" id="priority_edit" name="priority_edit" value="0" autocomplete="off">
+                            <input type="number" step=1 min=0 value=0 max="99999999999" class="form-control  change-required" id="priority_edit" name="priority_edit" value="0" autocomplete="off">
                             <small class="invalid-feedback " id="_err" name="_err">Vui lòng nhập đủ thông tin</small>
                         </div>
                         <div class="form-group col-5">

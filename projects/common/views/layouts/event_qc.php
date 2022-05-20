@@ -424,9 +424,8 @@ else if (isset($_POST["register_measurement_items_function"])) {
             echo "<script>alert('Vui lòng chọn ảnh có dung lượng ảnh không vượt quá 5MB');</script>";
             die;
         }
-        $sig = $_COOKIE['username'];
     }
-
+    $sig = $_COOKIE['username'];
     $priority_input=trim($_POST['priority_input']);
     $plc_program_input=trim($_POST['plc_program_input']);
     $folder_csv_input=trim($_POST['folder_csv_input']);
@@ -477,8 +476,7 @@ else if (isset($_POST["register_measurement_items_function"])) {
                     `measuring_department`, `draw`,`priority`,`plc_program`,`folder_csv`, `sig`) VALUES ('$product_family_input', '$part_no_input', '$process_input', '$line_input', 
                     '$measurement_items_input', '$frequency_input', '$measuring_tools_input', '$standard_dimension_input', '$upper_input', '$lower_input', '$unit_input', '$type_allowance_input', '$form_input',
                     '$x_ucl_input', '$x_cl_input', '$x_lcl_input', '$r_ucl_input', '$r_cl_input', '$use_formula_input', '$type_formula_input', '$number_element_input', '$definition_formula_input_result',
-                    '$formula_input', '$allowance_display_input', '$chart_input',
-                    '$list_management_level', 
+                    '$formula_input', '$allowance_display_input', '$chart_input','$list_management_level', 
                     '$no_measurement_items_input', '$measuring_department_input', '$destination_draw','$priority_input','$plc_program_input','$folder_csv_input',
                     '$sig')";
         if ($file_draw != '') {
